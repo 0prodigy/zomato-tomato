@@ -17,7 +17,7 @@ const DBURI = process.env.MONGO_DB_URI;
 
 mongoose.connect(
   DBURI,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
   (err) => {
     if (err) {
       console.log("Failed to connect database " + err);

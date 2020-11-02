@@ -82,10 +82,18 @@ const verifyRegisterOtp = async (req, res) => {
   const { otp, email } = req.body;
 
   try {
-    let user = await Otp.find({ email: email, otp: otp });
-    if (user) {
-      let regUser = new User({ name: user.name, email: user.email, id: v4() });
-      await regUser.save();
+    let user = await Otp.find({ email: email });
+    if (user[0]) {
+      if (user[0].otp == otp) {
+        let regUser = new User({
+          name: user[0].name,
+          email: user[0].email,
+          id: v4(),
+        });
+        await regUser.save();
+      } else {
+        throw Error("User Not found");
+      }
     } else {
       return res.status(401).json({ err: true, message: "Wrong otp" });
     }
