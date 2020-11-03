@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,6 +14,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import clsx from "clsx";
 import { Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import InputBox from "./InputBox";
 
 const DefaultButton = styled.button`
   width: 100%;
@@ -56,6 +57,23 @@ const LinkWrapper = styled.div`
     color: rgb(237, 90, 107);
     margin: 0px 5px;
   }
+`;
+
+const ResetButton = styled.button`
+  border: none;
+  outline: none;
+  background-color: inherit;
+  ${(props) =>
+    props.disabled === true ? `color: grey` : `color: rgb(237, 90, 107)`}
+`;
+
+const OTPTimerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins";
+  font-size: 32px;
+  font-weight: 400;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -108,6 +126,10 @@ const useStyles = makeStyles((theme) => ({
   inputFields: {
     margin: "10px 0px",
   },
+  otpDescription: {
+    margin: "12px 0px",
+    fontSize: "15px",
+  },
 }));
 
 function LoginPage({
@@ -120,16 +142,116 @@ function LoginPage({
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [otpValue, setOtpValue] = useState("");
+  const [timerValue, setTimerValue] = useState(30);
+  const [otpVerification, setOtpVerification] = useState(false);
   const classes = useStyles();
 
   const handleLoginWithEmail = () => {
     if (email === "") {
       setError(true);
       setErrorMessage("Please enter an email");
+    } else {
+      let atTheRate = email.split("@");
+      let dotCom = email.split(".");
+      if (
+        atTheRate.length !== 2 ||
+        dotCom.length !== 2 ||
+        dotCom.indexOf("com") === -1
+      ) {
+        setError(true);
+        setErrorMessage("Please enter a valid email");
+      } else {
+        setError(false);
+        setErrorMessage("");
+        setOtpVerification(true);
+      }
     }
   };
 
-  if (loginWithEmail) {
+  useEffect(() => {
+    let intervalId;
+
+    if (otpVerification === true) {
+      intervalId = setInterval(() => {
+        if (Number(timerValue) > 0) {
+          setTimerValue((timerValue) => Number(timerValue) - 1);
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [otpVerification, timerValue]);
+
+  if (otpVerification) {
+    return (
+      <Modal
+        className={classes.modal}
+        open={loginWithEmail}
+        onClose={() => {
+          setTimerValue(30);
+          setOtpVerification(false);
+          setLoginWithEmail(false);
+          setEmail("");
+          handleNavigationClose();
+        }}
+        closeAfterTransition
+      >
+        <Zoom in={loginWithEmail}>
+          <div className={classes.paper}>
+            <div className={classes.navigationLinkTitle}>
+              <IconButton
+                onClick={() => {
+                  setTimerValue(30);
+                  setOtpVerification(false);
+                }}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <h2>OTP Verification</h2>
+              <IconButton
+                onClick={() => {
+                  setEmail("");
+                  setTimerValue(30);
+                  setOtpVerification(false);
+                  setLoginWithEmail(false);
+                  handleNavigationClose();
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </div>
+
+            <div id="transition-modal-description">
+              <div
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <div className={classes.otpDescription}>
+                  One Time Password has been sent to your email, {email}, please
+                  enter the same here to login. Valid for 10 minutes.
+                </div>
+              </div>
+              <InputBox length={6} onChange={(val) => setOtpValue(val)} />
+              <OTPTimerWrapper>
+                00:{timerValue < 10 ? `0${timerValue}` : timerValue}
+              </OTPTimerWrapper>
+              <div style={{ textAlign: "center", margin: "12px 0px" }}>
+                Not received OTP?{" "}
+                <ResetButton disabled={timerValue === 0 ? false : true}>
+                  Resend Now
+                </ResetButton>
+              </div>
+            </div>
+          </div>
+        </Zoom>
+      </Modal>
+    );
+  } else if (loginWithEmail) {
     return (
       <Modal
         className={classes.modal}
@@ -180,7 +302,11 @@ function LoginPage({
                 helperText={errorMessage}
                 variant="outlined"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setError(false);
+                  setErrorMessage("");
+                  setEmail(e.target.value);
+                }}
                 className={classes.inputFields}
               />
               <Button className={classes.root} onClick={handleLoginWithEmail}>

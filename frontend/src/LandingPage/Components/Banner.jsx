@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import SearchBar from "./SearchBar";
 
 const BannerWrapper = styled.div`
   height: calc(100vh - 35rem);
@@ -78,6 +79,7 @@ function Banner() {
         <h2 className="description">
           Discover the best food & drinks in Delhi NCR
         </h2>
+        <SearchBar />
       </div>
     </BannerWrapper>
   );
