@@ -14,7 +14,7 @@ function Explore() {
   return (
     <>
       <Wrapper>
-        <div className="container d-flex justify-content-between mt-3">
+        <div className="container d-flex justify-content-between mt-4 mb-4">
           <div
             className="card  m-2 card-focus"
             style={{ width: "18rem", borderRadius: "15px" }}
@@ -22,7 +22,7 @@ function Explore() {
             <img
               src="https://b.zmtcdn.com/webFrontend/64dffaa58ffa55a377cdf42b6a690e721585809275.png?fit=around|402:360&crop=402:360;*,*"
               style={{
-                height: "150px",
+                height: "160px",
                 borderTopLeftRadius: "15px",
                 borderTopRightRadius: "15px",
               }}
@@ -41,7 +41,7 @@ function Explore() {
               src="https://b.zmtcdn.com/webFrontend/95f005332f5b9e71b9406828b63335331585809309.png?fit=around|402:360&crop=402:360;*,*"
               className="card-img-top"
               style={{
-                height: "150px",
+                height: "160px",
                 borderTopLeftRadius: "15px",
                 borderTopRightRadius: "15px",
               }}
@@ -59,7 +59,7 @@ function Explore() {
               src="https://b.zmtcdn.com/webFrontend/8ff4212b71b948ed5b6d2ce0d2bc99981594031410.png?fit=around|402:360&crop=402:360;*,*"
               className="card-img-top"
               style={{
-                height: "150px",
+                height: "160px",
                 borderTopLeftRadius: "15px",
                 borderTopRightRadius: "15px",
               }}
@@ -77,14 +77,16 @@ function Explore() {
               src="https://b.zmtcdn.com/webFrontend/b256d0dd8a29f9e0623ecaaea910534d1585809352.png?fit=around|402:360&crop=402:360;*,*"
               className="card-img-top"
               style={{
-                height: "150px",
+                height: "160px",
                 borderTopLeftRadius: "15px",
                 borderTopRightRadius: "15px",
               }}
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Order Food Online</h5>
+              <h5 className="card-text" style={{ fontWeight: "500" }}>
+                Order Food Online
+              </h5>
             </div>
           </div>
         </div>
