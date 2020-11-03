@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+button {
+  outline: none !important;
+}
+
+#transition-modal-description .MuiInputBase-root {
+  border-radius: 6px;
+}
+
+#transition-modal-description .MuiFormLabel-root.Mui-focused {
+  color: rgb(0, 153, 153);
+}
+
+#transition-modal-description
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: 0.5px solid rgb(0, 153, 153);
+}
+
+#transition-modal-description .MuiOutlinedInput-inputAdornedStart {
+  padding-left: 10px;
+}
