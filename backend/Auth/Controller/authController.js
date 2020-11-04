@@ -69,10 +69,23 @@ const register = async (req, res) => {
     return res.json({ err, message });
   } else {
     const { name, email } = req.body;
-    let otp = sendOtp(email, name);
-    console.log(otp);
-    if (otp) {
-      return res.json({ err: false, message: "Otp sent to your email" });
+
+    let user = User.findOne({ email: email });
+
+    if (user) {
+      return res
+        .status(422)
+        .json({ err: true, message: "You are already register" });
+    } else {
+      let otp = sendOtp(email, name);
+      console.log(otp);
+      if (otp) {
+        return res.json({
+          err: false,
+          message: "Otp sent to your email",
+          data: { email: email },
+        });
+      }
     }
   }
   return res.status(400).json({ err: true, message: "Something went wrong" });
