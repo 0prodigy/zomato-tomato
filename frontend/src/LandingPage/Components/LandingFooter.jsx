@@ -288,7 +288,7 @@ function LandingFooter() {
         <footer className="main-footer bg-light">
           <section className="logo-section d-flex container bd-highlight mb-3">
             <img
-              className="footer-logo mr-auto bd-highlight"
+              className="footer-logo mr-auto bd-highlight mb-3"
               src="https://b.zmtcdn.com//data/bdddded729eec1881d992117920afa5f1553759845.png"
               alt="logo"
             />
@@ -598,11 +598,14 @@ function LandingFooter() {
             ))}
           </section>
           <div></div>
-          <div className="d-flex flex-wrap justify-content-between container ">
+          <div className="d-flex flex-wrap justify-content-between container mt-3">
             <div className="footer-div">
               <h6
                 className="footer-heading"
-                style={{ fontWeight: "400", letterSpacing: "0.2rem" }}
+                style={{
+                  fontWeight: "400",
+                  letterSpacing: "0.2rem",
+                }}
               >
                 COMPANY
               </h6>
