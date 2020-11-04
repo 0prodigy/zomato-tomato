@@ -33,3 +33,66 @@ Content-Type: application/json
     "email":"prodigymonk9211@gmail.com",
     "otp":44215
 }
+
+###
+POST http://localhost:5000/api/city/add 
+Content-Type: application/json
+
+{
+    "title": "Kolkata",
+      "latitude": 22.572646,
+      "longitude": 88.363895,
+      "city_id": 2,
+      "city_name": "Kolkata",
+      "collections":[
+          {
+      "collection": {
+        "collection_id": 1,
+        "image_url": "https://b.zmtcdn.com/data/collections/b53772a204429cb9b42313d6dc22bf3c_1556018415.jpg",
+        "title": "Trending This Week",
+        "description": "Most popular restaurants in town this week"
+      }
+    },
+    {
+      "collection": {
+        "collection_id": 99,
+        "image_url": "https://b.zmtcdn.com/data/collections/083468dbee9b51b10b7e6d8c9f091b4f_1554892925.jpg",
+        "title": "Live Sports Screenings",
+        "description": "Catch the best sporting action live!"
+      }
+    },
+    {
+      "collection": {
+        "collection_id": 29,
+        "image_url": "https://b.zmtcdn.com/data/collections/daf0f4765d084892ed0378eade2d106f_1595820022.jpg",
+        "title": "Newly Opened",
+        "description": "The best new places in town"
+      }
+    },
+    {
+      "collection": {
+        "collection_id": 306693,
+        "res_count": 10,
+        "image_url": "https://b.zmtcdn.com/data/collections/0880be662608099611b36e99b40e9253_1593777921.jpg",
+        "title": "Best of Behala!",
+        "description": "Post Lockdown, here are some best restaurants to check out in Behala!"
+      }
+    },
+    {
+      "collection": {
+        "collection_id": 306694,
+        "image_url": "https://b.zmtcdn.com/data/collections/0fe4f9dbba3e0799e04059f726302c0d_1593940502.jpg",
+        "title": "Best of Newtown",
+        "description": "Post Lockdown, here are some best restaurants to check out in Newtown! "
+      }
+    },
+    {
+      "collection": {
+        "collection_id": 274852,
+        "image_url": "https://b.zmtcdn.com/data/collections/5ac5eeae0796f422298ee67d5b66a025_1535368421.jpg",
+        "title": "Great Food, No Bull",
+        "description": "The hunt for the highest-rated restaurants in your city ends here"
+      }
+    }
+      ]
+}

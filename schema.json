@@ -5,8 +5,6 @@
       "name": "Patna",
       "lat": 13432,
       "long": 234,
-      "state_id": 32,
-      "state_name": "Bihar",
       "cusine": ["North India", "Sount Indian", "Rajeshtani"],
       "collections": [
         {
@@ -45,13 +43,12 @@
       "url": "https://www.zomato.com/new-york-city/otto-enoteca-pizzeria-greenwich-village",
       "location": {
         "address": "1 5th Avenue, New York, NY 10003",
-        "locality": "Greenwich Village",
+        "locality": "Kakarbagh",
         "city_id": "234",
         "city": "New York City",
         "latitude": "40.732013",
         "longitude": "-73.996155",
-        "zipcode": "10003",
-        "country_id": "216"
+        "zipcode": "10003"
       },
       "establishment_type": "Dine",
       "average_cost_for_two": "60",
