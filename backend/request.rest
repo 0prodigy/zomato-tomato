@@ -1,0 +1,35 @@
+POST http://localhost:5000/api/auth/register 
+Content-Type: application/json
+
+{
+    "name":"Akash",
+    "email":"prodigymonk9211@gmail.com"
+}
+
+###
+
+POST http://localhost:5000/api/auth/verifyRegister HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"prodigymonk9211@gmail.com",
+    "otp":34435
+}
+
+###
+POST http://localhost:5000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"prodigymonk9211@gmail.com"
+}
+
+###
+
+POST http://localhost:5000/api/auth/verifyLogin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"prodigymonk9211@gmail.com",
+    "otp":44215
+}
