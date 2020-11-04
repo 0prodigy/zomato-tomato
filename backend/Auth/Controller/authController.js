@@ -66,11 +66,11 @@ const register = async (req, res) => {
   const errors = validateBody(req);
   if (!errors.isEmpty()) {
     const { err, message } = errors.array({ onlyFirstError: true })[0];
-    return res.json({ err, message });
+    return res.status(422).json({ err, message });
   } else {
     const { name, email } = req.body;
 
-    let user = User.findOne({ email: email });
+    let user = await User.findOne({ email: email });
 
     if (user) {
       return res
@@ -117,4 +117,49 @@ const verifyRegisterOtp = async (req, res) => {
   return res.json({ err: false, message: "User register successfully" });
 };
 
-module.exports = { register, verifyRegisterOtp };
+const login = async (req, res) => {
+  const errors = validateBody(req);
+  if (!errors.isEmpty()) {
+    const { err, message } = errors.array({ onlyFirstError: true })[0];
+    return res.status(422).json({ err, message });
+  } else {
+    const { email } = req.body;
+    let user = await User.findOne({ email: email });
+    if (user) {
+      let otp = sendOtp(email, user.name);
+      if (otp) {
+        return res.json({ err: false, message: "Otp sent on your email" });
+      }
+    } else {
+      return res
+        .status(404)
+        .json({ err: true, message: "Email not registered" });
+    }
+  }
+  return res
+    .status(500)
+    .json({ err: true, message: "Something went wrong try again" });
+};
+
+const verifyLoginOtp = async (req, res) => {
+  const { otp, email } = req.body;
+
+  try {
+    let realOtp = await Otp.findOne({ email: email });
+    let user = await User.findOne({ email: email });
+    if (realOtp) {
+      if (realOtp.otp == otp) {
+        return res.json({ err: false, message: "Verified user", user: user });
+      } else {
+        throw Error("User Not found");
+      }
+    } else {
+      return res.status(401).json({ err: true, message: "Wrong otp" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
+module.exports = { register, verifyRegisterOtp, login, verifyLoginOtp };

@@ -7,4 +7,8 @@ const registerValidator = [
   body("email").isEmail().withMessage("Enter valid email address"),
 ];
 
-module.exports = { registerValidator };
+const loginValidator = [
+  body("email").isEmail().withMessage("Enter valid email address"),
+];
+
+module.exports = { registerValidator, loginValidator };
