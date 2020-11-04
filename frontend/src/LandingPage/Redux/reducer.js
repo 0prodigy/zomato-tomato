@@ -6,6 +6,7 @@ const initialState = {
   error: "",
   errorMessage: "",
   isLoading: false,
+  userCoordinates: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,6 +31,29 @@ const reducer = (state = initialState, action) => {
         ...state,
         error: action.error,
         isLoading: action.isLoading,
+        errorMessage: action.message,
+      };
+
+    case constants.GET_USER_LOCATION_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.GET_USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: action.isLoading,
+        locationSearchResults: action.payload,
+        userCoordinates: action.userCoordinates,
+      };
+
+    case constants.GET_USER_LOCATION_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
         errorMessage: action.message,
       };
 

@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { queryCity } from "../Redux/action";
+import { queryCity, getUserLocation } from "../Redux/action";
 import throttle from "lodash/throttle";
+import Skeleton from "@material-ui/lab/Skeleton";
 import {
   Paper,
   Box,
@@ -94,7 +95,12 @@ function SearchBar(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [searchCity, setSearchCity] = useState("");
-  const { locationSearchResults, queryCity } = props;
+  const {
+    locationSearchResults,
+    queryCity,
+    getUserLocation,
+    isLoading,
+  } = props;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -115,6 +121,25 @@ function SearchBar(props) {
 
   const selectCity = (e) => {
     setSearchCity(e.target.textContent);
+  };
+
+  const getUserCoordinates = () => {
+    async function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      getUserLocation(longitude, latitude);
+    }
+
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+    } else {
+      console.log("The button is clicked");
+      return navigator.geolocation.getCurrentPosition(success, error);
+    }
   };
 
   return (
@@ -155,6 +180,7 @@ function SearchBar(props) {
                   <Button
                     disableFocusRipple
                     disableRipple
+                    onClick={getUserCoordinates}
                     style={{
                       marginLeft: "10px",
                       backgroundColor: "inherit",
@@ -165,7 +191,17 @@ function SearchBar(props) {
                   >
                     Detect current location
                   </Button>
-                  {locationSearchResults &&
+                  {isLoading ? (
+                    <>
+                      <Box className={classes.locationSearchValues}>
+                        <Skeleton variant="rect" width={260} height={40} />
+                      </Box>
+                      <Box className={classes.locationSearchValues}>
+                        <Skeleton variant="rect" width={260} height={40} />
+                      </Box>
+                    </>
+                  ) : (
+                    locationSearchResults &&
                     locationSearchResults.map((location) => {
                       return (
                         <Box
@@ -179,7 +215,8 @@ function SearchBar(props) {
                           {location.place_name}
                         </Box>
                       );
-                    })}
+                    })
+                  )}
                 </Card>
               </Collapse>
             </div>
@@ -192,10 +229,12 @@ function SearchBar(props) {
 
 const mapStateToProps = (state) => ({
   locationSearchResults: state.reducer.locationSearchResults,
+  isLoading: state.reducer.isLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   queryCity: (value) => dispatch(queryCity(value)),
+  getUserLocation: (long, lat) => dispatch(getUserLocation(long, lat)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
