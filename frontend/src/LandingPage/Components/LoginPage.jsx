@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { userLogin, userLoginVerify } from "../Redux/action";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -132,12 +134,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginPage({
-  openLogin,
-  handleNavigationClose,
-  setOpenLogin,
-  setOpenSignup,
-}) {
+function LoginPage(props) {
+  const {
+    openLogin,
+    handleNavigationClose,
+    setOpenLogin,
+    setOpenSignup,
+    userLogin,
+    userLoginVerify,
+  } = props;
   const [loginWithEmail, setLoginWithEmail] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
@@ -147,7 +152,7 @@ function LoginPage({
   const [otpVerification, setOtpVerification] = useState(false);
   const classes = useStyles();
 
-  const handleLoginWithEmail = () => {
+  const handleLoginWithEmail = async () => {
     if (email === "") {
       setError(true);
       setErrorMessage("Please enter an email");
@@ -162,9 +167,16 @@ function LoginPage({
         setError(true);
         setErrorMessage("Please enter a valid email");
       } else {
-        setError(false);
-        setErrorMessage("");
-        setOtpVerification(true);
+        let result = await userLogin(email);
+        if (result.error === false) {
+          setError(false);
+          setErrorMessage("");
+          setOtpVerification(true);
+        } else if (result.error === true) {
+          setError(true);
+          setErrorMessage(result.message);
+          setOtpVerification(false);
+        }
       }
     }
   };
@@ -185,6 +197,21 @@ function LoginPage({
       clearInterval(intervalId);
     };
   }, [otpVerification, timerValue]);
+
+  const validateOTP = async (val) => {
+    setOtpValue(val);
+    if (val.length === 5) {
+      let payload = { otp: Number(val), email: email };
+      let result = await userLoginVerify(payload);
+      if (result.error === false) {
+        setTimerValue(0);
+        setOtpValue("");
+        setOtpVerification(false);
+        setLoginWithEmail(false);
+        handleNavigationClose();
+      }
+    }
+  };
 
   if (otpVerification) {
     return (
@@ -236,7 +263,7 @@ function LoginPage({
                   enter the same here to login. Valid for 10 minutes.
                 </div>
               </div>
-              <InputBox length={6} onChange={(val) => setOtpValue(val)} />
+              <InputBox length={5} onChange={(val) => validateOTP(val)} />
               <OTPTimerWrapper>
                 00:{timerValue < 10 ? `0${timerValue}` : timerValue}
               </OTPTimerWrapper>
@@ -277,6 +304,7 @@ function LoginPage({
               <h2>Login</h2>
               <IconButton
                 onClick={() => {
+                  setEmail("");
                   setLoginWithEmail(false);
                   setError(false);
                   setErrorMessage("");
@@ -397,4 +425,9 @@ function LoginPage({
   }
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => ({
+  userLogin: (email) => dispatch(userLogin(email)),
+  userLoginVerify: (payload) => dispatch(userLoginVerify(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(LoginPage);

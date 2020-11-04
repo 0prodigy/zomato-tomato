@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { userSignup, userSignupVerify } from "../Redux/action";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,6 +11,26 @@ import Backdrop from "@material-ui/core/Backdrop";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import Divider from "@material-ui/core/Divider";
+import Alert from "@material-ui/lab/Alert";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import InputBox from "./InputBox";
+
+const ResetButton = styled.button`
+  border: none;
+  outline: none;
+  background-color: inherit;
+  ${(props) =>
+    props.disabled === true ? `color: grey` : `color: rgb(237, 90, 107)`}
+`;
+
+const OTPTimerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins";
+  font-size: 32px;
+  font-weight: 400;
+`;
 
 const ButtonWrapper = styled.button`
   width: 100%;
@@ -107,13 +129,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginPage({
-  openSignup,
-  handleNavigationClose,
-  setOpenLogin,
-  setOpenSignup,
-}) {
+function LoginPage(props) {
   const classes = useStyles();
+  const {
+    openSignup,
+    handleNavigationClose,
+    setOpenSignup,
+    setOpenLogin,
+    userSignup,
+    userSignupVerify,
+  } = props;
   const [acceptNotice, setAcceptNotice] = useState(false);
   const [fullname, setFullname] = useState("");
   const [fullnameError, setFullnameError] = useState(false);
@@ -121,6 +146,13 @@ function LoginPage({
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [userSignupSuccess, setUserSignupSuccess] = useState(false);
+  const [userSignupSuccessMessage, setUserSignupSuccessMessage] = useState("");
+  const [userSignupError, setUserSignupError] = useState(false);
+  const [userSignupErrorMessage, setUserSignupErrorMessage] = useState("");
+  const [otpValue, setOtpValue] = useState("");
+  const [timerValue, setTimerValue] = useState(30);
+  const [otpVerification, setOtpVerification] = useState(false);
 
   const defaultState = () => {
     setAcceptNotice(false);
@@ -132,7 +164,7 @@ function LoginPage({
     setEmailErrorMessage("");
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     console.log("The values are ", fullname, email);
     if (fullname === "") {
       setFullnameError(true);
@@ -142,107 +174,240 @@ function LoginPage({
       setEmailError(true);
       setEmailErrorMessage("Invalid Email id");
     } else if (fullname !== "" && email !== "") {
+      let payload = {
+        name: fullname,
+        email: email,
+      };
+      const result = await userSignup(payload);
+      if (result.error === false) {
+        setUserSignupSuccess(true);
+        setUserSignupSuccessMessage(
+          `${result.payload.message}, ${result.payload.data.email}`
+        );
+        setOtpVerification(true);
+        setTimeout(() => {
+          setUserSignupSuccess(false);
+          setUserSignupSuccessMessage("");
+        }, 2000);
+      } else if (result.error === true) {
+        setUserSignupError(true);
+        setUserSignupErrorMessage("Was not able to sign you up.");
+        setTimeout(() => {
+          setUserSignupError(false);
+          setUserSignupErrorMessage("");
+        });
+      }
     }
   };
 
-  return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      className={classes.modal}
-      name="signup"
-      open={openSignup}
-      onClose={handleNavigationClose}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-    >
-      <Zoom in={openSignup}>
-        <div className={classes.paper}>
-          <div className={classes.navigationLinkTitle}>
-            <h2>Signup</h2>
-            <IconButton
-              onClick={() => {
-                defaultState();
-                handleNavigationClose();
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </div>
+  const verifyOtp = async (val) => {
+    setOtpValue(val);
+    if (val.length === 5) {
+      let payload = { otp: Number(val), email: email };
+      let result = await userSignupVerify(payload);
+      if (result.error === false) {
+        setTimerValue(0);
+        handleNavigationClose();
+        setOpenLogin(true);
+      }
+    }
+  };
 
-          <div id="transition-modal-description">
-            <TextField
-              label="Full Name"
-              fullWidth
-              required
-              value={fullname}
-              error={fullnameError}
-              helperText={fullnameErrorMessage}
-              onChange={(e) => {
-                setFullnameError(false);
-                setFullnameErrorMessage("");
-                setFullname(e.target.value);
-              }}
-              variant="outlined"
-              className={classes.inputFields}
-            />
-            <TextField
-              label="Email"
-              required
-              error={emailError}
-              helperText={emailErrorMessage}
-              fullWidth
-              value={email}
-              onChange={(e) => {
-                setEmailError(false);
-                setEmailErrorMessage("");
-                setEmail(e.target.value);
-              }}
-              variant="outlined"
-              className={classes.inputFields}
-            />
-            <div className={classes.signupNotice}>
-              <Checkbox onChange={(e) => setAcceptNotice(e.target.checked)} />
-              <div>
-                I agree to Zomato's <span>Terms of Service</span>,
-                <span>Privacy Policy</span> and <span>Content Policies</span>
-              </div>
-            </div>
-            <ButtonWrapper
-              disabled={acceptNotice === false ? true : false}
-              onClick={handleSignup}
-            >
-              Create account
-            </ButtonWrapper>
-            <DividerWrapper>
-              <Divider />
-              <span>or</span>
-            </DividerWrapper>
-            <GoogleButton>
-              <img src="./google svg.svg" alt="google icon" />
-              Continue with Google
-            </GoogleButton>
-            <Divider />
-            <LinkWrapper>
-              Already have an account?{" "}
-              <button
+  useEffect(() => {
+    let intervalId;
+
+    if (otpVerification === true) {
+      intervalId = setInterval(() => {
+        if (Number(timerValue) > 0) {
+          setTimerValue((timerValue) => Number(timerValue) - 1);
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [otpVerification, timerValue]);
+
+  if (otpVerification) {
+    return (
+      <Modal
+        className={classes.modal}
+        open={openSignup}
+        onClose={() => {
+          setTimerValue(30);
+          setOtpVerification(false);
+          setEmail("");
+          handleNavigationClose();
+        }}
+        closeAfterTransition
+      >
+        <Zoom in={openSignup}>
+          <div className={classes.paper}>
+            <div className={classes.navigationLinkTitle}>
+              <IconButton
                 onClick={() => {
-                  defaultState();
-                  setOpenSignup(false);
-                  setOpenLogin(true);
+                  setTimerValue(30);
+                  setOtpVerification(false);
                 }}
               >
-                Login
-              </button>
-            </LinkWrapper>
+                <ArrowBackIcon />
+              </IconButton>
+              <h2>OTP Verification</h2>
+              <IconButton
+                onClick={() => {
+                  setEmail("");
+                  setTimerValue(30);
+                  setOtpVerification(false);
+                  handleNavigationClose();
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </div>
+
+            <div id="transition-modal-description">
+              <div
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <div className={classes.otpDescription}>
+                  One Time Password has been sent to your email, {email}, please
+                  enter the same here to login. Valid for 10 minutes.
+                </div>
+              </div>
+              <InputBox length={5} onChange={verifyOtp} />
+              <OTPTimerWrapper>
+                00:{timerValue < 10 ? `0${timerValue}` : timerValue}
+              </OTPTimerWrapper>
+              <div style={{ textAlign: "center", margin: "12px 0px" }}>
+                Not received OTP?{" "}
+                <ResetButton disabled={timerValue === 0 ? false : true}>
+                  Resend Now
+                </ResetButton>
+              </div>
+            </div>
           </div>
-        </div>
-      </Zoom>
-    </Modal>
-  );
+        </Zoom>
+      </Modal>
+    );
+  } else {
+    return (
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        name="signup"
+        open={openSignup}
+        onClose={handleNavigationClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Zoom in={openSignup}>
+          <div className={classes.paper}>
+            <div className={classes.navigationLinkTitle}>
+              <h2>Signup</h2>
+              <IconButton
+                onClick={() => {
+                  defaultState();
+                  handleNavigationClose();
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </div>
+
+            {userSignupSuccess && (
+              <Alert
+                severity="success"
+                style={{
+                  width: "100%",
+                }}
+              >
+                {userSignupSuccessMessage}
+              </Alert>
+            )}
+            <div id="transition-modal-description">
+              <TextField
+                label="Full Name"
+                fullWidth
+                required
+                value={fullname}
+                error={fullnameError}
+                helperText={fullnameErrorMessage}
+                onChange={(e) => {
+                  setFullnameError(false);
+                  setFullnameErrorMessage("");
+                  setFullname(e.target.value);
+                }}
+                variant="outlined"
+                className={classes.inputFields}
+              />
+              <TextField
+                label="Email"
+                required
+                error={emailError}
+                helperText={emailErrorMessage}
+                fullWidth
+                value={email}
+                onChange={(e) => {
+                  setEmailError(false);
+                  setEmailErrorMessage("");
+                  setEmail(e.target.value);
+                }}
+                variant="outlined"
+                className={classes.inputFields}
+              />
+              <div className={classes.signupNotice}>
+                <Checkbox onChange={(e) => setAcceptNotice(e.target.checked)} />
+                <div>
+                  I agree to Zomato's <span>Terms of Service</span>,
+                  <span>Privacy Policy</span> and <span>Content Policies</span>
+                </div>
+              </div>
+              <ButtonWrapper
+                disabled={acceptNotice === false ? true : false}
+                onClick={handleSignup}
+              >
+                Create account
+              </ButtonWrapper>
+              <DividerWrapper>
+                <Divider />
+                <span>or</span>
+              </DividerWrapper>
+              <GoogleButton>
+                <img src="./google svg.svg" alt="google icon" />
+                Continue with Google
+              </GoogleButton>
+              <Divider />
+              <LinkWrapper>
+                Already have an account?{" "}
+                <button
+                  onClick={() => {
+                    defaultState();
+                    setOpenSignup(false);
+                    setOpenLogin(true);
+                  }}
+                >
+                  Login
+                </button>
+              </LinkWrapper>
+            </div>
+          </div>
+        </Zoom>
+      </Modal>
+    );
+  }
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => ({
+  userSignup: (payload) => dispatch(userSignup(payload)),
+  userSignupVerify: (payload) => dispatch(userSignupVerify(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(LoginPage);

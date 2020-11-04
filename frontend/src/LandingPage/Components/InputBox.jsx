@@ -70,7 +70,7 @@ class InputBox extends React.Component {
         style={{
           display: "flex",
           justifyContent: "space-around",
-          margin: "20px 0px",
+          margin: "10px 0px",
         }}
       >
         {this.value.map((item, index) => (
@@ -78,7 +78,6 @@ class InputBox extends React.Component {
             className={this.checkAllFilled()}
             key={index}
             maxLength="1"
-            type="number"
             onChange={(e) => this.handleChange(e, index)}
             onKeyDown={(e) => this.handleDeletion(e, index)}
             ref={(element) => (this.elements[index] = element)}
