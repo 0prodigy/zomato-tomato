@@ -8,7 +8,6 @@ const BannerWrapper = styled.div`
   max-height: 57rem;
   width: 100%;
   position: relative;
-  overflow: hidden;
   > .landingPageImageContainer {
     overflow: hidden;
     position: absolute;

@@ -347,8 +347,6 @@ function LoginPage({
               >
                 <OutlinedInput
                   id="outlined-adornment-weight"
-                  // value={values.weight}
-                  // onChange={handleChange("weight")}
                   type="number"
                   fullWidth
                   startAdornment={
