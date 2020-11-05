@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const resturantSchema = new Schema({
+const restaurantSchema = new Schema({
   id: {
     type: String,
     required: true,
@@ -52,7 +52,7 @@ const resturantSchema = new Schema({
     type: Array,
     default: [],
   },
-  collection_id: {},
+  collection_id: { type: Array, default: [] },
 });
 
-module.exports = mongoose.model("Resturants", resturantSchema);
+module.exports = mongoose.model("Restaurants", restaurantSchema);

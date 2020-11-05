@@ -99,7 +99,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:5000/api/resturant/add 
+POST http://localhost:5000/api/restaurant/add 
 Content-Type: application/json
 
 
@@ -204,16 +204,34 @@ Content-Type: application/json
           "Quick Bites"
         ],
         "establishment_types": [],
-        "collection_id":1
+        "collection_id":[1]
       }
 
 
 ###
 
-POST http://localhost:5000/api/resturant/addPhoto HTTP/1.1
+POST http://localhost:5000/api/restaurant/addPhoto HTTP/1.1
 Content-Type: application/json
 
 {
   "res_id":"18749515",
   "photos":"https://b.zmtcdn.com/data/pictures/2/18705092/6fc26d64b5a14e980e5feacae272ee76.jpg?output-format=webp&fit=around|1029:555&crop=1029:555;,https://b.zmtcdn.com/data/pictures/chains/4/18705064/33913c25038d2da3b820dfb3ce41596e.jpg?output-format=webp&fit=around|300:273&crop=300:273;https://b.zmtcdn.com/data/pictures/chains/4/18705064/33913c25038d2da3b820dfb3ce41596e.jpg?output-format=webp&fit=around|300:273&crop=300:273;,https://b.zmtcdn.com/data/pictures/chains/4/18705064/aa7ec7a6407ef219d1ab7196b31d98ae.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A"
 }
+
+
+###
+
+POST http://localhost:5000/api/restaurant/addMenu HTTP/1.1
+Content-Type: application/json
+
+{
+  "res_id":"18749515",
+  "menu":{
+    
+  }
+}
+
+###
+POST http://localhost:5000/api/restaurant/18749515 HTTP/1.1
+
+
