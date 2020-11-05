@@ -8,7 +8,9 @@ const initialState = {
   isLoading: false,
   userCoordinates: {},
   currentRegisteredEmail: "",
-  activeUserDetails: localStorage.getItem("activeUser") || {},
+  activeUserDetails: JSON.parse(localStorage.getItem("activeUser")) || {
+    active: false,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -146,6 +148,37 @@ const reducer = (state = initialState, action) => {
       };
 
     case constants.USER_LOGIN_VERIFY_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        errorMessage: action.message,
+      };
+
+    case constants.USER_LOGIN_GOOGLE_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.USER_LOGIN_GOOGLE_SUCCESS:
+      let googlePayload = {
+        name: action.payload.user.name,
+        email: action.payload.user.email,
+        _id: action.payload.user._id,
+        image: action.payload.user.image,
+        id: action.payload.user.id,
+      };
+      localStorage.setItem("activeUser", JSON.stringify(googlePayload));
+
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        activeUserDetails: googlePayload,
+      };
+
+    case constants.USER_LOGIN_GOOGLE_FAILURE:
       return {
         ...state,
         isLoading: action.isLoading,

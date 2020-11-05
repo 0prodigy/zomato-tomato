@@ -14,6 +14,8 @@ import Divider from "@material-ui/core/Divider";
 import Alert from "@material-ui/lab/Alert";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import InputBox from "./InputBox";
+import { GoogleLogin } from "react-google-login";
+import axios from "axios";
 
 const ResetButton = styled.button`
   border: none;
@@ -195,7 +197,7 @@ function LoginPage(props) {
         setTimeout(() => {
           setUserSignupError(false);
           setUserSignupErrorMessage("");
-        });
+        }, 2000);
       }
     }
   };
@@ -229,6 +231,39 @@ function LoginPage(props) {
       clearInterval(intervalId);
     };
   }, [otpVerification, timerValue]);
+
+  const responseGoogle = (response) => {
+    let googleResponse = response.profileObj;
+    let payload = {
+      name: `${googleResponse.givenName} ${googleResponse.familyName}`,
+      image: googleResponse.imageUrl,
+      email: googleResponse.email,
+      id: googleResponse.googleId,
+    };
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/auth/googleRegister",
+      data: payload,
+    })
+      .then((response) => {
+        console.log("Comes here");
+        setUserSignupSuccess(true);
+        setUserSignupSuccessMessage(`${response.data.message}`);
+        setTimeout(() => {
+          setUserSignupSuccess(false);
+          setUserSignupSuccessMessage("");
+          handleNavigationClose();
+        }, 2000);
+      })
+      .catch((error) => {
+        setUserSignupError(true);
+        setUserSignupErrorMessage("Was not able to register you");
+        setTimeout(() => {
+          setUserSignupError(false);
+          setUserSignupErrorMessage("");
+        }, 2000);
+      });
+  };
 
   if (otpVerification) {
     return (
@@ -380,10 +415,23 @@ function LoginPage(props) {
                 <Divider />
                 <span>or</span>
               </DividerWrapper>
-              <GoogleButton>
-                <img src="./google svg.svg" alt="google icon" />
-                Continue with Google
-              </GoogleButton>
+              <GoogleLogin
+                clientId="175559645991-3mrpajh4dnlmn3n0fltr6hasvs8pkcvo.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <GoogleButton
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <img src="./google svg.svg" alt="google icon" />
+                    Continue with Google
+                  </GoogleButton>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
+
               <Divider />
               <LinkWrapper>
                 Already have an account?{" "}

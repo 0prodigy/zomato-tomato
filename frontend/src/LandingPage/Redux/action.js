@@ -155,6 +155,31 @@ export const userLoginVerifyFailure = (payload) => {
   };
 };
 
+export const userLoginGoogleRequest = () => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const userLoginGoogleSuccess = (payload) => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const userLoginGoogleFailure = (payload) => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_FAILURE,
+    isLoading: false,
+    error: true,
+    message: payload,
+  };
+};
+
 export const queryCity = (city) => {
   return (dispatch) => {
     dispatch(queryCityRequest());
@@ -273,6 +298,25 @@ export const userLoginVerify = (payload) => {
       })
       .catch((error) => {
         return dispatch(userLoginVerifyFailure(error.response.data));
+      });
+  };
+};
+
+export const userLoginGoogle = (email) => {
+  return (dispatch) => {
+    dispatch(userLoginGoogleRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/auth/googleLogin",
+      data: { email: email },
+    })
+      .then((response) => {
+        console.log("The user login google success response is", response.data);
+        return dispatch(userLoginGoogleSuccess(response.data));
+      })
+      .catch((error) => {
+        console.log("the user login google failure error is", error);
+        return dispatch(userLoginGoogleFailure(error.response));
       });
   };
 };
