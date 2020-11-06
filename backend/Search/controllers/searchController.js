@@ -1,27 +1,60 @@
+const { validationResult } = require("express-validator");
 const City = require("../../City/models/City");
+const Restaurant = require("../../Restaurants/models/Restaurant");
 
-const calcDistance = (lat1, lon1, lat2, lon2) => {
-  var p = 0.017453292519943295; // Math.PI / 180
-  var c = Math.cos;
-  var a =
-    0.5 -
-    c((lat2 - lat1) * p) / 2 +
-    (c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))) / 2;
-
-  return 12742 * Math.asin(Math.sqrt(a));
-};
+const validateBody = validationResult.withDefaults({
+  formatter: (err) => {
+    return {
+      err: true,
+      message: err.msg,
+    };
+  },
+});
 
 const getCityId = async (req, res) => {
-  let city = await City.find(
-    {
-      $or: {
-        [["latitude", "longitude"]]: [22.572646, 88.363895],
-      },
-    },
-    "city_id"
-  );
+  const errors = validateBody(req);
+  if (!errors.isEmpty()) {
+    const { err, message } = errors.array({ onlyFirstError: true })[0];
+    return res.status(422).json({ err, message });
+  } else {
+    try {
+      let city = await City.findOne({
+        location: {
+          $nearSphere: {
+            $geometry: {
+              type: "Point",
+              coordinates: [
+                parseInt(req.body["long"]),
+                parseInt(req.body["lat"]),
+              ],
+            },
+            $maxDistance: 5000,
+          },
+        },
+      });
+      if (city) {
+        return res.json({
+          err: false,
+          message: "Success",
+          city_id: city.city_id,
+        });
+      } else {
+        return res.json({
+          err: false,
+          message: "Success",
+          city_id: 4,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ err: true, message: "Something went wrong" });
+    }
+  }
+
   //   let city = await City.find({ city_id: "2" });
-  console.log(city);
+  //   console.log(city);
 };
 
 module.exports = { getCityId };
