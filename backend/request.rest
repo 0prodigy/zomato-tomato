@@ -247,3 +247,11 @@ Content-Type: application/json
   "long":23.333,
   "lat":23.34423
 }
+
+###
+GET http://localhost:5000/api/serach/collection
+Content-Type: application/json
+
+{
+  "city_id":2
+}
