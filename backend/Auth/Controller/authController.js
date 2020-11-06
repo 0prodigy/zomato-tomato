@@ -162,4 +162,68 @@ const verifyLoginOtp = async (req, res) => {
   }
 };
 
-module.exports = { register, verifyRegisterOtp, login, verifyLoginOtp };
+const googleRegister = async (req, res) => {
+  const errors = validateBody(req);
+  if (!errors.isEmpty()) {
+    const { err, message } = errors.array({ onlyFirstError: true })[0];
+    return res.status(422).json({ err, message });
+  } else {
+    const { name, email, image, id } = req.body;
+
+    let user = await User.findOne({ email: email });
+
+    if (user) {
+      return res
+        .status(422)
+        .json({ err: true, message: "You are already registered !" });
+    } else {
+      let newUser = new User({
+        name: name,
+        email: email,
+        id: id,
+        image: image,
+      });
+      await newUser.save();
+      return res.json({
+        err: false,
+        message: `User registered successfully with email ${email}`,
+      });
+    }
+  }
+};
+
+const googleLogin = async (req, res) => {
+  const errors = validateBody(req);
+  if (!errors.isEmpty()) {
+    const { err, message } = errors.array({ onlyFirstError: true })[0];
+    return res.status(422).json({ err, message });
+  } else {
+    const { email } = req.body;
+    let user = await User.findOne({ email: email });
+    if (user) {
+      return res
+        .status(200)
+        .json({
+          err: false,
+          message: "Verified user and logged in",
+          user: user,
+        });
+    } else {
+      return res
+        .status(401)
+        .json({
+          err: true,
+          message: "Was not able to verify your credentials",
+        });
+    }
+  }
+};
+
+module.exports = {
+  register,
+  verifyRegisterOtp,
+  login,
+  verifyLoginOtp,
+  googleRegister,
+  googleLogin,
+};

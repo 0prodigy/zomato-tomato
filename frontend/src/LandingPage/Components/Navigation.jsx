@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -116,11 +117,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navigation() {
+function Navigation(props) {
   const classes = useStyles();
+  const { activeUserDetails } = props;
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -149,10 +150,10 @@ function Navigation() {
         <ul className="mobileNavigation"></ul>
         <ul className="defaultNavigation">
           <li className="zomatoLogo">Get the app</li>
-          {authenticated ? (
+          {activeUserDetails.active !== false ? (
             <li className="navigationButton userDetails">
-              <Avatar>MK</Avatar>
-              <span>Manish</span>
+              <Avatar alt="User profile Image" src={activeUserDetails.image} />
+              <span>{activeUserDetails.name}</span>
               <IconButton
                 disableRipple={true}
                 className={clsx(classes.expand, {
@@ -212,4 +213,8 @@ function Navigation() {
   );
 }
 
-export default Navigation;
+const mapStateToProps = (state) => ({
+  activeUserDetails: state.reducer.activeUserDetails,
+});
+
+export default connect(mapStateToProps)(Navigation);
