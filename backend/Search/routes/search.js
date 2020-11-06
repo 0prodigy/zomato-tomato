@@ -4,6 +4,7 @@ const {
   getCityId,
   getCollection,
   getLocalities,
+  getRestaurant,
 } = require("../controllers/searchController");
 const { cityIdValidation } = require("../validations/serachValidation");
 const router = express.Router();
@@ -28,5 +29,7 @@ router.get(
   ],
   getLocalities
 );
+
+router.get("/restaurant", getRestaurant);
 
 module.exports = router;

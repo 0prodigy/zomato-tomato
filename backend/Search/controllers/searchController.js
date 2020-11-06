@@ -114,4 +114,23 @@ const getLocalities = async (req, res) => {
   }
 };
 
-module.exports = { getCityId, getCollection, getLocalities };
+const getRestaurant = async (req, res) => {
+  let { q, city_id } = req.query;
+  console.log(q, city_id);
+  try {
+    let result = await Restaurant.find({
+      "location.city_id": parseInt(city_id),
+      $or: [
+        { $text: { $search: q, $caseSensitive: false } },
+        { name: /sjdhf/ },
+      ],
+      score: { $meta: "textScore" },
+    }).sort({ score: { $meta: "textScore" } });
+    return res.json({ result: result });
+  } catch (err) {
+    console.log(err);
+    return res.json({ some: "sdf" });
+  }
+};
+
+module.exports = { getCityId, getCollection, getLocalities, getRestaurant };
