@@ -4,7 +4,9 @@ import ItemName from "./Components/ItemName";
 import OrderOnline from "./Components/OrderOnline";
 import Overview from "./Components/Overview";
 import RestroNavbar from "./Components/RestroNavbar";
-
+import Review from "./Components/Review";
+import Menu from "./Components/Menu";
+import Photos from "./Components/Photos";
 function RestroPage() {
   return (
     <div>
@@ -12,7 +14,10 @@ function RestroPage() {
       <ItemImage />
       <ItemName />
       {/* <Overview /> */}
-      <OrderOnline />
+      {/* <OrderOnline /> */}
+      {/* <Review /> */}
+      {/* <Menu /> */}
+      <Photos />
     </div>
   );
 }

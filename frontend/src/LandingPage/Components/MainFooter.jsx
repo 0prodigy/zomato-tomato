@@ -9,104 +9,6 @@ import Popover from "react-bootstrap/Popover";
 import LanguageIcon from "@material-ui/icons/Language";
 
 const Wrapper = styled.div`
-  * {
-    font-family: Poppins;
-    font-weight: 300;
-  }
-  .main-div {
-    align-self: flex-start;
-
-    width: 100%;
-    padding-right: 1rem;
-    background-color: rgb(255, 255, 255);
-    transform: translateZ(0px);
-    transition: transform 0.2s ease-in-out 0s;
-  }
-  .sec-div {
-    background-color: white;
-  }
-  .heading-section {
-    width: 100%;
-    max-width: 110rem;
-    overflow: auto hidden;
-    min-height: 6.2rem;
-    position: relative;
-  }
-  .main-section {
-    min-width: 100%;
-    display: flex;
-    position: relative;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    background-color: transparent;
-    overflow-x: auto;
-  }
-  .main-section:first-child {
-    margin-left: 0px;
-    padding-left: 0px;
-  }
-  .main-section:last-child {
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-  .single-div {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    max-height: 100%;
-    margin-right: 2rem;
-    cursor: pointer;
-  }
-  .text-span {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-weight: 300;
-    margin: 0.3rem 1rem;
-    border: 1px solid transparent;
-    padding: 0.5rem 0.8rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    color: rgb(237, 90, 107);
-  }
-  .text-active {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-
-    color: rgb(237, 90, 107);
-  }
-  .text {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    font-family: Poppins;
-    font-weight: 200;
-    color: rgb(138, 131, 131);
-  }
-  .loc-near-heading {
-    line-height: 1.2;
-    color: rgb(28, 28, 28);
-    font-size: 1rem;
-    letter-spacing: 0.2rem;
-    text-transform: uppercase;
-    font-weight: 500;
-    margin: 0px 0px 1rem;
-  }
-  .loc-near-names {
-    margin-bottom: 2.4rem;
-  }
-  .loc-near-link {
-    text-decoration: none;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    font-weight: 400;
-    word-break: break-all;
-    color: rgb(156, 156, 156);
-  }
-
   .main-footer {
     margin-top: 0px;
     width: 100%;
@@ -180,74 +82,10 @@ const Wrapper = styled.div`
     margin-top: 2.3rem;
   }
 `;
-
-function Menu() {
+function MainFooter() {
   return (
     <>
       <Wrapper>
-        <article className="main-div container">
-          <div className="sec-div">
-            <section className="heading-section">
-              <section className="main-section">
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Overview</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Order Online</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Reviews</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text-active">Menu</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Photos</Link>
-                  </span>
-                </div>
-              </section>
-              <hr />
-            </section>
-          </div>
-        </article>
-        <div className="container">
-          <h4 style={{ fontWeight: "400" }}>OM Sweets & Snacks</h4>
-          <div className="rounded">
-            <img
-              src="https://b.zmtcdn.com/data/menus/059/5059/4926f7227933414fcce3847cc08c79ac.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A"
-              alt="Menu"
-            />
-            <h5>Food Menu</h5>
-            <p>3 Pages</p>
-          </div>
-        </div>
-
-        <div className="container">
-          <hr />
-        </div>
-        <div className="container">
-          <div className="loc-near">
-            <h6 className="loc-near-heading">RESTAURANTS AROUND JAIL ROAD</h6>
-            <div className="loc-near-names">
-              <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
-              <Link className="loc-near-link">Janakpuri Restaurants, </Link>
-              <Link className="loc-near-link">Shubhas Nagar Restaurants, </Link>
-              <Link className="loc-near-link">
-                Mayapuri Phase Two Restaurants
-              </Link>
-            </div>
-          </div>
-        </div>
-
         <footer className="main-footer bg-light">
           <section className="logo-section d-flex container bd-highlight mb-3">
             <img
@@ -717,4 +555,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default MainFooter;
