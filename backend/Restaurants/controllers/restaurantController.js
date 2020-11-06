@@ -69,4 +69,28 @@ const getRestaurant = async (req, res) => {
   }
 };
 
-module.exports = { addRestaurant, addPhoto, addMenu, getRestaurant };
+const getAllRestaurant = async (req, res) => {
+  try {
+    const resturants = await Restaurant.find({
+      "location.city_id": parseInt(req.body["city_id"]),
+    });
+    if (resturants) {
+      return res.json({ err: false, message: "Success", resturants });
+    } else {
+      return res
+        .status(404)
+        .json({ err: true, message: "Fail No resturant found" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
+module.exports = {
+  addRestaurant,
+  addPhoto,
+  addMenu,
+  getRestaurant,
+  getAllRestaurant,
+};

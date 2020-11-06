@@ -239,6 +239,15 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
+
+###
+GET http://localhost:5000/api/restaurant/all HTTP/1.1
+Content-Type: application/json
+
+{
+  "city_id":"asdf"
+}
+
 ###
 GET http://localhost:5000/api/search/cityId
 Content-Type: application/json
