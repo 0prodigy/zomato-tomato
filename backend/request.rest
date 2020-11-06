@@ -40,7 +40,7 @@ Content-Type: application/json
 
 {
     "title": "Kolkata",
-      "cords":[88.363895 ,22.572646],
+      "location":{"type":"Point", "coordinates": [88.363895 ,22.572646]},
       "city_id": 2,
       "city_name": "Kolkata",
       "collections":[
@@ -240,5 +240,26 @@ Content-Type: application/json
 GET http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
 ###
-GET http://localhost:5000/api/serach/cityId
+GET http://localhost:5000/api/search/cityId
+Content-Type: application/json
 
+{
+  "long":23.333,
+  "lat":23.34423
+}
+
+###
+GET http://localhost:5000/api/search/collection
+Content-Type: application/json
+
+{
+  "city_id":2
+}
+
+###
+GET http://localhost:5000/api/search/localities
+Content-Type: application/json
+
+{
+  "city_id":2
+}
