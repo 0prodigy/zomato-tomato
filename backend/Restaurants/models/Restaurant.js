@@ -37,6 +37,7 @@ const restaurantSchema = new Schema({
   user_rating: {},
   has_online_delivery: {},
   is_delivering_now: {},
+  timings: {},
   has_table_booking: {},
   cuisines: {},
   all_reviews_count: {},

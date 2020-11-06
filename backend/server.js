@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const authRouter = require("./Auth/Routes/auth");
 const cityRouter = require("./City/routes/city");
 const restaurantRouter = require("./Restaurants/routes/restaurant");
+const searchRouter = require("./Search/routes/search");
 
 const app = express();
 
@@ -32,6 +33,7 @@ mongoose.connect(
 app.use("/api/auth", authRouter);
 app.use("/api/city", cityRouter);
 app.use("/api/restaurant", restaurantRouter);
+app.use("/api/serach", searchRouter);
 
 const port = process.env.PORT || 5000;
 

@@ -42,7 +42,7 @@ const addMenu = async (req, res) => {
   if (restaurant) {
     try {
       let { menu } = req.body;
-      restaurant.menu = [...restaurant.menu, menu];
+      restaurant.menu = [...restaurant.menu, ...menu];
       await restaurant.save();
       return res.json({ err: false, message: "Menu  added successfully" });
     } catch (err) {
