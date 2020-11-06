@@ -61,16 +61,19 @@ const getCollection = async (req, res) => {
     return res.status(422).json({ err, message });
   } else {
     try {
-      let { collections } = await City.findOne(
+      let collections = await City.findOne(
         {
           city_id: parseInt(req.body["city_id"]),
         },
         { collections: 1 }
       );
+      if (!collections) {
+        return res.json({ err: true, message: "Failed", collections: [] });
+      }
       return res.json({
         err: false,
         message: "Success",
-        collections,
+        collections: collections.collections,
       });
     } catch (err) {
       console.log(err);
@@ -81,4 +84,34 @@ const getCollection = async (req, res) => {
   }
 };
 
-module.exports = { getCityId, getCollection };
+const getLocalities = async (req, res) => {
+  const errors = validateBody(req);
+  if (!errors.isEmpty()) {
+    const { err, message } = errors.array({ onlyFirstError: true })[0];
+    return res.status(422).json({ err, message });
+  } else {
+    try {
+      let localities = await Restaurant.find(
+        {
+          "location.city_id": parseInt(req.body["city_id"]),
+        },
+        { "location.locality": 1, "location.cords": 1 }
+      );
+      if (!localities) {
+        return res.json({ err: true, message: "Failed", localities: [] });
+      }
+      return res.json({
+        err: false,
+        localities: localities,
+        message: "Success",
+      });
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ err: true, message: "Something went wrong" });
+    }
+  }
+};
+
+module.exports = { getCityId, getCollection, getLocalities };
