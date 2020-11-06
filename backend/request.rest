@@ -40,8 +40,7 @@ Content-Type: application/json
 
 {
     "title": "Kolkata",
-      "latitude": 22.572646,
-      "longitude": 88.363895,
+      "cords":[88.363895 ,22.572646],
       "city_id": 2,
       "city_name": "Kolkata",
       "collections":[
@@ -121,8 +120,7 @@ Content-Type: application/json
           "locality": "Kankarbagh",
           "city": "Patna",
           "city_id": 40,
-          "latitude": "25.5992756000",
-          "longitude": "85.1546685000",
+          "cords":[85.1546685000,25.599275600],
           "zipcode": "",
           "country_id": 1,
           "locality_verbose": "Kankarbagh, Patna"
@@ -241,4 +239,6 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
+###
+GET http://localhost:5000/api/serach/cityId
 
