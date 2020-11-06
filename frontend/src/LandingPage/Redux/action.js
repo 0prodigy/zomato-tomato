@@ -180,10 +180,45 @@ export const userLoginGoogleFailure = (payload) => {
   };
 };
 
+export const setSearchCity = (cityName, coordinates) => {
+  return {
+    type: constants.SET_SEARCH_CITY,
+    searchCity: cityName,
+    userCoordinates: {
+      longitude: coordinates[0],
+      latitude: coordinates[1],
+    },
+  };
+};
+
+export const getCityIdRequest = () => {
+  return {
+    type: constants.GET_CITY_ID_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityIdSuccess = (cityId) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: false,
+    cityId: cityId,
+  };
+};
+
+export const getCityIdFailure = (errorPayload) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: true,
+    message: errorPayload,
+  };
+};
+
 export const queryCity = (city) => {
   return (dispatch) => {
     dispatch(queryCityRequest());
-    console.log("The city to be searched is", city);
     return axios({
       method: "get",
       url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json`,
@@ -318,5 +353,29 @@ export const userLoginGoogle = (email) => {
         console.log("the user login google failure error is", error);
         return dispatch(userLoginGoogleFailure(error.response));
       });
+  };
+};
+
+export const setSearchCityRedux = (cityName, coordinates) => {
+  return (dispatch) => {
+    return dispatch(setSearchCity(cityName, coordinates));
+  };
+};
+
+export const getCityId = (payload) => {
+  return (dispatch) => {
+    dispatch(getCityIdRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/cityId",
+      data: payload,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        return dispatch(getCityIdSuccess(response.data.city_id));
+      })
+      .catch((error) => dispatch(getCityIdFailure(error.response)));
   };
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
 
@@ -61,7 +62,8 @@ const BannerWrapper = styled.div`
   }
 `;
 
-function Banner() {
+function Banner(props) {
+  const { searchCityRedux } = props;
   return (
     <BannerWrapper>
       <div className="landingPageImageContainer">
@@ -76,7 +78,7 @@ function Banner() {
           <img src="./Zomato.webp" alt="Zomato Logo" className="zomatoImage" />
         </div>
         <h2 className="description">
-          Discover the best food & drinks in Delhi NCR
+          Discover the best food & drinks in {searchCityRedux}
         </h2>
         <SearchBar />
       </div>
@@ -84,4 +86,8 @@ function Banner() {
   );
 }
 
-export default Banner;
+const mapStateToProps = (state) => ({
+  searchCityRedux: state.landingPageReducer.searchCity,
+});
+
+export default connect(mapStateToProps)(Banner);

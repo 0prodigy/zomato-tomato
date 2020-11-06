@@ -1,7 +1,7 @@
 import * as constants from "./actionTypes";
 
 const initialState = {
-  searchCity: "",
+  searchCity: "Kolkata",
   locationSearchResults: [],
   error: false,
   errorMessage: "",
@@ -11,12 +11,12 @@ const initialState = {
   activeUserDetails: JSON.parse(localStorage.getItem("activeUser")) || {
     active: false,
   },
+  cityId: "",
 };
 
-const reducer = (state = initialState, action) => {
+const landingPageReducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.QUERY_CITY_REQUEST:
-      console.log("User registration request", action);
       return {
         ...state,
         isLoading: action.isLoading,
@@ -186,9 +186,38 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.message,
       };
 
+    case constants.SET_SEARCH_CITY:
+      return {
+        ...state,
+        searchCity: action.searchCity,
+        userCoordinates: action.userCoordinates,
+      };
+
+    case constants.GET_CITY_ID_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.GET_CITY_ID_SUCCESS:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        cityId: action.cityId,
+      };
+
+    case constants.GET_CITY_ID_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        errorMessage: action.message,
+      };
+
     default:
       return state;
   }
 };
 
-export { reducer };
+export { landingPageReducer };

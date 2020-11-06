@@ -5,10 +5,10 @@ const {
   getCollection,
   getLocalities,
 } = require("../controllers/searchController");
-const { cityIdValidation } = require("../validations/serachValidation");
+const { cityIdValidation } = require("../validations/searchValidation");
 const router = express.Router();
 
-router.get("/cityId", cityIdValidation, getCityId);
+router.post("/cityId", cityIdValidation, getCityId);
 router.get(
   "/collection",
   [
