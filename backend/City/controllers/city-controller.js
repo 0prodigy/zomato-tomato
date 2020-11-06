@@ -25,6 +25,7 @@ const addCity = async (req, res) => {
         city: city,
       });
     } catch (err) {
+      console.log(err);
       return res
         .status(500)
         .json({ err: true, message: "Something Went wrong" });

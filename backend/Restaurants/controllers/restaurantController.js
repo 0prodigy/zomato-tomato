@@ -20,7 +20,7 @@ const addPhoto = async (req, res) => {
   const restaurant = await Restaurant.findOne({ id: req.body["res_id"] });
   if (restaurant) {
     try {
-      let photos = req.body.photos.split(",");
+      let photos = req.body.photos;
       restaurant.photos = [...restaurant.photos, ...photos];
       await restaurant.save();
       return res.json({ err: false, message: "Photos added successfully" });
@@ -42,7 +42,7 @@ const addMenu = async (req, res) => {
   if (restaurant) {
     try {
       let { menu } = req.body;
-      restaurant.menu = [...restaurant.menu, menu];
+      restaurant.menu = [...restaurant.menu, ...menu];
       await restaurant.save();
       return res.json({ err: false, message: "Menu  added successfully" });
     } catch (err) {
