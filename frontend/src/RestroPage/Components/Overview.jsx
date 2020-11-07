@@ -25,79 +25,6 @@ const Wrapper = styled.div`
     font-family: Poppins;
     font-weight: 300;
   }
-  .main-div {
-    align-self: flex-start;
-
-    width: 100%;
-    padding-right: 1rem;
-    background-color: rgb(255, 255, 255);
-    transform: translateZ(0px);
-    transition: transform 0.2s ease-in-out 0s;
-  }
-  .sec-div {
-    background-color: white;
-  }
-  .heading-section {
-    width: 100%;
-    max-width: 110rem;
-    overflow: auto hidden;
-    min-height: 6.2rem;
-    position: relative;
-  }
-  .main-section {
-    min-width: 100%;
-    display: flex;
-    position: relative;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    background-color: transparent;
-    overflow-x: auto;
-  }
-  .main-section:first-child {
-    margin-left: 0px;
-    padding-left: 0px;
-  }
-  .main-section:last-child {
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-  .single-div {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    max-height: 100%;
-    margin-right: 2rem;
-    cursor: pointer;
-  }
-  .text-span {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-weight: 300;
-    margin: 0.3rem 1rem;
-    border: 1px solid transparent;
-    padding: 0.5rem 0.8rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    color: rgb(237, 90, 107);
-  }
-  .text-active {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-
-    color: rgb(237, 90, 107);
-  }
-  .text {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    font-family: Poppins;
-    font-weight: 200;
-    color: rgb(138, 131, 131);
-  }
   .offer-div {
     background: rgb(248, 248, 248);
     border-radius: 0.8rem;
@@ -807,40 +734,6 @@ function Overview() {
   return (
     <>
       <Wrapper>
-        <article className="main-div container">
-          <div className="sec-div">
-            <section className="heading-section">
-              <section className="main-section">
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text-active">Overview</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Order Online</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Reviews</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Menu</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Photos</Link>
-                  </span>
-                </div>
-              </section>
-              <hr />
-            </section>
-          </div>
-        </article>
         <div className="offer-div container">
           <span className="offer">GET 25% OFF</span>
           <p className="offer-desc">

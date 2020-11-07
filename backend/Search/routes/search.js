@@ -10,7 +10,7 @@ const { cityIdValidation } = require("../validations/searchValidation");
 const router = express.Router();
 
 router.post("/cityId", cityIdValidation, getCityId);
-router.get(
+router.post(
   "/collection",
   [
     body("city_id")

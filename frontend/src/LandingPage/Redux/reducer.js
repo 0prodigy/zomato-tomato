@@ -1,8 +1,9 @@
 import * as constants from "./actionTypes";
 
 const initialState = {
-  searchCity: "Kolkata",
+  searchCity: "",
   locationSearchResults: [],
+  cityCollections: [],
   error: false,
   errorMessage: "",
   isLoading: false,
@@ -205,6 +206,7 @@ const landingPageReducer = (state = initialState, action) => {
         isLoading: action.isLoading,
         error: action.error,
         cityId: action.cityId,
+        searchCity: action.searchCity,
       };
 
     case constants.GET_CITY_ID_FAILURE:
@@ -215,6 +217,27 @@ const landingPageReducer = (state = initialState, action) => {
         errorMessage: action.message,
       };
 
+    case constants.GET_CITY_COLLECTION_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.GET_CITY_COLLECTION_SUCCESS:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        cityCollections: action.payload,
+      };
+
+    case constants.GET_CITY_COLLECTION_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        errorMessage: action.message,
+      };
     default:
       return state;
   }

@@ -17,9 +17,6 @@ const Wrapper = styled.div`
     font-weight: 200;
   }
   .main-div {
-    position: sticky;
-    top: 0px;
-    z-index: 3;
     background: rgb(255, 255, 255);
     align-self: flex-start;
   }
@@ -235,128 +232,126 @@ const Wrapper = styled.div`
 
 function ItemName() {
   return (
-    <>
-      <Wrapper>
-        <section className="container main-div">
-          <section className="item-div">
-            <section className="name-div">
-              <h1 className="item-name">Om Sweets & Snacks</h1>
-              <section className="loc-div">
-                <div className="loc-sec">
-                  <Link className="loc-link">Quick Bites</Link>
-                  <span>,</span>
-                  <Link className="loc-link">Sweet Shop</Link>
-                  <span> - </span>
-                  <Link className="loc-link">North Indian</Link>
-                  <span>,</span>
-                  <Link className="loc-link">South Indian</Link>
-                  <span>,</span>
-                  <Link className="loc-link">Chinese</Link>
-                  <span>,</span>
-                  <Link className="loc-link">Mithai</Link>
-                  <span>,</span>
-                  <Link className="loc-link">Fast Food</Link>
-                  <span>,</span>
-                  <Link className="loc-link">Deserts</Link>
-                </div>
-                <Link className="loc-link">Sector 7 Gurgaon</Link>
-              </section>
-              <section className="time-div">
-                <section className="time-sec">
-                  <span className="time-close">Closed</span>
-                  <span className="time-open">Open at 8am</span>
-                  <div>
-                    {["right"].map((placement) => (
-                      <OverlayTrigger
-                        trigger="hover"
-                        key={placement}
-                        placement={placement}
-                        className="p-2 bd-highlight m-2"
-                        overlay={
-                          <Popover>
-                            <Popover.Content>
-                              <p>MON-SUN: 8am-10:30pm</p>
-                            </Popover.Content>
-                          </Popover>
-                        }
-                      >
-                        <div variant="secondary">
-                          <HelpOutlineIcon className="info-icon" />
-                        </div>
-                      </OverlayTrigger>
-                    ))}
-                  </div>
-                </section>
-              </section>
+    <Wrapper>
+      <section className="container main-div">
+        <section className="item-div">
+          <section className="name-div">
+            <h1 className="item-name">Om Sweets & Snacks</h1>
+            <section className="loc-div">
+              <div className="loc-sec">
+                <Link className="loc-link">Quick Bites</Link>
+                <span>,</span>
+                <Link className="loc-link">Sweet Shop</Link>
+                <span> - </span>
+                <Link className="loc-link">North Indian</Link>
+                <span>,</span>
+                <Link className="loc-link">South Indian</Link>
+                <span>,</span>
+                <Link className="loc-link">Chinese</Link>
+                <span>,</span>
+                <Link className="loc-link">Mithai</Link>
+                <span>,</span>
+                <Link className="loc-link">Fast Food</Link>
+                <span>,</span>
+                <Link className="loc-link">Deserts</Link>
+              </div>
+              <Link className="loc-link">Sector 7 Gurgaon</Link>
             </section>
-            <section className="star-div">
-              <section className="star-sec">
-                <div className="ratings">
-                  <AssistantIcon
-                    className=" star-start"
-                    style={{ marginLeft: "10px" }}
-                  />
-                  <AssistantIcon />
-                  <AssistantIcon />
-                  <AssistantIcon />
-                  <AssistantIcon style={{ marginRight: "40px" }} />
-                </div>
+            <section className="time-div">
+              <section className="time-sec">
+                <span className="time-close">Closed</span>
+                <span className="time-open">Open at 8am</span>
                 <div>
-                  <p className="dine-rev">1 Dining Reviews</p>
-                </div>
-              </section>
-              <section className="star-sec">
-                <div className="ratings">
-                  <AssistantIcon
-                    style={{ marginLeft: "18px", color: " rgb(237, 90, 107)" }}
-                  />
-                  <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
-                  <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
-                  <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
-                  <AssistantIcon
-                    style={{
-                      marginRight: "120px",
-                      color: " rgb(237, 90, 107)",
-                    }}
-                  />
-                </div>
-                <div>
-                  <p className="dine-rev">63 Delivery Reviews</p>
+                  {["right"].map((placement) => (
+                    <OverlayTrigger
+                      trigger="hover"
+                      key={placement}
+                      placement={placement}
+                      className="p-2 bd-highlight m-2"
+                      overlay={
+                        <Popover>
+                          <Popover.Content>
+                            <p>MON-SUN: 8am-10:30pm</p>
+                          </Popover.Content>
+                        </Popover>
+                      }
+                    >
+                      <div variant="secondary">
+                        <HelpOutlineIcon className="info-icon" />
+                      </div>
+                    </OverlayTrigger>
+                  ))}
                 </div>
               </section>
             </section>
           </section>
-          <div className="blog-div">
-            <section className="blog-sec">
-              <button className="rev-btn">
-                <span className="add-rev">
-                  <StarBorderIcon />
-                  <span className="rev-text">Add Review</span>
-                </span>
-              </button>
-              <div className="btn">
-                <span className="add">
-                  <DirectionsIcon />
-                  <span style={{ color: "rgb(28, 28, 28)" }}>Direction</span>
-                </span>
+          <section className="star-div">
+            <section className="star-sec">
+              <div className="ratings">
+                <AssistantIcon
+                  className=" star-start"
+                  style={{ marginLeft: "10px" }}
+                />
+                <AssistantIcon />
+                <AssistantIcon />
+                <AssistantIcon />
+                <AssistantIcon style={{ marginRight: "40px" }} />
               </div>
-              <div className="btn">
-                <span className="add">
-                  <BookmarkBorderIcon />
-                  <span style={{ color: "rgb(28, 28, 28)" }}>Bookmark</span>
-                </span>
-              </div>
-              <div className="btn">
-                <span className="add">
-                  <ShareIcon />
-                  <span style={{ color: "rgb(28, 28, 28)" }}>Share</span>
-                </span>
+              <div>
+                <p className="dine-rev">1 Dining Reviews</p>
               </div>
             </section>
-          </div>
+            <section className="star-sec">
+              <div className="ratings">
+                <AssistantIcon
+                  style={{ marginLeft: "18px", color: " rgb(237, 90, 107)" }}
+                />
+                <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
+                <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
+                <AssistantIcon style={{ color: " rgb(237, 90, 107)" }} />
+                <AssistantIcon
+                  style={{
+                    marginRight: "120px",
+                    color: " rgb(237, 90, 107)",
+                  }}
+                />
+              </div>
+              <div>
+                <p className="dine-rev">63 Delivery Reviews</p>
+              </div>
+            </section>
+          </section>
         </section>
-      </Wrapper>
-    </>
+        <div className="blog-div">
+          <section className="blog-sec">
+            <button className="rev-btn">
+              <span className="add-rev">
+                <StarBorderIcon />
+                <span className="rev-text">Add Review</span>
+              </span>
+            </button>
+            <div className="btn">
+              <span className="add">
+                <DirectionsIcon />
+                <span style={{ color: "rgb(28, 28, 28)" }}>Direction</span>
+              </span>
+            </div>
+            <div className="btn">
+              <span className="add">
+                <BookmarkBorderIcon />
+                <span style={{ color: "rgb(28, 28, 28)" }}>Bookmark</span>
+              </span>
+            </div>
+            <div className="btn">
+              <span className="add">
+                <ShareIcon />
+                <span style={{ color: "rgb(28, 28, 28)" }}>Share</span>
+              </span>
+            </div>
+          </section>
+        </div>
+      </section>
+    </Wrapper>
   );
 }
 

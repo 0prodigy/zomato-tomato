@@ -28,7 +28,7 @@ const getCityId = async (req, res) => {
                 parseInt(req.body["lat"]),
               ],
             },
-            $maxDistance: 5000,
+            $maxDistance: 500000,
           },
         },
       });
@@ -36,12 +36,14 @@ const getCityId = async (req, res) => {
         return res.json({
           err: false,
           message: "Success",
+          title: city.city_name.split(" ").join("-"),
           city_id: city.city_id,
         });
       } else {
         return res.json({
-          err: false,
-          message: "Success",
+          err: true,
+          message: "Failed to get the city id",
+          title: "Kolkata",
           city_id: 2,
         });
       }
