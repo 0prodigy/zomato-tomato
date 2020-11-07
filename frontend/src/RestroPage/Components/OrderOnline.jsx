@@ -320,7 +320,7 @@ function OrderOnline(props) {
                     </div>
                     {data &&
                       data.menu?.map((dish, i) => (
-                        <div className="mb-3">
+                        <div className="mb-3" key={i}>
                           <div className="d-flex">
                             <div className="mr-3">
                               <img
@@ -338,18 +338,20 @@ function OrderOnline(props) {
                               <div>
                                 <h5>{dish.dish}</h5>
                                 <div className="d-flex">
-                                  {dish.ratings}
-                                  {new Array(Math.floor(parseInt(dish.ratings))).map(
-                                    (_, i) => (
-                                      <AssistantIcon
-                                        style={{ color: "rgb(255,216,0)" }}
-                                        key={i}
-                                      />
-                                    )
-                                  )}
-                                  <AssistantIcon
+                                  {new Array(Math.floor(parseInt(dish.ratings)))
+                                    .fill(0)
+                                    .map(
+                                      (_, i) =>
+                                        i < 5 && (
+                                          <AssistantIcon
+                                            style={{ color: "rgb(255,216,0)" }}
+                                            key={i}
+                                          />
+                                        )
+                                    )}
+                                  {/* <AssistantIcon
                                     style={{ color: "rgb(255,216,0)" }}
-                                  />{" "}
+                                  />{" "} */}
                                   <p>{dish && dish.votes} Votes</p>
                                 </div>
                                 <p>₹{dish && dish.cost}</p>

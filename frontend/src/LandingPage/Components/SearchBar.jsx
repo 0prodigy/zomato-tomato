@@ -26,6 +26,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -329,15 +330,31 @@ function SearchBar(props) {
                             <div style={{ fontWeight: "200" }}>
                               {item.location.locality_verbose}
                             </div>
-                            <div
+                            <Link
+                              to={{
+                                pathname: `/restaurants/${item.name
+                                  .toLowerCase()
+                                  .split(" ")
+                                  .join("-")}`,
+                                state: {
+                                  res_id: `${item.id}`,
+                                },
+                              }}
                               style={{
-                                color: "rgb(237, 90, 107)",
-                                fontWeight: "300",
+                                textDecoration: "none",
+                                display: "flex",
                               }}
                             >
-                              Order Now
-                              <ArrowRightIcon />
-                            </div>
+                              <div
+                                style={{
+                                  color: "rgb(237, 90, 107)",
+                                  fontWeight: "300",
+                                }}
+                              >
+                                Order Now
+                                <ArrowRightIcon />
+                              </div>
+                            </Link>
                           </Box>
                         </Box>
                       );

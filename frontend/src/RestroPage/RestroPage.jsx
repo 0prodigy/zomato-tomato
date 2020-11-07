@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemImage from "./Components/ItemImage";
 import ItemName from "./Components/ItemName";
@@ -8,6 +8,9 @@ import RestroNavbar from "./Components/RestroNavbar";
 import Review from "./Components/Review";
 import Menu from "./Components/Menu";
 import Photos from "./Components/Photos";
+import { useLocation } from "react-router-dom";
+import { getRestaurant } from "./Redux/action";
+import { useDispatch, useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   * {
@@ -92,13 +95,15 @@ const Wrapper = styled.div`
   }
 `;
 
-function RestroPage(props) {
+function RestroPage() {
   const [overviewPage, setOverviewPage] = useState(true);
   const [orderOnlinePage, setOrderOnlinePage] = useState(false);
   const [reviewPage, setReviewPage] = useState(false);
   const [menuPage, setMenuPage] = useState(false);
   const [photosPage, setPhotosPage] = useState(false);
-  const data = props.data[0];
+  const { restaurant: data } = useSelector((state) => state.resturantReducer);
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const changeActivePage = (e) => {
     switch (e.target.name) {
@@ -138,91 +143,98 @@ function RestroPage(props) {
         setPhotosPage(false);
     }
   };
+  useEffect(() => {
+    dispatch(getRestaurant(location.state.res_id));
+  }, []);
 
   return (
     <div>
-      <RestroNavbar />
-      <ItemImage data={data} />
-      <div style={{ position: "sticky", top: "0px", zIndex: "9" }}>
-        <ItemName data={data} />
-      </div>
-
-      <Wrapper style={{ position: "sticky", top: "180px", zIndex: "10" }}>
-        <article className="main-div container">
-          <div className="sec-div">
-            <section className="heading-section">
-              <section className="main-section">
-                <div className="single-div">
-                  <span className="text-span">
-                    <button
-                      className={overviewPage ? "text-active" : "text"}
-                      onClick={changeActivePage}
-                      name="overview"
-                    >
-                      Overview
-                    </button>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <button
-                      className={orderOnlinePage ? "text-active" : "text"}
-                      onClick={changeActivePage}
-                      name="order"
-                    >
-                      Order Online
-                    </button>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <button
-                      className={reviewPage ? "text-active" : "text"}
-                      onClick={changeActivePage}
-                      name="reviews"
-                    >
-                      Reviews
-                    </button>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <button
-                      className={menuPage ? "text-active" : "text"}
-                      onClick={changeActivePage}
-                      name="menu"
-                    >
-                      Menu
-                    </button>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <button
-                      className={photosPage ? "text-active" : "text"}
-                      onClick={changeActivePage}
-                      name="photos"
-                    >
-                      Photos
-                    </button>
-                  </span>
-                </div>
-              </section>
-              <hr />
-            </section>
+      {data && (
+        <>
+          <RestroNavbar />
+          <ItemImage data={data} />
+          <div style={{ position: "sticky", top: "0px", zIndex: "9" }}>
+            <ItemName data={data} />
           </div>
-        </article>
-      </Wrapper>
-      {overviewPage ? (
-        <Overview data={data} />
-      ) : orderOnlinePage ? (
-        <OrderOnline data={data} />
-      ) : reviewPage ? (
-        <Review />
-      ) : menuPage ? (
-        <Menu />
-      ) : (
-        <Photos />
+
+          <Wrapper style={{ position: "sticky", top: "180px", zIndex: "10" }}>
+            <article className="main-div container">
+              <div className="sec-div">
+                <section className="heading-section">
+                  <section className="main-section">
+                    <div className="single-div">
+                      <span className="text-span">
+                        <button
+                          className={overviewPage ? "text-active" : "text"}
+                          onClick={changeActivePage}
+                          name="overview"
+                        >
+                          Overview
+                        </button>
+                      </span>
+                    </div>
+                    <div className="single-div">
+                      <span className="text-span">
+                        <button
+                          className={orderOnlinePage ? "text-active" : "text"}
+                          onClick={changeActivePage}
+                          name="order"
+                        >
+                          Order Online
+                        </button>
+                      </span>
+                    </div>
+                    <div className="single-div">
+                      <span className="text-span">
+                        <button
+                          className={reviewPage ? "text-active" : "text"}
+                          onClick={changeActivePage}
+                          name="reviews"
+                        >
+                          Reviews
+                        </button>
+                      </span>
+                    </div>
+                    <div className="single-div">
+                      <span className="text-span">
+                        <button
+                          className={menuPage ? "text-active" : "text"}
+                          onClick={changeActivePage}
+                          name="menu"
+                        >
+                          Menu
+                        </button>
+                      </span>
+                    </div>
+                    <div className="single-div">
+                      <span className="text-span">
+                        <button
+                          className={photosPage ? "text-active" : "text"}
+                          onClick={changeActivePage}
+                          name="photos"
+                        >
+                          Photos
+                        </button>
+                      </span>
+                    </div>
+                  </section>
+                  <hr />
+                </section>
+              </div>
+            </article>
+          </Wrapper>
+          {overviewPage ? (
+            <Overview data={data} />
+          ) : orderOnlinePage ? (
+            <OrderOnline data={data} />
+          ) : reviewPage ? (
+            <Review />
+          ) : menuPage ? (
+            <Menu />
+          ) : (
+            <Photos />
+          )}
+        </>
       )}
     </div>
   );

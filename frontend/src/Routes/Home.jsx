@@ -190,12 +190,8 @@ function Home(props) {
       />
       <Route exact path="/:city">
         <LandingPage />
-<<<<<<< HEAD
-=======
-        {/* <RestroPage data={data} /> */}
->>>>>>> a0d928e5bf6c2ea1326ea8311394a9093a007406
       </Route>
-      <Route path="/restaurant/:restaurant" render={() => <RestroPage />} />
+      <Route path="/restaurants/:restaurant" render={() => <RestroPage />} />
     </div>
   );
 }
