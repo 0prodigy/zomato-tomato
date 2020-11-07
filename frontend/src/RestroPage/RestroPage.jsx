@@ -92,12 +92,13 @@ const Wrapper = styled.div`
   }
 `;
 
-function RestroPage() {
+function RestroPage(props) {
   const [overviewPage, setOverviewPage] = useState(true);
   const [orderOnlinePage, setOrderOnlinePage] = useState(false);
   const [reviewPage, setReviewPage] = useState(false);
   const [menuPage, setMenuPage] = useState(false);
   const [photosPage, setPhotosPage] = useState(false);
+  const data = props.data[0];
 
   const changeActivePage = (e) => {
     switch (e.target.name) {
@@ -141,9 +142,9 @@ function RestroPage() {
   return (
     <div>
       <RestroNavbar />
-      <ItemImage />
+      <ItemImage data={data} />
       <div style={{ position: "sticky", top: "0px", zIndex: "9" }}>
-        <ItemName />
+        <ItemName data={data} />
       </div>
 
       <Wrapper style={{ position: "sticky", top: "180px", zIndex: "10" }}>
@@ -213,9 +214,9 @@ function RestroPage() {
         </article>
       </Wrapper>
       {overviewPage ? (
-        <Overview />
+        <Overview data={data} />
       ) : orderOnlinePage ? (
-        <OrderOnline />
+        <OrderOnline data={data} />
       ) : reviewPage ? (
         <Review />
       ) : menuPage ? (
