@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import ItemImage from "./Components/ItemImage";
 import ItemName from "./Components/ItemName";
 import OrderOnline from "./Components/OrderOnline";

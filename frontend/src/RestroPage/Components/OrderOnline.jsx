@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   }
   .side-div-left {
     position: sticky;
-    top: 90px;
+    top: calc(190px + 90px);
     width: 16rem;
     height: 100%;
     flex-shrink: 0;
