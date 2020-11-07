@@ -6,6 +6,7 @@ import {
   getUserLocation,
   getCityId,
   setSearchCityRedux,
+  queryRestaurant,
 } from "../Redux/action";
 import throttle from "lodash/throttle";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -22,6 +23,7 @@ import MyLocationIcon from "@material-ui/icons/MyLocation";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SearchIcon from "@material-ui/icons/Search";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
 
@@ -91,7 +93,25 @@ const useStyles = makeStyles((theme) => ({
     padding: " 5px 8px",
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: "#dedede",
+      backgroundColor: "#f2f2f2",
+    },
+  },
+  searchRestaurantCardDiv: {
+    position: "absolute",
+    zIndex: "2",
+    top: 60,
+    right: 0,
+  },
+  searchRestaurantCard: {
+    width: 500,
+    minHeight: 140,
+    maxHeight: 400,
+    overflow: "auto",
+    display: "flex",
+    flexDirection: "column",
+    "& >div:hover": {
+      cursor: "pointer",
+      backgroundColor: "#f2f2f2",
     },
   },
 }));
@@ -104,13 +124,18 @@ function SearchBar(props) {
     isLoading,
     getCityId,
     searchCityRedux,
-    userCoordinates,
     setSearchCityRedux,
     cityId,
+    queryRestaurant,
+    restaurantSearchResults,
   } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const [restaurantSearchExpanded, setRestaurantSearchExpanded] = useState(
+    false
+  );
   const [searchCity, setSearchCity] = useState(searchCityRedux);
+  const [searchRestaurant, setSearchRestaurant] = useState("");
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -118,6 +143,11 @@ function SearchBar(props) {
 
   const throttleCitySearch = useRef(throttle((value) => queryCity(value), 2000))
     .current;
+
+  const throttleRestaurantSearch = useRef(
+    throttle((query, cityId) => queryRestaurant(query, cityId)),
+    1000
+  ).current;
 
   const handleSearchCity = (e) => {
     setSearchCity(e.target.value);
@@ -127,6 +157,17 @@ function SearchBar(props) {
       setExpanded(false);
     }
     throttleCitySearch(e.target.value);
+  };
+
+  const handleRestaurantSearch = (e) => {
+    setSearchRestaurant(e.target.value);
+    console.log("The restaurant value is", e.target.value);
+    if (e.target.value !== "") {
+      setRestaurantSearchExpanded(true);
+    } else {
+      setRestaurantSearchExpanded(false);
+    }
+    throttleRestaurantSearch(e.target.value, cityId);
   };
 
   const selectCity = (e, coordinates) => {
@@ -160,7 +201,12 @@ function SearchBar(props) {
 
   return (
     <div>
-      <ClickAwayListener onClickAway={() => setExpanded(false)}>
+      <ClickAwayListener
+        onClickAway={() => {
+          setExpanded(false);
+          setRestaurantSearchExpanded(false);
+        }}
+      >
         <Paper className={classes.root}>
           <div className={classes.container}>
             <Box className={classes.cityDropdown}>
@@ -185,6 +231,8 @@ function SearchBar(props) {
             <Divider orientation="vertical" />
             <Box className={classes.cityRestaurants}>
               <input
+                value={searchRestaurant}
+                onChange={handleRestaurantSearch}
                 type="text"
                 placeholder="Search for restaurant, cuisine or a dish"
               />
@@ -238,6 +286,66 @@ function SearchBar(props) {
                 </Card>
               </Collapse>
             </div>
+
+            {/* For Restaurant, dishes, cuisines searches */}
+            <div className={classes.searchRestaurantCardDiv}>
+              <Collapse in={restaurantSearchExpanded}>
+                <Card className={classes.searchRestaurantCard} elevation={5}>
+                  {isLoading ? (
+                    <>
+                      <Box display="flex">
+                        <Box m={2}>
+                          <Skeleton variant="rect" width={70} height={70} />
+                        </Box>
+                        <Box style={{ margin: "16px 0px" }}>
+                          <Skeleton variant="rect" width={260} height={90} />
+                        </Box>
+                      </Box>
+                      <Box display="flex">
+                        <Box m={2}>
+                          <Skeleton variant="rect" width={70} height={70} />
+                        </Box>
+                        <Box style={{ margin: "16px 0px" }}>
+                          <Skeleton variant="rect" width={260} height={90} />
+                        </Box>
+                      </Box>
+                    </>
+                  ) : (
+                    restaurantSearchResults &&
+                    restaurantSearchResults.map((item) => {
+                      return (
+                        <Box display="flex" key={item.id}>
+                          {/* Thumb image */}
+                          <Box m={2}>
+                            <img
+                              src={item.thumb}
+                              alt="Restaurant Thumbnail"
+                              style={{ height: "70px", borderRadius: "6px" }}
+                            />
+                          </Box>
+
+                          <Box style={{ marginTop: "16px" }}>
+                            <div>{item.name}</div>
+                            <div style={{ fontWeight: "200" }}>
+                              {item.location.locality_verbose}
+                            </div>
+                            <div
+                              style={{
+                                color: "rgb(237, 90, 107)",
+                                fontWeight: "300",
+                              }}
+                            >
+                              Order Now
+                              <ArrowRightIcon />
+                            </div>
+                          </Box>
+                        </Box>
+                      );
+                    })
+                  )}
+                </Card>
+              </Collapse>
+            </div>
           </div>
         </Paper>
       </ClickAwayListener>
@@ -247,9 +355,9 @@ function SearchBar(props) {
 
 const mapStateToProps = (state) => ({
   locationSearchResults: state.landingPageReducer.locationSearchResults,
+  restaurantSearchResults: state.landingPageReducer.restaurantSearchResults,
   isLoading: state.landingPageReducer.isLoading,
   searchCityRedux: state.landingPageReducer.searchCity,
-  userCoordinates: state.landingPageReducer.userCoordinates,
   cityId: state.landingPageReducer.cityId,
 });
 
@@ -257,6 +365,7 @@ const mapDispatchToProps = (dispatch) => ({
   setSearchCityRedux: (cityName, coordinates) =>
     dispatch(setSearchCityRedux(cityName, coordinates)),
   queryCity: (value) => dispatch(queryCity(value)),
+  queryRestaurant: (query, cityId) => dispatch(queryRestaurant(query, cityId)),
   getUserLocation: (long, lat) => dispatch(getUserLocation(long, lat)),
   getCityId: (payload) => dispatch(getCityId(payload)),
 });

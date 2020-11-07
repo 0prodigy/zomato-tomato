@@ -1,5 +1,6 @@
 import * as constants from "./actionTypes";
 import axios from "axios";
+import { constant } from "lodash";
 
 export const queryCityRequest = () => {
   return {
@@ -23,6 +24,31 @@ export const queryCityFailure = (payload) => {
     isLoading: false,
     error: true,
     message: payload,
+  };
+};
+
+export const queryRestaurantRequest = () => {
+  return {
+    type: constants.QUERY_RESTAURANT_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const queryRestaurantSuccess = (payload) => {
+  return {
+    type: constants.QUERY_RESTAURANT_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const queryRestaurantFailure = (error) => {
+  return {
+    type: constants.QUERY_RESTAURANT_FAILURE,
+    isLoading: false,
+    error: true,
+    message: error,
   };
 };
 
@@ -258,6 +284,24 @@ export const queryCity = (city) => {
         return dispatch(queryCitySucceess(response.data.features));
       })
       .catch((error) => dispatch(queryCityFailure(error.data)));
+  };
+};
+
+export const queryRestaurant = (query, cityId) => {
+  return (dispatch) => {
+    dispatch(queryRestaurantRequest());
+    return axios({
+      method: "get",
+      url: ` http://localhost:5000/api/search/restaurant`,
+      params: {
+        q: query,
+        city_id: cityId,
+      },
+    })
+      .then((response) => {
+        dispatch(queryRestaurantSuccess(response.data.result));
+      })
+      .catch((error) => dispatch(queryRestaurantFailure(error.response)));
   };
 };
 

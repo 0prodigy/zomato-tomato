@@ -3,6 +3,7 @@ import * as constants from "./actionTypes";
 const initialState = {
   searchCity: "",
   locationSearchResults: [],
+  restaurantSearchResults: [],
   cityCollections: [],
   error: false,
   errorMessage: "",
@@ -32,6 +33,28 @@ const landingPageReducer = (state = initialState, action) => {
       };
 
     case constants.QUERY_CITY_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: action.isLoading,
+        errorMessage: action.message,
+      };
+
+    case constants.QUERY_RESTAURANT_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.QUERY_RESTAURANT_SUCCESS:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        restaurantSearchResults: action.payload,
+      };
+
+    case constants.QUERY_RESTAURANT_FAILURE:
       return {
         ...state,
         error: action.error,

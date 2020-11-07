@@ -30,9 +30,9 @@ function Home(props) {
         }
       />
       <Route exact path="/:city">
-        {/* <LandingPage /> */}
-        <RestroPage />
+        <LandingPage />
       </Route>
+      <Route path="/restaurant/:restaurant" render={() => <RestroPage />} />
     </div>
   );
 }

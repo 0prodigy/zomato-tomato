@@ -28,7 +28,7 @@ const getCityId = async (req, res) => {
                 parseInt(req.body["lat"]),
               ],
             },
-            $maxDistance: 500000,
+            $maxDistance: 5000000,
           },
         },
       });
