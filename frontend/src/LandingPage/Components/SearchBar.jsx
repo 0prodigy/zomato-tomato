@@ -134,7 +134,6 @@ function SearchBar(props) {
       long: coordinates[0],
       lat: coordinates[1],
     };
-    setSearchCity(e.target.textContent);
     setSearchCityRedux(e.target.textContent, coordinates);
     getCityId(payload);
     setExpanded(false);

@@ -198,12 +198,13 @@ export const getCityIdRequest = () => {
   };
 };
 
-export const getCityIdSuccess = (cityId) => {
+export const getCityIdSuccess = (cityId, title) => {
   return {
     type: constants.GET_CITY_ID_SUCCESS,
     isLoading: false,
     error: false,
     cityId: cityId,
+    searchCity: title,
   };
 };
 
@@ -213,6 +214,31 @@ export const getCityIdFailure = (errorPayload) => {
     isLoading: false,
     error: true,
     message: errorPayload,
+  };
+};
+
+export const getCityCollectionRequest = () => {
+  return {
+    type: constants.GET_CITY_COLLECTION_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityCollectionSuccess = (payload) => {
+  return {
+    type: constants.GET_CITY_COLLECTION_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const getCityCollectionFailure = (error) => {
+  return {
+    type: constants.GET_CITY_COLLECTION_FAILURE,
+    isLoading: false,
+    error: true,
+    message: error,
   };
 };
 
@@ -374,8 +400,27 @@ export const getCityId = (payload) => {
       },
     })
       .then((response) => {
-        return dispatch(getCityIdSuccess(response.data.city_id));
+        return dispatch(
+          getCityIdSuccess(response.data.city_id, response.data.title)
+        );
       })
       .catch((error) => dispatch(getCityIdFailure(error.response)));
+  };
+};
+
+export const getCityCollection = (cityId) => {
+  return (dispatch) => {
+    dispatch(getCityCollectionRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/collection",
+      data: { city_id: cityId },
+    })
+      .then((response) => {
+        return dispatch(getCityCollectionSuccess(response.data));
+      })
+      .catch((error) => {
+        return dispatch(getCityCollectionFailure(error.response));
+      });
   };
 };

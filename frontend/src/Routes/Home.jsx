@@ -2,18 +2,22 @@ import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import LandingPage from "../LandingPage/LandingPage";
-import { getCityId } from "../LandingPage/Redux/action";
+import { getCityId, getCityCollection } from "../LandingPage/Redux/action";
 import RestroPage from "../RestroPage/RestroPage";
 
 function Home(props) {
-  const { getCityId, searchCity } = props;
-  useEffect(() => {
+  const { getCityId, searchCity, getCityCollection } = props;
+  const initialData = async () => {
     let initialPayload = {
       long: 88.363895,
       lat: 22.572646,
     };
-    getCityId(initialPayload);
-  }, [getCityId]);
+    let result = await getCityId(initialPayload);
+    getCityCollection(result.cityId);
+  };
+  useEffect(() => {
+    initialData();
+  }, []);
   return (
     <div>
       <Route
@@ -26,9 +30,9 @@ function Home(props) {
         }
       />
       <Route exact path="/:city">
-        <LandingPage />
+        {/* <LandingPage /> */}
+        <RestroPage />
       </Route>
-      {/* <RestroPage /> */}
     </div>
   );
 }
@@ -39,6 +43,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCityId: (payload) => dispatch(getCityId(payload)),
+  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

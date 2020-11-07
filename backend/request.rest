@@ -253,12 +253,12 @@ POST http://localhost:5000/api/search/cityId
 Content-Type: application/json
 
 {
-  "long":79.8083,
-  "lat":11.9416
+  "long":85.1376,
+  "lat":25.5941
 }
 
 ###
-GET http://localhost:5000/api/search/collection
+POST  http://localhost:5000/api/search/collection
 Content-Type: application/json
 
 {
