@@ -1,7 +1,12 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { queryCity, getUserLocation } from "../Redux/action";
+import {
+  queryCity,
+  getUserLocation,
+  getCityId,
+  setSearchCityRedux,
+} from "../Redux/action";
 import throttle from "lodash/throttle";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {
@@ -92,15 +97,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchBar(props) {
-  const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
-  const [searchCity, setSearchCity] = useState("");
   const {
     locationSearchResults,
     queryCity,
     getUserLocation,
     isLoading,
+    getCityId,
+    searchCityRedux,
+    userCoordinates,
+    setSearchCityRedux,
+    cityId,
   } = props;
+  const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+  const [searchCity, setSearchCity] = useState(searchCityRedux);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -119,8 +129,15 @@ function SearchBar(props) {
     throttleCitySearch(e.target.value);
   };
 
-  const selectCity = (e) => {
+  const selectCity = (e, coordinates) => {
+    let payload = {
+      long: coordinates[0],
+      lat: coordinates[1],
+    };
     setSearchCity(e.target.textContent);
+    setSearchCityRedux(e.target.textContent, coordinates);
+    getCityId(payload);
+    setExpanded(false);
   };
 
   const getUserCoordinates = () => {
@@ -210,7 +227,9 @@ function SearchBar(props) {
                           style={{
                             textTransform: "none",
                           }}
-                          onClick={selectCity}
+                          onClick={(e) =>
+                            selectCity(e, location.geometry.coordinates)
+                          }
                         >
                           {location.place_name}
                         </Box>
@@ -228,13 +247,19 @@ function SearchBar(props) {
 }
 
 const mapStateToProps = (state) => ({
-  locationSearchResults: state.reducer.locationSearchResults,
-  isLoading: state.reducer.isLoading,
+  locationSearchResults: state.landingPageReducer.locationSearchResults,
+  isLoading: state.landingPageReducer.isLoading,
+  searchCityRedux: state.landingPageReducer.searchCity,
+  userCoordinates: state.landingPageReducer.userCoordinates,
+  cityId: state.landingPageReducer.cityId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setSearchCityRedux: (cityName, coordinates) =>
+    dispatch(setSearchCityRedux(cityName, coordinates)),
   queryCity: (value) => dispatch(queryCity(value)),
   getUserLocation: (long, lat) => dispatch(getUserLocation(long, lat)),
+  getCityId: (payload) => dispatch(getCityId(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

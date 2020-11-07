@@ -1,20 +1,22 @@
 import * as constants from "./actionTypes";
 
 const initialState = {
-  searchCity: "",
+  searchCity: "Kolkata",
   locationSearchResults: [],
   error: false,
   errorMessage: "",
   isLoading: false,
   userCoordinates: {},
   currentRegisteredEmail: "",
-  activeUserDetails: localStorage.getItem("activeUser") || {},
+  activeUserDetails: JSON.parse(localStorage.getItem("activeUser")) || {
+    active: false,
+  },
+  cityId: "",
 };
 
-const reducer = (state = initialState, action) => {
+const landingPageReducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.QUERY_CITY_REQUEST:
-      console.log("User registration request", action);
       return {
         ...state,
         isLoading: action.isLoading,
@@ -153,9 +155,69 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.message,
       };
 
+    case constants.USER_LOGIN_GOOGLE_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.USER_LOGIN_GOOGLE_SUCCESS:
+      let googlePayload = {
+        name: action.payload.user.name,
+        email: action.payload.user.email,
+        _id: action.payload.user._id,
+        image: action.payload.user.image,
+        id: action.payload.user.id,
+      };
+      localStorage.setItem("activeUser", JSON.stringify(googlePayload));
+
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        activeUserDetails: googlePayload,
+      };
+
+    case constants.USER_LOGIN_GOOGLE_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        errorMessage: action.message,
+      };
+
+    case constants.SET_SEARCH_CITY:
+      return {
+        ...state,
+        searchCity: action.searchCity,
+        userCoordinates: action.userCoordinates,
+      };
+
+    case constants.GET_CITY_ID_REQUEST:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+
+    case constants.GET_CITY_ID_SUCCESS:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        cityId: action.cityId,
+      };
+
+    case constants.GET_CITY_ID_FAILURE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        error: action.error,
+        errorMessage: action.message,
+      };
+
     default:
       return state;
   }
 };
 
-export { reducer };
+export { landingPageReducer };

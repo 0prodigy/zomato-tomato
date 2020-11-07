@@ -155,10 +155,70 @@ export const userLoginVerifyFailure = (payload) => {
   };
 };
 
+export const userLoginGoogleRequest = () => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const userLoginGoogleSuccess = (payload) => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const userLoginGoogleFailure = (payload) => {
+  return {
+    type: constants.USER_LOGIN_GOOGLE_FAILURE,
+    isLoading: false,
+    error: true,
+    message: payload,
+  };
+};
+
+export const setSearchCity = (cityName, coordinates) => {
+  return {
+    type: constants.SET_SEARCH_CITY,
+    searchCity: cityName,
+    userCoordinates: {
+      longitude: coordinates[0],
+      latitude: coordinates[1],
+    },
+  };
+};
+
+export const getCityIdRequest = () => {
+  return {
+    type: constants.GET_CITY_ID_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityIdSuccess = (cityId) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: false,
+    cityId: cityId,
+  };
+};
+
+export const getCityIdFailure = (errorPayload) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: true,
+    message: errorPayload,
+  };
+};
+
 export const queryCity = (city) => {
   return (dispatch) => {
     dispatch(queryCityRequest());
-    console.log("The city to be searched is", city);
     return axios({
       method: "get",
       url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json`,
@@ -274,5 +334,48 @@ export const userLoginVerify = (payload) => {
       .catch((error) => {
         return dispatch(userLoginVerifyFailure(error.response.data));
       });
+  };
+};
+
+export const userLoginGoogle = (email) => {
+  return (dispatch) => {
+    dispatch(userLoginGoogleRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/auth/googleLogin",
+      data: { email: email },
+    })
+      .then((response) => {
+        console.log("The user login google success response is", response.data);
+        return dispatch(userLoginGoogleSuccess(response.data));
+      })
+      .catch((error) => {
+        console.log("the user login google failure error is", error);
+        return dispatch(userLoginGoogleFailure(error.response));
+      });
+  };
+};
+
+export const setSearchCityRedux = (cityName, coordinates) => {
+  return (dispatch) => {
+    return dispatch(setSearchCity(cityName, coordinates));
+  };
+};
+
+export const getCityId = (payload) => {
+  return (dispatch) => {
+    dispatch(getCityIdRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/cityId",
+      data: payload,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        return dispatch(getCityIdSuccess(response.data.city_id));
+      })
+      .catch((error) => dispatch(getCityIdFailure(error.response)));
   };
 };
