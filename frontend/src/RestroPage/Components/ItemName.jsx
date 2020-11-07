@@ -230,37 +230,40 @@ const Wrapper = styled.div`
   }
 `;
 
-function ItemName() {
+function ItemName(props) {
+  const { data } = props;
   return (
     <Wrapper>
       <section className="container main-div">
         <section className="item-div">
           <section className="name-div">
-            <h1 className="item-name">Om Sweets & Snacks</h1>
+            <h1 className="item-name">{data && data.name}</h1>
             <section className="loc-div">
               <div className="loc-sec">
-                <Link className="loc-link">Quick Bites</Link>
-                <span>,</span>
-                <Link className="loc-link">Sweet Shop</Link>
-                <span> - </span>
-                <Link className="loc-link">North Indian</Link>
-                <span>,</span>
-                <Link className="loc-link">South Indian</Link>
-                <span>,</span>
-                <Link className="loc-link">Chinese</Link>
-                <span>,</span>
-                <Link className="loc-link">Mithai</Link>
-                <span>,</span>
-                <Link className="loc-link">Fast Food</Link>
-                <span>,</span>
-                <Link className="loc-link">Deserts</Link>
+                {data.cuisines &&
+                  data.cuisines
+                    .trim()
+                    .split(",")
+                    .map((cuisine) => (
+                      <Link className="loc-link" key={cuisine}>
+                        {cuisine} ,{" "}
+                      </Link>
+                    ))}
+                {/* <Link className="loc-link">Quick Bites</Link>
+                <span>,</span> */}
               </div>
-              <Link className="loc-link">Sector 7 Gurgaon</Link>
+              <Link className="loc-link">
+                {data.location && data.location.address}
+              </Link>
             </section>
             <section className="time-div">
               <section className="time-sec">
-                <span className="time-close">Closed</span>
-                <span className="time-open">Open at 8am</span>
+                <span className="time-close">
+                  {data && data.is_delivering_now ? "Open" : "Closed"}
+                </span>
+                <span className="time-open">
+                  Open at {data && data.timings}
+                </span>
                 <div>
                   {["right"].map((placement) => (
                     <OverlayTrigger
@@ -271,7 +274,7 @@ function ItemName() {
                       overlay={
                         <Popover>
                           <Popover.Content>
-                            <p>MON-SUN: 8am-10:30pm</p>
+                            <p>{data && data.timings}</p>
                           </Popover.Content>
                         </Popover>
                       }
@@ -298,7 +301,9 @@ function ItemName() {
                 <AssistantIcon style={{ marginRight: "40px" }} />
               </div>
               <div>
-                <p className="dine-rev">1 Dining Reviews</p>
+                <p className="dine-rev">
+                  {data && data.all_reviews_count} Dining Reviews
+                </p>
               </div>
             </section>
             <section className="star-sec">
@@ -317,7 +322,9 @@ function ItemName() {
                 />
               </div>
               <div>
-                <p className="dine-rev">63 Delivery Reviews</p>
+                <p className="dine-rev">
+                  {data.user_rating && data.user_rating.votes} Delivery Reviews
+                </p>
               </div>
             </section>
           </section>

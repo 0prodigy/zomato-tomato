@@ -124,7 +124,7 @@ const getRestaurant = async (req, res) => {
         "location.city_id": parseInt(city_id),
         $text: {
           $search: q,
-          $diacriticSensitive: true,
+          $diacriticSensitive: false,
           $caseSensitive: false,
         },
       },

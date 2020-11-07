@@ -37,7 +37,8 @@ const Wrapper = styled.div`
   }
 `;
 
-function ItemImage() {
+function ItemImage(props) {
+  const { data } = props;
   return (
     <>
       <Wrapper>
@@ -49,43 +50,60 @@ function ItemImage() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item">
-                <Link to="/india" className="item">
-                  India
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="delhi-ncr" className="item">
-                  Delhi Ncr
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="/gurgaon" className="item">
-                  Gurgaon (Gurugram)
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="/sector-7" className="item">
-                  Sector 7
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="/om-sweet-snacks" className="item">
-                  Om Sweet & Snacks
-                </Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Om Sweet & Snacks
-              </li>
+              {data.location && (
+                <>
+                  <li className="breadcrumb-item">
+                    <Link
+                      to={`/${data.location.city
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}`}
+                      className="item"
+                    >
+                      {data.location.city}
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <Link
+                      to={`/${data.location.locality
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}`}
+                      className="item"
+                    >
+                      {data.location.locality}
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <Link
+                      to={`/${data.location.address
+                        .toLowerCase()
+                        .split(",")[0]
+                        .split(" ")
+                        .join("-")}`}
+                      className="item"
+                    >
+                      {data.location.address.split(",")[0]}
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <Link
+                      to={`/${data.name.toLowerCase().split(" ").join("-")}`}
+                      className="item"
+                    >
+                      {data && data.name}
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    {data && data.name}
+                  </li>
+                </>
+              )}
             </ol>
           </nav>
           <div className="row">
             <div className="col-6 m-1">
-              <img
-                src="https://b.zmtcdn.com/data/pictures/6/5056/b0a348b779e34e9e89fea7050b1c29d2.jpg?fit=around|1029:555&crop=1029:555;*,*"
-                alt="img1"
-                className="item-img1"
-              />
+              <img src={data && data.thumb} alt="img1" className="item-img1" />
             </div>
             <div className="col-2 ml-1">
               <div className="row m-1">

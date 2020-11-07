@@ -730,15 +730,16 @@ const Wrapper = styled.div`
 }
 `;
 
-function Overview() {
+function Overview(props) {
+  const { data } = props;
   return (
     <>
       <Wrapper>
         <div className="offer-div container">
           <span className="offer">GET 25% OFF</span>
           <p className="offer-desc">
-            Become a Zomato Pro member and enjoy 25% Off every time at Haldi -
-            Desi Rasoi Urban Tadka. Know more.
+            Become a Zomato Pro member and enjoy 25% Off every time at{" "}
+            {data && data.name}. Know more.
           </p>
           <Link className="offer-text">
             Know more <ArrowRightIcons />
@@ -811,40 +812,75 @@ function Overview() {
         <div className="container">
           <h4 className="font-weight mt-4">Cuisines</h4>
           <div className="d-flex mt-0">
-            <p className="cuisines">North Indian</p>
+            {data.cuisines &&
+              data.cuisines
+                .trim()
+                .split(",")
+                .map((cuisine) => (
+                  <p className="cuisines" key={cuisine}>
+                    {cuisine}
+                  </p>
+                ))}
 
+            {/* 
             <p className="cuisines">Rolls</p>
 
-            <p className="cuisines">Mughlai</p>
+            <p className="cuisines">Mughlai</p> */}
           </div>
         </div>
         <div className="container">
           <h5 className="dish-heading">Popular Dishes</h5>
           <p className="pop-dish">
-            Amritsari Koolcha, Crispy Jalebi, Malai Ghewar, Imarti, Matar
-            Kulcha, Raj Kachori
+            {data.menu &&
+              data.menu.map(
+                (dish, i) =>
+                  i < 5 && (
+                    <React.Fragment key={dish}> {dish.dish}</React.Fragment>
+                  )
+              )}
           </p>
           <h5 className="dish-heading">People Say This Place Is Known For</h5>
           <p className="pop-dish">
-            Drive through, Chirpy Crowd, Cozy Ambiance, Inexpensive, Family
-            Restaurant, Street Food
+            {data.cuisines &&
+              data.cuisines
+                .trim()
+                .split(",")
+                .map(
+                  (cuisine, i) =>
+                    i < 5 && (
+                      <React.Fragment key={cuisine}>{cuisine}</React.Fragment>
+                    )
+                )}
           </p>
         </div>
         <div className="container">
           <h5 className="avg-cost">Average Cost</h5>
-          <p className="cost">₹400 for two people (approx.)</p>
+          <p className="cost">
+            ₹{data && data.average_cost_for_two} for two people (approx.)
+          </p>
           <p className="desc">
             Exclusive of applicable taxes and charges, if any
           </p>
           <div className="calc-div">
             <p className="calc">How do we calculate cost for two?</p>
           </div>
-          <p className="payment">Cash and Cards accepted</p>
+          <p className="payment">Cash and Card accepted</p>
         </div>
         <div className="container">
           <h5 className="info">More Info</h5>
           <div className="info-div">
-            <div className="info-name">
+            {data &&
+              data.highlights?.map(
+                (item, i) =>
+                  i < 7 && (
+                    <div className="info-name" key={i}>
+                      <CheckCircleOutline className="info-icons" />
+                      <p className="info-text">{item}</p>
+                    </div>
+                  )
+              )}
+
+            {/* <div className="info-name">
               <CheckCircleOutline className="info-icons" />
               <p className="info-text">Breakfast</p>
             </div>
@@ -863,7 +899,7 @@ function Overview() {
             <div className="info-name">
               <CheckCircleOutline className="info-icons" />
               <p className="info-text">Vegetarian Only</p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="container">

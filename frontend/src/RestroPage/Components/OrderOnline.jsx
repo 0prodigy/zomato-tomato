@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   }
   .side-div-left {
     position: sticky;
-    top: 90px;
+    top: calc(190px + 90px);
     width: 16rem;
     height: 100%;
     flex-shrink: 0;
@@ -224,7 +224,8 @@ const Wrapper = styled.div`
   }
 `;
 
-function OrderOnline() {
+function OrderOnline(props) {
+  const { data } = props;
   return (
     <div>
       <>
@@ -251,7 +252,9 @@ function OrderOnline() {
                     <div>
                       <h4 className="order-online">Order Online</h4>
                       <p className="order-para">
-                        Currently closed for online ordering
+                        {data &&
+                          !data.is_delivering_now &&
+                          "Currently closed for online ordering"}
                       </p>
                     </div>
                     <div>SEARCH BAR</div>
@@ -315,6 +318,55 @@ function OrderOnline() {
                     <div>
                       <h4 style={{ fontWeight: "300" }}>Recommemded</h4>
                     </div>
+                    {data &&
+                      data.menu?.map((dish, i) => (
+                        <div className="mb-3">
+                          <div className="d-flex">
+                            <div className="mr-3">
+                              <img
+                                src={dish.image}
+                                alt={dish.dish}
+                                style={{
+                                  height: "129px",
+                                  width: "127px",
+                                  borderRadius: "10px",
+                                }}
+                              />
+                              <div className="mr-3"></div>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                              <div>
+                                <h5>{dish.dish}</h5>
+                                <div className="d-flex">
+                                  {dish.ratings}
+                                  {new Array(Math.floor(parseInt(dish.ratings))).map(
+                                    (_, i) => (
+                                      <AssistantIcon
+                                        style={{ color: "rgb(255,216,0)" }}
+                                        key={i}
+                                      />
+                                    )
+                                  )}
+                                  <AssistantIcon
+                                    style={{ color: "rgb(255,216,0)" }}
+                                  />{" "}
+                                  <p>{dish && dish.votes} Votes</p>
+                                </div>
+                                <p>₹{dish && dish.cost}</p>
+                              </div>
+                              <div>
+                                <button
+                                  type="button"
+                                  class="btn btn-light"
+                                  style={{ marginLeft: "400px" }}
+                                >
+                                  ADD +
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     <div className="mb-3">
                       <div className="d-flex">
                         <div className="mr-3">
@@ -522,7 +574,9 @@ function OrderOnline() {
           </div>
           <div className="container">
             <div className="loc-near">
-              <h6 className="loc-near-heading">RESTAURANTS AROUND JAIL ROAD</h6>
+              <h6 className="loc-near-heading">
+                RESTAURANTS AROUND {data.location && data.location.locality}
+              </h6>
               <div className="loc-near-names">
                 <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
                 <Link className="loc-near-link">Janakpuri Restaurants, </Link>

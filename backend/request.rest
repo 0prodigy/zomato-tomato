@@ -39,60 +39,67 @@ POST http://localhost:5000/api/city/add
 Content-Type: application/json
 
 {
-    "title": "Kolkata",
-      "location":{"type":"Point", "coordinates": [88.363895 ,22.572646]},
-      "city_id": 2,
-      "city_name": "Kolkata",
+   
+      "location":{"type":"Point", "coordinates": [77.5922673941 ,12.9165654437]},
+      "title": "Bangalore Central, JP Nagar, Bengaluru",
+      "city_id": 4,
+      "city_name": "Bengaluru",
       "collections":[
-          {
-      "collection": {
-        "collection_id": 1,
-        "image_url": "https://b.zmtcdn.com/data/collections/b53772a204429cb9b42313d6dc22bf3c_1556018415.jpg",
-        "title": "Trending This Week",
-        "description": "Most popular restaurants in town this week"
-      }
-    },
-    {
-      "collection": {
-        "collection_id": 99,
-        "image_url": "https://b.zmtcdn.com/data/collections/083468dbee9b51b10b7e6d8c9f091b4f_1554892925.jpg",
-        "title": "Live Sports Screenings",
-        "description": "Catch the best sporting action live!"
-      }
-    },
-    {
-      "collection": {
-        "collection_id": 29,
-        "image_url": "https://b.zmtcdn.com/data/collections/daf0f4765d084892ed0378eade2d106f_1595820022.jpg",
-        "title": "Newly Opened",
-        "description": "The best new places in town"
-      }
-    },
-    {
-      "collection": {
-        "collection_id": 306693,
-        "res_count": 10,
-        "image_url": "https://b.zmtcdn.com/data/collections/0880be662608099611b36e99b40e9253_1593777921.jpg",
-        "title": "Best of Behala!",
-        "description": "Post Lockdown, here are some best restaurants to check out in Behala!"
-      }
-    },
-    {
-      "collection": {
-        "collection_id": 306694,
-        "image_url": "https://b.zmtcdn.com/data/collections/0fe4f9dbba3e0799e04059f726302c0d_1593940502.jpg",
-        "title": "Best of Newtown",
-        "description": "Post Lockdown, here are some best restaurants to check out in Newtown! "
-      }
-    },
-    {
-      "collection": {
-        "collection_id": 274852,
-        "image_url": "https://b.zmtcdn.com/data/collections/5ac5eeae0796f422298ee67d5b66a025_1535368421.jpg",
-        "title": "Great Food, No Bull",
-        "description": "The hunt for the highest-rated restaurants in your city ends here"
-      }
-    }
+            {
+              "collection": {
+                "collection_id": 274852,
+                "res_count": 248,
+                "image_url": "https://b.zmtcdn.com/data/collections/5ac5eeae0796f422298ee67d5b66a025_1535368421.jpg",
+                "url": "https://www.zomato.com/tirupati/great-food-no-bull?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                "title": "Great Food, No Bull",
+                "description": "The hunt for the highest-rated restaurants in your city ends here",
+                "share_url": "http://www.zoma.to/c-4/274852"
+              }
+            },
+            {
+              "collection": {
+                "collection_id": 99,
+                "res_count": 23,
+                "image_url": "https://b.zmtcdn.com/data/collections/083468dbee9b51b10b7e6d8c9f091b4f_1554892925.jpg",
+                "url": "https://www.zomato.com/tirupati/sports-screenings?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                "title": "Live Sports Screenings",
+                "description": "Catch the best sporting action live!",
+                "share_url": "http://www.zoma.to/c-4/99"
+              }
+            },
+            {
+              "collection": {
+                "collection_id": 9,
+                "res_count": 21,
+                "image_url": "https://b.zmtcdn.com/data/collections/df4ccbf9f6b6db21b07d12a18577b5af_1582106658.jpg",
+                "url": "https://www.zomato.com/tirupati/microbreweries?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                "title": "Microbreweries",
+                "description": "For the times when bottled brews just do not cut it",
+                "share_url": "http://www.zoma.to/c-4/9"
+              }
+            },
+            {
+              "collection": {
+                "collection_id": 75,
+                "res_count": 32,
+                "image_url": "https://b.zmtcdn.com/data/collections/f9d822284b336c1eb8c3af8c42216389_1460023238.jpg",
+                "url": "https://www.zomato.com/tirupati/best-bars-and-pubs?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                "title": "Best Bars and Pubs",
+                "description": "Find the best bars & pubs in your city",
+                "share_url": "http://www.zoma.to/c-4/75"
+              }
+            },
+            {
+              "collection": {
+                "collection_id": 438,
+                "res_count": 25,
+                "image_url": "https://b.zmtcdn.com/data/collections/7f68fde319524e0d152ac8f01c89623c_1582286063.jpg",
+                "url": "https://www.zomato.com/tirupati/top-cafes?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                "title": "Great Cafes",
+                "description": "Grab a bite to eat, a cup of coffee, and catch up with friends or family",
+                "share_url": "http://www.zoma.to/c-4/438"
+              }
+            }
       ]
 }
 
@@ -276,4 +283,4 @@ Content-Type: application/json
 
 ### 
 
-GET http://localhost:5000/api/search/restaurant?q="roti"&city_id=2 HTTP/1.1
+GET http://localhost:5000/api/search/restaurant?q="roti"&city_id=4 HTTP/1.1
