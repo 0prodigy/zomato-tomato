@@ -276,4 +276,4 @@ Content-Type: application/json
 
 ### 
 
-GET http://localhost:5000/api/search/restaurant?q="chicken"&city_id=2 HTTP/1.1
+GET http://localhost:5000/api/search/restaurant?q="roti"&city_id=2 HTTP/1.1

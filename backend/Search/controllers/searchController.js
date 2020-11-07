@@ -116,20 +116,22 @@ const getLocalities = async (req, res) => {
 
 const getRestaurant = async (req, res) => {
   let { q, city_id } = req.query;
-  console.log(q, city_id);
   try {
-    let result = await Restaurant.find({
-      "location.city_id": parseInt(city_id),
-      $or: [
-        { $text: { $search: q, $caseSensitive: false } },
-        { name: /sjdhf/ },
-      ],
-      score: { $meta: "textScore" },
-    }).sort({ score: { $meta: "textScore" } });
-    return res.json({ result: result });
+    let result = await Restaurant.find(
+      {
+        "location.city_id": parseInt(city_id),
+        $text: {
+          $search: q,
+          $diacriticSensitive: true,
+          $caseSensitive: false,
+        },
+      },
+      { score: { $meta: "textScore" } }
+    ).sort({ score: { $meta: "textScore" } });
+    return res.json({ err: false, message: "Success", result: result });
   } catch (err) {
     console.log(err);
-    return res.json({ some: "sdf" });
+    return res.status(500).json({ err: true, message: "Something went wrong" });
   }
 };
 
