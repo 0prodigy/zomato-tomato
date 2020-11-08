@@ -16,8 +16,9 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.10.12",
     "nodemailer": "^6.4.14",
+    "nodemon": "^2.0.6",
     "uuid": "^8.3.1"
   }
 }

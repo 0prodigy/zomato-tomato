@@ -16,7 +16,6 @@ const Wrapper = styled.div`
   .logo-section {
     align-items: center;
     width: 100%;
-
     margin-bottom: 4rem;
   }
   .footer-div {

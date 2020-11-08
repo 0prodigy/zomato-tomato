@@ -40,7 +40,8 @@ Content-Type: application/json
 
 {
     "title": "Kolkata",
-      "cords":[88.363895 ,22.572646],
+      "latitude": 22.572646,
+      "longitude": 88.363895,
       "city_id": 2,
       "city_name": "Kolkata",
       "collections":[
@@ -100,47 +101,56 @@ Content-Type: application/json
 
 POST http://localhost:5000/api/restaurant/add 
 Content-Type: application/json
-
-
 {
         "R": {
+          "res_id": 18420364,
+          "is_grocery_store": false,
           "has_menu_status": {
             "delivery": -1,
             "takeaway": -1
-          },
-          "res_id": 18749515,
-          "is_grocery_store": false
+          }
         },
         "apikey": "c537386da9dd2444651cb717b0b50528",
-        "id": "18749515",
-        "name": "Harilal's",
-        "url": "https://www.zomato.com/patna/harilals-kankarbagh?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+        "id": "18420364",
+        "name": "Ozora",
+        "url": "https://www.zomato.com/kolkata/ozora-kasba?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
         "location": {
-          "address": "PC Colony, Gaytri Mandir, Patrakar Nagar, Kankarbagh Road, Kankarbagh, Patna",
-          "locality": "Kankarbagh",
-          "city": "Patna",
-          "city_id": 40,
-          "cords":[85.1546685000,25.599275600],
+          "address": "1858, Acropolis Mall, Rajdanga Main Road, Kasba, Kolkata",
+          "locality": "Acropolis Mall, Kasba",
+          "city": "Kolkata",
+          "city_id": 2,
+          "cords": {
+                "type":"Point" ,
+                "coordinates": [88.3932203427,22.5148427176]
+                },
           "zipcode": "",
           "country_id": 1,
-          "locality_verbose": "Kankarbagh, Patna"
+          "locality_verbose": "Acropolis Mall, Kasba, Kolkata"
         },
         "switch_to_order_menu": 0,
-        "cuisines": "Mithai, Street Food",
-        "timings": "8 AM to 11 PM",
-        "average_cost_for_two": 200,
-        "price_range": 1,
+        "cuisines": "Asian, Italian, Continental, Mughlai, North Indian, Pizza, Desserts",
+        "timings": "4pm – 11:30pm (Mon-Sun)",
+        "average_cost_for_two": 2700,
+        "price_range": 4,
         "currency": "Rs.",
         "highlights": [
-          "Takeaway Available",
-          "Delivery",
-          "Lunch",
           "Dinner",
-          "Credit Card",
           "Cash",
+          "Takeaway Available",
           "Debit Card",
+          "Lunch",
+          "Serves Alcohol",
+          "Mall Parking",
+          "Delivery",
+          "Credit Card",
+          "Outdoor Seating",
+          "Rooftop",
+          "Table booking recommended",
+          "Smoking Area",
+          "Fullbar",
           "Indoor Seating",
-          "Air Conditioned"
+          "Hookah",
+          "Gourmet"
         ],
         "offers": [],
         "opentable_support": 0,
@@ -149,36 +159,36 @@ Content-Type: application/json
         "is_book_form_web_view": 0,
         "book_form_web_view_url": "",
         "book_again_url": "",
-        "thumb": "https://b.zmtcdn.com/data/pictures/2/18705092/6fc26d64b5a14e980e5feacae272ee76.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A",
+        "thumb": "https://b.zmtcdn.com/data/pictures/4/18420364/322192ccb5778c6c5420c4256672b23f.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A",
         "user_rating": {
-          "aggregate_rating": "4.4",
+          "aggregate_rating": "4.3",
           "rating_text": "Very Good",
           "rating_color": "5BA829",
           "rating_obj": {
             "title": {
-              "text": "4.4"
+              "text": "4.3"
             },
             "bg_color": {
               "type": "lime",
               "tint": "700"
             }
           },
-          "votes": 19481
+          "votes": 3037
         },
-        "all_reviews_count": 140,
-        "photos_url": "https://www.zomato.com/patna/harilals-kankarbagh/photos?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1#tabtop",
-        "photo_count": 75,
-        "menu_url": "https://www.zomato.com/patna/harilals-kankarbagh/menu?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1&openSwipeBox=menu&showMinimal=1#tabtop",
-        "featured_image": "https://b.zmtcdn.com/data/pictures/2/18705092/6fc26d64b5a14e980e5feacae272ee76.jpg?output-format=webp",
+        "all_reviews_count": 1604,
+        "photos_url": "https://www.zomato.com/kolkata/ozora-kasba/photos?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1#tabtop",
+        "photo_count": 1869,
+        "menu_url": "https://www.zomato.com/kolkata/ozora-kasba/menu?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1&openSwipeBox=menu&showMinimal=1#tabtop",
+        "featured_image": "https://b.zmtcdn.com/data/pictures/4/18420364/322192ccb5778c6c5420c4256672b23f.jpg",
         "has_online_delivery": 1,
         "is_delivering_now": 0,
         "store_type": "",
         "include_bogo_offers": true,
-        "deeplink": "zomato://restaurant/18749515",
+        "deeplink": "zomato://restaurant/18420364",
         "is_table_reservation_supported": 0,
         "has_table_booking": 0,
-        "events_url": "https://www.zomato.com/patna/harilals-kankarbagh/events#tabtop?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
-        "phone_numbers": "+91 9102400116",
+        "events_url": "https://www.zomato.com/kolkata/ozora-kasba/events#tabtop?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+        "phone_numbers": "+91 9836678686, +91 9073900196, +91 9830499592",
         "all_reviews": {
           "reviews": [
             {
@@ -199,21 +209,25 @@ Content-Type: application/json
           ]
         },
         "establishment": [
-          "Quick Bites"
+          "Bar"
         ],
         "establishment_types": [],
-        "collection_id":[1]
+        "collection_id":[99,29, 306693,306694]
       }
-
-
+    
 ###
 
 POST http://localhost:5000/api/restaurant/addPhoto HTTP/1.1
 Content-Type: application/json
 
 {
-  "res_id":"18749515",
-  "photos":["https://b.zmtcdn.com/data/pictures/2/18705092/6fc26d64b5a14e980e5feacae272ee76.jpg?output-format=webp&fit=around|1029:555&crop=1029:555;","https://b.zmtcdn.com/data/pictures/chains/4/18705064/33913c25038d2da3b820dfb3ce41596e.jpg?output-format=webp&fit=around|300:273&crop=300:273;","https://b.zmtcdn.com/data/pictures/chains/4/18705064/33913c25038d2da3b820dfb3ce41596e.jpg?output-format=webp&fit=around|300:273&crop=300:273;","https://b.zmtcdn.com/data/pictures/chains/4/18705064/aa7ec7a6407ef219d1ab7196b31d98ae.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A"]
+  "res_id":"20350",
+  "photos":["https://b.zmtcdn.com/data/pictures/0/20350/f868767437704cf9fa3c52f79b00d5e7.jpg?output-format=webp",
+  "https://b.zmtcdn.com/data/pictures/0/20350/c9d402a9a7ec1dd86e239bcba85c4023.jpg?output-format=webp",
+  "https://b.zmtcdn.com/data/pictures/0/20350/a9dd987524f7c0f3e086cb9b9433ce18.jpg?output-format=webp",
+  "https://b.zmtcdn.com/data/reviews_photos/7f7/7f52b93f3d654e37d8a87f3eb838e7f7_1602668307.jpg?output-format=webp",
+  "https://b.zmtcdn.com/data/reviews_photos/c08/3f99c771f214cba5562c8d5570460c08_1601670962.jpg?output-format=webp"
+  ]
 }
 
 
@@ -223,22 +237,57 @@ POST http://localhost:5000/api/restaurant/addMenu HTTP/1.1
 Content-Type: application/json
 
 {
-  "res_id":"18749515",
-  "menu":{
-    "dish": "briyani",
-    "cost": 233,
-    "cost_for_tow": 500,
-    "image": "http:.../",
-    "description": "anything",
-    "veg": false,
-    "votes": 7,
-    "ratings":4
+  "res_id":"20350",
+  "menu":[
+    {
+    "dish": "Lobster Thermidor",
+      "cost": "625",
+      "image": "https://b.zmtcdn.com/data/dish_photos/cf3/b4bc60884a57165649b404697f86ccf3.jpg?fit=around|130:130&crop=130:130;*,*",
+      "description":"Lobster Delight",
+      "veg": false,
+      "votes":9,
+      "ratings":5
+  },
+  {
+    "dish": "Surf and Turf",
+      "cost": "400",
+      "image": "https://b.zmtcdn.com/data/dish_photos/a12/b4ad988a04330e01625333a5ed118a12.jpg?fit=around|130:130&crop=130:130;*,*",
+      "description":"Fillet of chicken stuffed with butter. An old favourite. The Russians love it.",
+      "veg": false,
+      "votes":8,
+      "ratings":4
+  },
+   {
+    "dish": "Chicken Paprika",
+      "cost": "400",
+      "image": "https://b.zmtcdn.com/data/dish_photos/cf3/d0201f138ba677b71e303ed05c32dcf3.jpg?fit=around|130:130&crop=130:130;*,*",
+      "description":"Mocambos new award winning recipe a tasty creamy blend of chilli pepper flakes, black pepper and crushed red peppers.",
+      "veg": false,
+      "votes":10,
+      "ratings":5
+  },
+  {
+    "dish": "Fish A La Diana",
+      "cost": "475",
+      "image": "https://i.pinimg.com/originals/3c/86/df/3c86dfd283b31196be3b3fe1b2c4b992.jpg",
+      "description":"FThis Stir-fried Kimchi Chicken Noodles is quick and easy to make, and full of the BEST spicy",
+      "veg": false,
+      "votes":10,
+      "ratings":4
+  },
+   {
+    "dish": "Chicken Steak",
+      "cost": "380",
+      "image": "https://b.zmtcdn.com/data/dish_photos/fb0/59d3bcfe7b6f49878ed6736722e55fb0.jpg?fit=around|130:130&crop=130:130;*,*",
+      "description":"For chicken lovers, no trip to Mocambo is complete without a taste of this delicious speciality of Bengal.",
+      "veg": false,
+      "votes":10,
+      "ratings":5
   }
+  ]
 }
 
 ###
-GET http://localhost:5000/api/restaurant/18749515 HTTP/1.1
+POST http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
-###
-GET http://localhost:5000/api/serach/cityId
 
