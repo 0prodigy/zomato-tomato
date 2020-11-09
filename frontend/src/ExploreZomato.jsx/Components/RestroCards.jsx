@@ -65,7 +65,9 @@ function RestroCards() {
   const [sort, setSort] = useState({});
   const location = useLocation();
   const dispatch = useDispatch();
-  const { restaurants } = useSelector((state) => state.restaurantFilterReducer);
+  const { restaurants, isLoading } = useSelector(
+    (state) => state.restaurantFilterReducer
+  );
 
   const handleRequest = () => {
     dispatch(
@@ -73,20 +75,20 @@ function RestroCards() {
     );
   };
 
-  const handleFilter = async (payload) => {
-    await setFilter({ ...filters, ...payload });
+  const handleFilter = (payload) => {
+    setFilter({ ...payload });
     handleRequest();
   };
 
-  const handleSort = async (payload) => {
-    await setSort({ ...payload });
+  const handleSort = (payload) => {
+    setSort({ ...payload });
     handleRequest();
   };
 
   useEffect(() => {
     handleRequest();
     //eslint-disable-next-line
-  }, []);
+  }, [filters, sort]);
 
   return (
     <>
@@ -249,6 +251,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "North Indian" })}
                 >
                   North Indian
                 </h5>
@@ -256,6 +259,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Chinese" })}
                 >
                   Chinese
                 </h5>
@@ -263,6 +267,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Beverages" })}
                 >
                   Beverages
                 </h5>
@@ -270,6 +275,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Mughlai" })}
                 >
                   Mughlai
                 </h5>
@@ -277,6 +283,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Rolls" })}
                 >
                   Rolls
                 </h5>
@@ -284,6 +291,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "South Indian" })}
                 >
                   South Indian
                 </h5>
@@ -291,6 +299,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Biriyani" })}
                 >
                   Biriyani
                 </h5>
@@ -298,6 +307,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Italian" })}
                 >
                   Italian
                 </h5>
@@ -494,6 +504,7 @@ function RestroCards() {
                 </div>
               </div>
               <div className="row mt-3">
+                <h1>{isLoading && "Loading......"}</h1>
                 {restaurants &&
                   restaurants?.map((restaurant, i) => (
                     <div className="col-6" key={restaurant.id}>

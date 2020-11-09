@@ -89,6 +89,12 @@ const getAllRestaurant = async (req, res) => {
 
 const fillterdRestaurant = async (req, res) => {
   let { filters, sort } = req.body;
+  for (let key in filters[0]) {
+    if (key == "cuisines") {
+      let reg = new RegExp(filters[0][key], "i");
+      filters = [{ ...filters[0], cuisines: reg }];
+    }
+  }
   try {
     const restaurant = await Restaurant.find(...filters).sort(...sort);
     return res.json({ err: false, message: "Success", restaurant: restaurant });

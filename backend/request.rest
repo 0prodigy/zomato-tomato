@@ -342,10 +342,9 @@ Content-Type: application/json
 
 {
   "filters":[{
-    "location.city_id":4,
-    "average_cost_for_two":{"$lt": 500, "$gt":200},
-    "menu.veg":true
-  },{"average_cost_for_two":1}],
+    "location.city_id":2,
+    "cuisines":"north"
+  },{"cuisines":1}],
   "sort":[
     {}
   ]
