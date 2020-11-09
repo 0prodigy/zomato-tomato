@@ -297,6 +297,7 @@ Content-Type: application/json
 POST http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
 <<<<<<< HEAD
+=======
 
 ###
 GET http://localhost:5000/api/restaurant/all HTTP/1.1
