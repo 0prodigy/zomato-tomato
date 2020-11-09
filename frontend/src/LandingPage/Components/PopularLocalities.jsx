@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
@@ -46,13 +47,16 @@ const Wrapper = styled.div`
   }
 `;
 function PopularLocalities() {
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
   return (
     <>
       <Wrapper>
         <div className="heading">
           <p className="text mb-5">
             Popular localities in and around{" "}
-            <span className="city-name">Delhi NCR</span>
+            <span className="city-name">{searchCity}</span>
           </p>
           <div className="container d-flex justify-content-between">
             {[

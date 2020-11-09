@@ -1,46 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getCityCollection } from "../LandingPage/Redux/action";
 import { getAllRestaurants } from "../CollectionsPage/Redux/action";
 import { useLocation } from "react-router-dom";
 import RestroNavbar from "../RestroPage/Components/RestroNavbar";
-import { Card, Link, Container, Breadcrumbs } from "@material-ui/core";
+import { Card, Link, Container, Breadcrumbs, Grid } from "@material-ui/core";
+import CollectionCards from "./Components/CollectionCards";
 
 function CollectionsPage(props) {
-  const {
-    cityCollections,
-    getCityCollection,
-    cityId,
-    allRestaurants,
-    getAllRestaurants,
-  } = props;
+  const { cityCollections, cityId, allRestaurants, getAllRestaurants } = props;
   const location = useLocation();
+  let collection_id = location.state.collectionId;
   const [collectionImage, setCollectionImage] = useState("");
   const [collectionTitle, setCollectionTitle] = useState("");
   const [collectionDescription, setCollectionDescription] = useState("");
-  console.log(location);
 
   useEffect(() => {
-    let collection_id = location.state.collectionId;
     let selectedCollection = cityCollections.collections.filter(
       (item) => item.collection.collection_id === collection_id
     );
     setCollectionImage(selectedCollection[0].collection.image_url);
     setCollectionTitle(selectedCollection[0].collection.title);
     setCollectionDescription(selectedCollection[0].collection.description);
-    async function getAllRes() {
-      console.log("Comes here", cityId);
-      let result = await getAllRestaurants(cityId);
-      console.log(result);
-    }
-    getAllRes();
-  }, [cityCollections, cityId, getAllRestaurants, location.state.collectionId]);
+    getAllRestaurants(cityId);
+  }, [cityCollections, cityId, getAllRestaurants, collection_id]);
 
-  console.log("All Restaurants are", allRestaurants);
   return (
     <div>
       <RestroNavbar />
-      <Container style={{ border: "1px solid red", padding: "10px 85px 0px" }}>
+      <Container style={{ padding: "10px 85px 0px" }}>
         <Breadcrumbs>
           {location.pathname.split("/").map((item, index) => {
             if (item === "") {
@@ -95,6 +82,18 @@ function CollectionsPage(props) {
             <div style={{ color: "white" }}>{collectionDescription}</div>
           </div>
         </Card>
+        <Grid
+          style={{ display: "flex", flexFlow: "wrap", marginTop: "50px" }}
+          container
+          spacing={2}
+        >
+          {allRestaurants &&
+            allRestaurants
+              .filter((item) => item.collection_id.indexOf(collection_id))
+              .map((item) => {
+                return <CollectionCards data={item} key={item.id} />;
+              })}
+        </Grid>
       </Container>
     </div>
   );
@@ -107,7 +106,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
   getAllRestaurants: (cityId) => dispatch(getAllRestaurants(cityId)),
 });
 
