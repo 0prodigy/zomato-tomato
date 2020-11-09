@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import ItemImage from "./Components/ItemImage";
 import ItemName from "./Components/ItemName";
@@ -93,6 +94,7 @@ const Wrapper = styled.div`
 `;
 
 function RestroPage(props) {
+  const location = useLocation();
   const [overviewPage, setOverviewPage] = useState(true);
   const [orderOnlinePage, setOrderOnlinePage] = useState(false);
   const [reviewPage, setReviewPage] = useState(false);
@@ -138,7 +140,7 @@ function RestroPage(props) {
         setPhotosPage(false);
     }
   };
-
+  console.log(location);
   return (
     <div>
       <RestroNavbar />

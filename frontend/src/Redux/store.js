@@ -1,14 +1,29 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { landingPageReducer } from "../LandingPage/Redux/reducer";
+import { collectionPageReducer } from "../CollectionsPage/Redux/reducer";
 import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({ landingPageReducer });
+const rootReducer = combineReducers({
+  landingPageReducer,
+  collectionPageReducer,
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-  rootReducer,
+let store = createStore(
+  persistedReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
 
-export { store };
+let persistor = persistStore(store);
+
+export { store, persistor };

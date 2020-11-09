@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   queryCity,
   getUserLocation,
   getCityId,
   setSearchCityRedux,
   queryRestaurant,
+  getCityCollection,
 } from "../Redux/action";
 import throttle from "lodash/throttle";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -128,6 +130,7 @@ function SearchBar(props) {
     cityId,
     queryRestaurant,
     restaurantSearchResults,
+    getCityCollection,
   } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -170,13 +173,14 @@ function SearchBar(props) {
     throttleRestaurantSearch(e.target.value, cityId);
   };
 
-  const selectCity = (e, coordinates) => {
+  const selectCity = async (e, coordinates) => {
     let payload = {
       long: coordinates[0],
       lat: coordinates[1],
     };
     setSearchCityRedux(e.target.textContent, coordinates);
-    getCityId(payload);
+    let result = await getCityId(payload);
+    getCityCollection(result.cityId);
     setExpanded(false);
   };
 
@@ -329,15 +333,29 @@ function SearchBar(props) {
                             <div style={{ fontWeight: "200" }}>
                               {item.location.locality_verbose}
                             </div>
-                            <div
+                            <Link
+                              to={{
+                                pathname: `/restaurants/${item.name
+                                  .toLowerCase()
+                                  .split(" ")
+                                  .join("-")}`,
+                                state: { res_id: `${item.id}` },
+                              }}
                               style={{
-                                color: "rgb(237, 90, 107)",
-                                fontWeight: "300",
+                                textDecoration: "none",
+                                display: "block",
                               }}
                             >
-                              Order Now
-                              <ArrowRightIcon />
-                            </div>
+                              <div
+                                style={{
+                                  color: "rgb(237, 90, 107)",
+                                  fontWeight: "300",
+                                }}
+                              >
+                                Order Now
+                                <ArrowRightIcon />
+                              </div>
+                            </Link>
                           </Box>
                         </Box>
                       );
@@ -368,6 +386,7 @@ const mapDispatchToProps = (dispatch) => ({
   queryRestaurant: (query, cityId) => dispatch(queryRestaurant(query, cityId)),
   getUserLocation: (long, lat) => dispatch(getUserLocation(long, lat)),
   getCityId: (payload) => dispatch(getCityId(payload)),
+  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

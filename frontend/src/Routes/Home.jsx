@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import LandingPage from "../LandingPage/LandingPage";
 import { getCityId, getCityCollection } from "../LandingPage/Redux/action";
 import RestroPage from "../RestroPage/RestroPage";
+import CollectionsPage from "../CollectionsPage/CollectionsPage";
 
 const data = [
   {
@@ -177,6 +178,7 @@ function Home(props) {
   useEffect(() => {
     initialData();
   }, []);
+  console.log("The search city is", searchCity);
   return (
     <div>
       <Route
@@ -190,12 +192,15 @@ function Home(props) {
       />
       <Route exact path="/:city">
         <LandingPage />
-<<<<<<< HEAD
-=======
-        {/* <RestroPage data={data} /> */}
->>>>>>> a0d928e5bf6c2ea1326ea8311394a9093a007406
       </Route>
-      <Route path="/restaurant/:restaurant" render={() => <RestroPage />} />
+      <Route
+        path="/:city/restaurants/:restaurant"
+        render={() => <RestroPage data={data} />}
+      />
+      <Route
+        path="/:city/collections/:collections"
+        render={() => <CollectionsPage />}
+      />
     </div>
   );
 }

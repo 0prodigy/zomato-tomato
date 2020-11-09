@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
     font-size: 1.1rem;
     margin: 0px;
   }
-  link {
+  .link {
     text-decoration: none;
     display: block;
     background-color: transparent;
@@ -66,6 +66,9 @@ const CollectionCard = styled.div`
 
 function Collections(props) {
   const { cityCollections, searchCity } = props;
+  const match = useRouteMatch();
+  console.log("The city collections are", cityCollections);
+  console.log("The match are", match);
   return (
     <>
       <Wrapper>
@@ -86,6 +89,7 @@ function Collections(props) {
           <div className="d-flex" style={{ height: "340px" }}>
             {cityCollections.collections !== undefined &&
               cityCollections.collections.map((collection, index) => {
+                console.log("Collection is", collection);
                 if (index < 4) {
                   return (
                     <CollectionCard
@@ -93,9 +97,24 @@ function Collections(props) {
                       className="card rounded m-2"
                       backgroundImage={collection.collection.image_url}
                     >
-                      <div className="bottom-right">
-                        {collection.collection.title}
-                      </div>
+                      <Link
+                        to={{
+                          pathname: `${
+                            match.url
+                          }/collections/${collection.collection.title
+                            .toLowerCase()
+                            .split(" ")
+                            .join("-")}`,
+                          state: {
+                            collectionId: collection.collection.collection_id,
+                          },
+                        }}
+                      >
+                        <div className="bottom-right">
+                          {collection.collection.title}
+                          {collection.collection.res_count}
+                        </div>
+                      </Link>
                     </CollectionCard>
                   );
                 }
