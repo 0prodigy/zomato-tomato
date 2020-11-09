@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 import ExploreZomato from "../ExploreZomato.jsx/ExploreZomato";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-<<<<<<< HEAD
-=======
-import ExploreZomato from "../ExploreZomato.jsx/ExploreZomato";
->>>>>>> 75cce7c3b5c7f1e694b9b78785b27178cfba409c
 import LandingPage from "../LandingPage/LandingPage";
 import { getCityId, getCityCollection } from "../LandingPage/Redux/action";
 import RestroPage from "../RestroPage/RestroPage";
