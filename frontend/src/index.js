@@ -6,7 +6,6 @@ import Main from "./Routes/Main";
 import { Provider } from "react-redux";
 import { store, persistor } from "./Redux/store";
 import "./Styles/index.css";
-import "bootstrap/dist/css/bootstrap.css";
 import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
