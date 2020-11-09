@@ -2,9 +2,14 @@ import React, { useEffect } from "react";
 import ExploreZomato from "../ExploreZomato.jsx/ExploreZomato";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+<<<<<<< HEAD
+=======
+import ExploreZomato from "../ExploreZomato.jsx/ExploreZomato";
+>>>>>>> 75cce7c3b5c7f1e694b9b78785b27178cfba409c
 import LandingPage from "../LandingPage/LandingPage";
 import { getCityId, getCityCollection } from "../LandingPage/Redux/action";
 import RestroPage from "../RestroPage/RestroPage";
+import CollectionsPage from "../CollectionsPage/CollectionsPage";
 
 const data = [
   {
@@ -178,11 +183,9 @@ function Home(props) {
   useEffect(() => {
     initialData();
   }, []);
+  console.log("The search city is", searchCity);
   return (
     <div>
-      {/* <LandingPage /> */}
-      <RestroPage />
-      {/* <ExploreZomato /> */}
       <Route
         exact
         path="/"
@@ -195,7 +198,14 @@ function Home(props) {
       <Route exact path="/:city">
         <LandingPage />
       </Route>
-      <Route path="/restaurants/:restaurant" render={() => <RestroPage />} />
+      <Route
+        path="/:city/restaurants/:restaurant"
+        render={() => <RestroPage data={data} />}
+      />
+      <Route
+        path="/:city/collections/:collections"
+        render={() => <CollectionsPage />}
+      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import * as constants from "./actionTypes";
 import axios from "axios";
-import { constant } from "lodash";
 
 export const queryCityRequest = () => {
   return {
@@ -461,6 +460,7 @@ export const getCityCollection = (cityId) => {
       data: { city_id: cityId },
     })
       .then((response) => {
+        console.log("Collection response from redux is", response.data);
         return dispatch(getCityCollectionSuccess(response.data));
       })
       .catch((error) => {

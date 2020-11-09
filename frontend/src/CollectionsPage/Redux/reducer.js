@@ -1,36 +1,39 @@
 import * as constants from "./actionTypes";
 
 const initialState = {
+  isLoading: false,
   error: false,
   errorMessage: "",
-  isLoading: false,
-  restaurant: {},
+  allRestaurants: [],
 };
 
-export const restaurantReducer = (state = initialState, action) => {
+const collectionPageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.RESTAURANT_FETCH_REQUEST:
+    case constants.GET_ALL_RESTAURANTS_REQUEST:
       return {
         ...state,
         isLoading: action.isLoading,
       };
 
-    case constants.RESTAURANT_FETCH_SUCCESS:
+    case constants.GET_ALL_RESTAURANTS_SUCCESS:
       return {
         ...state,
         isLoading: action.isLoading,
         error: action.error,
-        restaurant: action.restaurant,
+        allRestaurants: action.payload.resturants,
       };
 
-    case constants.RESTAURANT_FETCH_FAILURE:
+    case constants.GET_ALL_RESTAURANTS_FAILURE:
       return {
         ...state,
         isLoading: action.isLoading,
         error: action.error,
         errorMessage: action.message,
       };
+
     default:
       return state;
   }
 };
+
+export { collectionPageReducer };

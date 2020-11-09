@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   queryCity,
   getUserLocation,
   getCityId,
   setSearchCityRedux,
   queryRestaurant,
+  getCityCollection,
 } from "../Redux/action";
 import throttle from "lodash/throttle";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -26,7 +28,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,7 +130,9 @@ function SearchBar(props) {
     cityId,
     queryRestaurant,
     restaurantSearchResults,
+    getCityCollection,
   } = props;
+  const match = useRouteMatch();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [restaurantSearchExpanded, setRestaurantSearchExpanded] = useState(
@@ -171,13 +174,14 @@ function SearchBar(props) {
     throttleRestaurantSearch(e.target.value, cityId);
   };
 
-  const selectCity = (e, coordinates) => {
+  const selectCity = async (e, coordinates) => {
     let payload = {
       long: coordinates[0],
       lat: coordinates[1],
     };
     setSearchCityRedux(e.target.textContent, coordinates);
-    getCityId(payload);
+    let result = await getCityId(payload);
+    getCityCollection(result.cityId);
     setExpanded(false);
   };
 
@@ -332,17 +336,17 @@ function SearchBar(props) {
                             </div>
                             <Link
                               to={{
-                                pathname: `/restaurants/${item.name
+                                pathname: `${
+                                  match.url
+                                }/restaurants/${item.name
                                   .toLowerCase()
                                   .split(" ")
                                   .join("-")}`,
-                                state: {
-                                  res_id: `${item.id}`,
-                                },
+                                state: { res_id: `${item.id}` },
                               }}
                               style={{
                                 textDecoration: "none",
-                                display: "flex",
+                                display: "block",
                               }}
                             >
                               <div
@@ -385,6 +389,7 @@ const mapDispatchToProps = (dispatch) => ({
   queryRestaurant: (query, cityId) => dispatch(queryRestaurant(query, cityId)),
   getUserLocation: (long, lat) => dispatch(getUserLocation(long, lat)),
   getCityId: (payload) => dispatch(getCityId(payload)),
+  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

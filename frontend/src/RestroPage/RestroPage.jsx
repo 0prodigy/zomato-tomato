@@ -101,7 +101,7 @@ function RestroPage() {
   const [reviewPage, setReviewPage] = useState(false);
   const [menuPage, setMenuPage] = useState(false);
   const [photosPage, setPhotosPage] = useState(false);
-  const { restaurant: data } = useSelector((state) => state.resturantReducer);
+  const { restaurant: data } = useSelector((state) => state.restaurantReducer);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -143,6 +143,7 @@ function RestroPage() {
         setPhotosPage(false);
     }
   };
+
   useEffect(() => {
     dispatch(getRestaurant(location.state.res_id));
   }, []);

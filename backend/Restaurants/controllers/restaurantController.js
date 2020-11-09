@@ -72,7 +72,7 @@ const getRestaurant = async (req, res) => {
 const getAllRestaurant = async (req, res) => {
   try {
     const resturants = await Restaurant.find({
-      "location.city_id": parseInt(req.body["city_id"]),
+      "location.city_id": parseInt(req.query["city_id"]),
     });
     if (resturants) {
       return res.json({ err: false, message: "Success", resturants });
