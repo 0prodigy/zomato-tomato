@@ -741,7 +741,7 @@ function Overview(props) {
             Become a Zomato Pro member and enjoy 25% Off every time at{" "}
             {data && data.name}. Know more.
           </p>
-          <Link className="offer-text">
+          <Link to="/#" className="offer-text">
             Know more <ArrowRightIcons />
           </Link>
         </div>
@@ -816,8 +816,8 @@ function Overview(props) {
               data.cuisines
                 .trim()
                 .split(",")
-                .map((cuisine) => (
-                  <p className="cuisines" key={cuisine}>
+                .map((cuisine, i) => (
+                  <p className="cuisines" key={cuisine + i}>
                     {cuisine}
                   </p>
                 ))}
@@ -835,7 +835,7 @@ function Overview(props) {
               data.menu.map(
                 (dish, i) =>
                   i < 5 && (
-                    <React.Fragment key={dish}> {dish.dish}</React.Fragment>
+                    <React.Fragment key={dish + i}> {dish.dish}</React.Fragment>
                   )
               )}
           </p>
@@ -848,7 +848,9 @@ function Overview(props) {
                 .map(
                   (cuisine, i) =>
                     i < 5 && (
-                      <React.Fragment key={cuisine}>{cuisine}</React.Fragment>
+                      <React.Fragment key={cuisine + i}>
+                        {cuisine}
+                      </React.Fragment>
                     )
                 )}
           </p>
@@ -971,7 +973,7 @@ function Overview(props) {
                       <section className="sim-restro-sec6">
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -985,7 +987,7 @@ function Overview(props) {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1004,14 +1006,14 @@ function Overview(props) {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
                         </section>
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -1025,7 +1027,7 @@ function Overview(props) {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1044,14 +1046,14 @@ function Overview(props) {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
                         </section>
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -1065,7 +1067,7 @@ function Overview(props) {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1084,7 +1086,7 @@ function Overview(props) {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
@@ -1117,14 +1119,16 @@ function Overview(props) {
             <div className="blog-div">
               <div className="blog-text">Are you a food blogger?</div>
               <div className="blog-desc">
-                <Link className="blog-link">
+                <Link to="/#" className="blog-link">
                   Add A zomato sponback to your blog
                 </Link>
                 <ArrowRight className="icons" />
               </div>
             </div>
             <div className="widget-div">
-              <Link className="widget-link">Get Restaurant Widget</Link>
+              <Link to="/#" className="widget-link">
+                Get Restaurant Widget
+              </Link>
               <ArrowRight className="widget-icons" />
             </div>
           </div>
@@ -1457,10 +1461,16 @@ function Overview(props) {
           <div className="loc-near">
             <h6 className="loc-near-heading">RESTAURANTS AROUND JAIL ROAD</h6>
             <div className="loc-near-names">
-              <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
-              <Link className="loc-near-link">Janakpuri Restaurants, </Link>
-              <Link className="loc-near-link">Shubhas Nagar Restaurants, </Link>
-              <Link className="loc-near-link">
+              <Link to="/#" className="loc-near-link">
+                Tilak Nagar Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
+                Janakpuri Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
+                Shubhas Nagar Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
                 Mayapuri Phase Two Restaurants
               </Link>
             </div>
@@ -1475,7 +1485,7 @@ function Overview(props) {
             />
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger="hover,touch"
                 key={placement}
                 placement={placement}
                 className="bd-highlight m-2"
@@ -1734,7 +1744,7 @@ function Overview(props) {
             ))}
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger="hover,touch"
                 key={placement}
                 placement={placement}
                 className="p-2 bd-highlight m-2"

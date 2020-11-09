@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   queryCity,
   getUserLocation,
@@ -132,6 +132,7 @@ function SearchBar(props) {
     restaurantSearchResults,
     getCityCollection,
   } = props;
+  const match = useRouteMatch();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [restaurantSearchExpanded, setRestaurantSearchExpanded] = useState(
@@ -335,7 +336,9 @@ function SearchBar(props) {
                             </div>
                             <Link
                               to={{
-                                pathname: `/restaurants/${item.name
+                                pathname: `${
+                                  match.url
+                                }/restaurants/${item.name
                                   .toLowerCase()
                                   .split(" ")
                                   .join("-")}`,
