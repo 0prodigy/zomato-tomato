@@ -180,8 +180,8 @@ function Home(props) {
   }, []);
   return (
     <div>
-      <LandingPage />
-      {/* <RestroPage /> */}
+      {/* <LandingPage /> */}
+      <RestroPage />
       {/* <ExploreZomato /> */}
       <Route
         exact
