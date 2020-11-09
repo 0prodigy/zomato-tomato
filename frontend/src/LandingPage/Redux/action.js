@@ -267,6 +267,31 @@ export const getCityCollectionFailure = (error) => {
   };
 };
 
+export const getCityLocalitiesRequest = () => {
+  return {
+    type: constants.GET_CITY_LOCALITIES_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityLocalitiesSuccess = (payload) => {
+  return {
+    type: constants.GET_CITY_LOCALITIES_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const getCityLocalitiesFailure = (error) => {
+  return {
+    type: constants.GET_CITY_LOCALITIES_SUCCESS,
+    isLoading: false,
+    error: true,
+    message: error,
+  };
+};
+
 export const queryCity = (city) => {
   return (dispatch) => {
     dispatch(queryCityRequest());
@@ -465,6 +490,24 @@ export const getCityCollection = (cityId) => {
       })
       .catch((error) => {
         return dispatch(getCityCollectionFailure(error.response));
+      });
+  };
+};
+
+export const getCityLocalities = (cityId) => {
+  return (dispatch) => {
+    dispatch(getCityLocalitiesRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/localities",
+      data: { city_id: cityId },
+    })
+      .then((response) => {
+        console.log("Collection response from redux is", response.data);
+        return dispatch(getCityLocalitiesSuccess(response.data));
+      })
+      .catch((error) => {
+        return dispatch(getCityLocalitiesFailure(error.response));
       });
   };
 };
