@@ -19,79 +19,6 @@ const Wrapper = styled.div`
     font-family: Poppins;
     font-weight: 300;
   }
-  .main-div {
-    align-self: flex-start;
-
-    width: 100%;
-    padding-right: 1rem;
-    background-color: rgb(255, 255, 255);
-    transform: translateZ(0px);
-    transition: transform 0.2s ease-in-out 0s;
-  }
-  .sec-div {
-    background-color: white;
-  }
-  .heading-section {
-    width: 100%;
-    max-width: 110rem;
-    overflow: auto hidden;
-    min-height: 6.2rem;
-    position: relative;
-  }
-  .main-section {
-    min-width: 100%;
-    display: flex;
-    position: relative;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    background-color: transparent;
-    overflow-x: auto;
-  }
-  .main-section:first-child {
-    margin-left: 0px;
-    padding-left: 0px;
-  }
-  .main-section:last-child {
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-  .single-div {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    max-height: 100%;
-    margin-right: 2rem;
-    cursor: pointer;
-  }
-  .text-span {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-weight: 300;
-    margin: 0.3rem 1rem;
-    border: 1px solid transparent;
-    padding: 0.5rem 0.8rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    color: rgb(237, 90, 107);
-  }
-  .text-active {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-
-    color: rgb(237, 90, 107);
-  }
-  .text {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    font-family: Poppins;
-    font-weight: 200;
-    color: rgb(138, 131, 131);
-  }
   .online-div1 {
     width: 100%;
   }
@@ -100,7 +27,7 @@ const Wrapper = styled.div`
   }
   .side-div-left {
     position: sticky;
-    top: 90px;
+    top: calc(190px + 90px);
     width: 16rem;
     height: 100%;
     flex-shrink: 0;
@@ -297,65 +224,37 @@ const Wrapper = styled.div`
   }
 `;
 
-function OrderOnline() {
+function OrderOnline(props) {
+  const { data } = props;
   return (
     <div>
       <>
         <Wrapper>
-          <article className="main-div container">
-            <div className="sec-div">
-              <section className="heading-section">
-                <section className="main-section">
-                  <div className="single-div">
-                    <span className="text-span">
-                      <Link className="text">Overview</Link>
-                    </span>
-                  </div>
-                  <div className="single-div">
-                    <span className="text-span">
-                      <Link className="text-active">Order Online</Link>
-                    </span>
-                  </div>
-                  <div className="single-div">
-                    <span className="text-span">
-                      <Link className="text">Reviews</Link>
-                    </span>
-                  </div>
-                  <div className="single-div">
-                    <span className="text-span">
-                      <Link className="text">Menu</Link>
-                    </span>
-                  </div>
-                  <div className="single-div">
-                    <span className="text-span">
-                      <Link className="text">Photos</Link>
-                    </span>
-                  </div>
-                </section>
-                <hr />
-              </section>
-            </div>
-          </article>
-
           {/* Order Online */}
           <div className="container">
             <section className="online-div1">
               <section className="online-div2">
-                <section className="side-div-left">
-                  <p className="side-div-category-active">Match Time Combos</p>
-                  <p className="side-div-category">Recomended</p>
-                  <p className="side-div-category">Baked Delights</p>
-                  <p className="side-div-category">Sweets</p>
-                  <p className="side-div-category">Dry Cakes and Muffins</p>
-                  <p className="side-div-category">Amritsari Kulcha</p>
-                  <p className="side-div-category">All Day Breakfast</p>
-                </section>
+                <div>
+                  <section className="side-div-left">
+                    <p className="side-div-category-active">
+                      Match Time Combos
+                    </p>
+                    <p className="side-div-category">Recomended</p>
+                    <p className="side-div-category">Baked Delights</p>
+                    <p className="side-div-category">Sweets</p>
+                    <p className="side-div-category">Dry Cakes and Muffins</p>
+                    <p className="side-div-category">Amritsari Kulcha</p>
+                    <p className="side-div-category">All Day Breakfast</p>
+                  </section>
+                </div>
                 <section className="side-div-right">
                   <div className="d-flex justify-content-between">
                     <div>
                       <h4 className="order-online">Order Online</h4>
                       <p className="order-para">
-                        Currently closed for online ordering
+                        {data &&
+                          !data.is_delivering_now &&
+                          "Currently closed for online ordering"}
                       </p>
                     </div>
                     <div>SEARCH BAR</div>
@@ -419,6 +318,57 @@ function OrderOnline() {
                     <div>
                       <h4 style={{ fontWeight: "300" }}>Recommemded</h4>
                     </div>
+                    {data &&
+                      data.menu?.map((dish, i) => (
+                        <div className="mb-3" key={i}>
+                          <div className="d-flex">
+                            <div className="mr-3">
+                              <img
+                                src={dish.image}
+                                alt={dish.dish}
+                                style={{
+                                  height: "129px",
+                                  width: "127px",
+                                  borderRadius: "10px",
+                                }}
+                              />
+                              <div className="mr-3"></div>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                              <div>
+                                <h5>{dish.dish}</h5>
+                                <div className="d-flex">
+                                  {new Array(Math.floor(parseInt(dish.ratings)))
+                                    .fill(0)
+                                    .map(
+                                      (_, i) =>
+                                        i < 5 && (
+                                          <AssistantIcon
+                                            style={{ color: "rgb(255,216,0)" }}
+                                            key={i}
+                                          />
+                                        )
+                                    )}
+                                  {/* <AssistantIcon
+                                    style={{ color: "rgb(255,216,0)" }}
+                                  />{" "} */}
+                                  <p>{dish && dish.votes} Votes</p>
+                                </div>
+                                <p>₹{dish && dish.cost}</p>
+                              </div>
+                              <div>
+                                <button
+                                  type="button"
+                                  class="btn btn-light"
+                                  style={{ marginLeft: "400px" }}
+                                >
+                                  ADD +
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     <div className="mb-3">
                       <div className="d-flex">
                         <div className="mr-3">
@@ -626,7 +576,9 @@ function OrderOnline() {
           </div>
           <div className="container">
             <div className="loc-near">
-              <h6 className="loc-near-heading">RESTAURANTS AROUND JAIL ROAD</h6>
+              <h6 className="loc-near-heading">
+                RESTAURANTS AROUND {data.location && data.location.locality}
+              </h6>
               <div className="loc-near-names">
                 <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
                 <Link className="loc-near-link">Janakpuri Restaurants, </Link>

@@ -15,9 +15,9 @@ const citySchema = new Schema({
     type: String,
     required: true,
   },
-  cords: {
-    type: [],
-    required: true,
+  location: {
+    type: { type: String, default: "Point" },
+    coordinates: { type: [Number] },
   },
   cusine: {
     type: Array,

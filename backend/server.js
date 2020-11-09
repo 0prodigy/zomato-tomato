@@ -33,7 +33,7 @@ mongoose.connect(
 app.use("/api/auth", authRouter);
 app.use("/api/city", cityRouter);
 app.use("/api/restaurant", restaurantRouter);
-app.use("/api/serach", searchRouter);
+app.use("/api/search", searchRouter);
 
 const port = process.env.PORT || 5000;
 

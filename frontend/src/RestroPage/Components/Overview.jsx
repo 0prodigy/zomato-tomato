@@ -25,79 +25,6 @@ const Wrapper = styled.div`
     font-family: Poppins;
     font-weight: 300;
   }
-  .main-div {
-    align-self: flex-start;
-
-    width: 100%;
-    padding-right: 1rem;
-    background-color: rgb(255, 255, 255);
-    transform: translateZ(0px);
-    transition: transform 0.2s ease-in-out 0s;
-  }
-  .sec-div {
-    background-color: white;
-  }
-  .heading-section {
-    width: 100%;
-    max-width: 110rem;
-    overflow: auto hidden;
-    min-height: 6.2rem;
-    position: relative;
-  }
-  .main-section {
-    min-width: 100%;
-    display: flex;
-    position: relative;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    background-color: transparent;
-    overflow-x: auto;
-  }
-  .main-section:first-child {
-    margin-left: 0px;
-    padding-left: 0px;
-  }
-  .main-section:last-child {
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-  .single-div {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    max-height: 100%;
-    margin-right: 2rem;
-    cursor: pointer;
-  }
-  .text-span {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-weight: 300;
-    margin: 0.3rem 1rem;
-    border: 1px solid transparent;
-    padding: 0.5rem 0.8rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    color: rgb(237, 90, 107);
-  }
-  .text-active {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-
-    color: rgb(237, 90, 107);
-  }
-  .text {
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    font-family: Poppins;
-    font-weight: 200;
-    color: rgb(138, 131, 131);
-  }
   .offer-div {
     background: rgb(248, 248, 248);
     border-radius: 0.8rem;
@@ -803,51 +730,18 @@ const Wrapper = styled.div`
 }
 `;
 
-function Overview() {
+function Overview(props) {
+  const { data } = props;
   return (
     <>
       <Wrapper>
-        <article className="main-div container">
-          <div className="sec-div">
-            <section className="heading-section">
-              <section className="main-section">
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text-active">Overview</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Order Online</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Reviews</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Menu</Link>
-                  </span>
-                </div>
-                <div className="single-div">
-                  <span className="text-span">
-                    <Link className="text">Photos</Link>
-                  </span>
-                </div>
-              </section>
-              <hr />
-            </section>
-          </div>
-        </article>
         <div className="offer-div container">
           <span className="offer">GET 25% OFF</span>
           <p className="offer-desc">
-            Become a Zomato Pro member and enjoy 25% Off every time at Haldi -
-            Desi Rasoi Urban Tadka. Know more.
+            Become a Zomato Pro member and enjoy 25% Off every time at{" "}
+            {data && data.name}. Know more.
           </p>
-          <Link className="offer-text">
+          <Link to="/#" className="offer-text">
             Know more <ArrowRightIcons />
           </Link>
         </div>
@@ -918,40 +812,77 @@ function Overview() {
         <div className="container">
           <h4 className="font-weight mt-4">Cuisines</h4>
           <div className="d-flex mt-0">
-            <p className="cuisines">North Indian</p>
+            {data.cuisines &&
+              data.cuisines
+                .trim()
+                .split(",")
+                .map((cuisine, i) => (
+                  <p className="cuisines" key={cuisine + i}>
+                    {cuisine}
+                  </p>
+                ))}
 
+            {/* 
             <p className="cuisines">Rolls</p>
 
-            <p className="cuisines">Mughlai</p>
+            <p className="cuisines">Mughlai</p> */}
           </div>
         </div>
         <div className="container">
           <h5 className="dish-heading">Popular Dishes</h5>
           <p className="pop-dish">
-            Amritsari Koolcha, Crispy Jalebi, Malai Ghewar, Imarti, Matar
-            Kulcha, Raj Kachori
+            {data.menu &&
+              data.menu.map(
+                (dish, i) =>
+                  i < 5 && (
+                    <React.Fragment key={dish + i}> {dish.dish}</React.Fragment>
+                  )
+              )}
           </p>
           <h5 className="dish-heading">People Say This Place Is Known For</h5>
           <p className="pop-dish">
-            Drive through, Chirpy Crowd, Cozy Ambiance, Inexpensive, Family
-            Restaurant, Street Food
+            {data.cuisines &&
+              data.cuisines
+                .trim()
+                .split(",")
+                .map(
+                  (cuisine, i) =>
+                    i < 5 && (
+                      <React.Fragment key={cuisine + i}>
+                        {cuisine}
+                      </React.Fragment>
+                    )
+                )}
           </p>
         </div>
         <div className="container">
           <h5 className="avg-cost">Average Cost</h5>
-          <p className="cost">₹400 for two people (approx.)</p>
+          <p className="cost">
+            ₹{data && data.average_cost_for_two} for two people (approx.)
+          </p>
           <p className="desc">
             Exclusive of applicable taxes and charges, if any
           </p>
           <div className="calc-div">
             <p className="calc">How do we calculate cost for two?</p>
           </div>
-          <p className="payment">Cash and Cards accepted</p>
+          <p className="payment">Cash and Card accepted</p>
         </div>
         <div className="container">
           <h5 className="info">More Info</h5>
           <div className="info-div">
-            <div className="info-name">
+            {data &&
+              data.highlights?.map(
+                (item, i) =>
+                  i < 7 && (
+                    <div className="info-name" key={i}>
+                      <CheckCircleOutline className="info-icons" />
+                      <p className="info-text">{item}</p>
+                    </div>
+                  )
+              )}
+
+            {/* <div className="info-name">
               <CheckCircleOutline className="info-icons" />
               <p className="info-text">Breakfast</p>
             </div>
@@ -970,7 +901,7 @@ function Overview() {
             <div className="info-name">
               <CheckCircleOutline className="info-icons" />
               <p className="info-text">Vegetarian Only</p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="container">
@@ -1042,7 +973,7 @@ function Overview() {
                       <section className="sim-restro-sec6">
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -1056,7 +987,7 @@ function Overview() {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1075,14 +1006,14 @@ function Overview() {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
                         </section>
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -1096,7 +1027,7 @@ function Overview() {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1115,14 +1046,14 @@ function Overview() {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
                         </section>
                         <section className="sim-restro-sec7">
                           <div className="sim-restro-sec8">
-                            <Link className="sim-restro-link1">
+                            <Link to="/#" className="sim-restro-link1">
                               <section className="sim-restro-sec9">
                                 <div className="sim-restro-sec10">
                                   <div>
@@ -1136,7 +1067,7 @@ function Overview() {
                               </section>
                             </Link>
                             <p className="sim-restro-sec11">
-                              <Link className="sim-restro-link2">
+                              <Link to="/#" className="sim-restro-link2">
                                 Hira Sweets
                               </Link>
                             </p>
@@ -1155,7 +1086,7 @@ function Overview() {
                             <p className="sim-restro-sec16">
                               Mithai,North Indian,South Indian
                             </p>
-                            <Link className="sim-restro-sec17">
+                            <Link to="/#" className="sim-restro-sec17">
                               Janakpuri, New Delhi
                             </Link>
                           </div>
@@ -1188,14 +1119,16 @@ function Overview() {
             <div className="blog-div">
               <div className="blog-text">Are you a food blogger?</div>
               <div className="blog-desc">
-                <Link className="blog-link">
+                <Link to="/#" className="blog-link">
                   Add A zomato sponback to your blog
                 </Link>
                 <ArrowRight className="icons" />
               </div>
             </div>
             <div className="widget-div">
-              <Link className="widget-link">Get Restaurant Widget</Link>
+              <Link to="/#" className="widget-link">
+                Get Restaurant Widget
+              </Link>
               <ArrowRight className="widget-icons" />
             </div>
           </div>
@@ -1528,10 +1461,16 @@ function Overview() {
           <div className="loc-near">
             <h6 className="loc-near-heading">RESTAURANTS AROUND JAIL ROAD</h6>
             <div className="loc-near-names">
-              <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
-              <Link className="loc-near-link">Janakpuri Restaurants, </Link>
-              <Link className="loc-near-link">Shubhas Nagar Restaurants, </Link>
-              <Link className="loc-near-link">
+              <Link to="/#" className="loc-near-link">
+                Tilak Nagar Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
+                Janakpuri Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
+                Shubhas Nagar Restaurants,{" "}
+              </Link>
+              <Link to="/#" className="loc-near-link">
                 Mayapuri Phase Two Restaurants
               </Link>
             </div>
@@ -1546,7 +1485,7 @@ function Overview() {
             />
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger="hover,touch"
                 key={placement}
                 placement={placement}
                 className="bd-highlight m-2"
@@ -1805,7 +1744,7 @@ function Overview() {
             ))}
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger="hover,touch"
                 key={placement}
                 placement={placement}
                 className="p-2 bd-highlight m-2"

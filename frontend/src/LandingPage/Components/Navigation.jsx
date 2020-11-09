@@ -214,7 +214,7 @@ function Navigation(props) {
 }
 
 const mapStateToProps = (state) => ({
-  activeUserDetails: state.reducer.activeUserDetails,
+  activeUserDetails: state.landingPageReducer.activeUserDetails,
 });
 
 export default connect(mapStateToProps)(Navigation);

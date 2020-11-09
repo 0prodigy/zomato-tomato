@@ -1,5 +1,6 @@
 import * as constants from "./actionTypes";
 import axios from "axios";
+import { constant } from "lodash";
 
 export const queryCityRequest = () => {
   return {
@@ -23,6 +24,31 @@ export const queryCityFailure = (payload) => {
     isLoading: false,
     error: true,
     message: payload,
+  };
+};
+
+export const queryRestaurantRequest = () => {
+  return {
+    type: constants.QUERY_RESTAURANT_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const queryRestaurantSuccess = (payload) => {
+  return {
+    type: constants.QUERY_RESTAURANT_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const queryRestaurantFailure = (error) => {
+  return {
+    type: constants.QUERY_RESTAURANT_FAILURE,
+    isLoading: false,
+    error: true,
+    message: error,
   };
 };
 
@@ -180,10 +206,71 @@ export const userLoginGoogleFailure = (payload) => {
   };
 };
 
+export const setSearchCity = (cityName, coordinates) => {
+  return {
+    type: constants.SET_SEARCH_CITY,
+    searchCity: cityName,
+    userCoordinates: {
+      longitude: coordinates[0],
+      latitude: coordinates[1],
+    },
+  };
+};
+
+export const getCityIdRequest = () => {
+  return {
+    type: constants.GET_CITY_ID_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityIdSuccess = (cityId, title) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: false,
+    cityId: cityId,
+    searchCity: title,
+  };
+};
+
+export const getCityIdFailure = (errorPayload) => {
+  return {
+    type: constants.GET_CITY_ID_SUCCESS,
+    isLoading: false,
+    error: true,
+    message: errorPayload,
+  };
+};
+
+export const getCityCollectionRequest = () => {
+  return {
+    type: constants.GET_CITY_COLLECTION_REQUEST,
+    isLoading: true,
+  };
+};
+
+export const getCityCollectionSuccess = (payload) => {
+  return {
+    type: constants.GET_CITY_COLLECTION_SUCCESS,
+    isLoading: false,
+    error: false,
+    payload,
+  };
+};
+
+export const getCityCollectionFailure = (error) => {
+  return {
+    type: constants.GET_CITY_COLLECTION_FAILURE,
+    isLoading: false,
+    error: true,
+    message: error,
+  };
+};
+
 export const queryCity = (city) => {
   return (dispatch) => {
     dispatch(queryCityRequest());
-    console.log("The city to be searched is", city);
     return axios({
       method: "get",
       url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json`,
@@ -197,6 +284,24 @@ export const queryCity = (city) => {
         return dispatch(queryCitySucceess(response.data.features));
       })
       .catch((error) => dispatch(queryCityFailure(error.data)));
+  };
+};
+
+export const queryRestaurant = (query, cityId) => {
+  return (dispatch) => {
+    dispatch(queryRestaurantRequest());
+    return axios({
+      method: "get",
+      url: ` http://localhost:5000/api/search/restaurant`,
+      params: {
+        q: query,
+        city_id: cityId,
+      },
+    })
+      .then((response) => {
+        dispatch(queryRestaurantSuccess(response.data.result));
+      })
+      .catch((error) => dispatch(queryRestaurantFailure(error.response)));
   };
 };
 
@@ -317,6 +422,49 @@ export const userLoginGoogle = (email) => {
       .catch((error) => {
         console.log("the user login google failure error is", error);
         return dispatch(userLoginGoogleFailure(error.response));
+      });
+  };
+};
+
+export const setSearchCityRedux = (cityName, coordinates) => {
+  return (dispatch) => {
+    return dispatch(setSearchCity(cityName, coordinates));
+  };
+};
+
+export const getCityId = (payload) => {
+  return (dispatch) => {
+    dispatch(getCityIdRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/cityId",
+      data: payload,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        return dispatch(
+          getCityIdSuccess(response.data.city_id, response.data.title)
+        );
+      })
+      .catch((error) => dispatch(getCityIdFailure(error.response)));
+  };
+};
+
+export const getCityCollection = (cityId) => {
+  return (dispatch) => {
+    dispatch(getCityCollectionRequest());
+    return axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/collection",
+      data: { city_id: cityId },
+    })
+      .then((response) => {
+        return dispatch(getCityCollectionSuccess(response.data));
+      })
+      .catch((error) => {
+        return dispatch(getCityCollectionFailure(error.response));
       });
   };
 };
