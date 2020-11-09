@@ -87,10 +87,22 @@ const getAllRestaurant = async (req, res) => {
   }
 };
 
+const fillterdRestaurant = async (req, res) => {
+  let { filters, sort } = req.body;
+  try {
+    const restaurant = await Restaurant.find(...filters).sort(...sort);
+    return res.json({ err: false, message: "Success", restaurant: restaurant });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
 module.exports = {
   addRestaurant,
   addPhoto,
   addMenu,
   getRestaurant,
   getAllRestaurant,
+  fillterdRestaurant,
 };

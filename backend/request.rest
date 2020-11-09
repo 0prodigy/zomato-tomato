@@ -323,7 +323,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:5000/api/search/localities
+GET http://localhost:5000/api/search/localities
 Content-Type: application/json
 
 {
@@ -333,3 +333,20 @@ Content-Type: application/json
 
 ### 
 GET http://localhost:5000/api/search/restaurant?q="roti"&city_id=4 HTTP/1.1
+
+
+###
+
+POST  http://localhost:5000/api/restaurant/filterd HTTP/1.1
+Content-Type: application/json
+
+{
+  "filters":[{
+    "location.city_id":4,
+    "average_cost_for_two":{"$lt": 500, "$gt":200},
+    "menu.veg":true
+  },{"average_cost_for_two":1}],
+  "sort":[
+    
+  ]
+}
