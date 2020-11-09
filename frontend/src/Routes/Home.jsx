@@ -43,6 +43,7 @@ function Home(props) {
         path="/:city/collections/:collections"
         render={() => <CollectionsPage />}
       />
+      <Route path="/:city/explore" render={() => <ExploreZomato />} />
     </div>
   );
 }

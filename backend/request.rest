@@ -347,6 +347,6 @@ Content-Type: application/json
     "menu.veg":true
   },{"average_cost_for_two":1}],
   "sort":[
-    
+    {}
   ]
 }
