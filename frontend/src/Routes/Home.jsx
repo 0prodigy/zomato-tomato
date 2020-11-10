@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ExploreZomato from "../ExploreZomato.jsx/ExploreZomato";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import LandingPage from "../LandingPage/LandingPage";
@@ -50,13 +49,4 @@ function Home(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  searchCity: state.landingPageReducer.searchCity,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getCityId: (payload) => dispatch(getCityId(payload)),
-  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
