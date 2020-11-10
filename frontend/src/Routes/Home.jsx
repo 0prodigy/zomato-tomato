@@ -48,4 +48,12 @@ function Home(props) {
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  searchCity: state.landingPageReducer.searchCity,
+});
+const mapDispatchToProps = (dispatch) => ({
+  getCityId: (payload) => dispatch(getCityId(payload)),
+  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

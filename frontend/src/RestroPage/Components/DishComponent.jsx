@@ -83,7 +83,7 @@ function DishComponent(props) {
                   alt="Non-Veg Dish"
                 />
               ) : (
-                <img src="/veg.png" style={{ width: "20px" }} alt="Veg Dish" />
+                <img src="/veg.png" style={{ width: "15px" }} alt="Veg Dish" />
               )}
             </div>
           </div>
