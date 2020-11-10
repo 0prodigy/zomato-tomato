@@ -542,7 +542,7 @@ function MainFooter() {
             </div>
           </div>
           <hr className="container" />
-          <p className="policy container">
+          <p className="policy container" style={{ marginBottom: "0px" }}>
             By continuing past this page, you agree to our Terms of Service,
             Cookie Policy, Privacy Policy and Content Policies. All trademarks
             are properties of their respective owners. 2008-2020 © Zomato™ Pvt
