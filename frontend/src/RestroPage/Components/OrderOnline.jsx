@@ -515,11 +515,13 @@ function OrderOnline(props) {
           </div>
           <MainFooter />
           <div
-            className={reduxCart.length > 0 ? "cartFooterPresent" : ""}
+            className={
+              reduxCart && reduxCart.length > 0 ? "cartFooterPresent" : ""
+            }
           ></div>
         </Wrapper>
       </div>
-      {reduxCart.length > 0 && (
+      {reduxCart && reduxCart.length > 0 && (
         <CartWrapper>
           <Modal
             aria-labelledby="transition-modal-title"

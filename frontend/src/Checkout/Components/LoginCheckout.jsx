@@ -10,6 +10,7 @@ import Navbar from "./Navbar";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { Modal, Container } from "@material-ui/core";
+import Axios from "axios";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -148,6 +149,43 @@ function LoginCheckout() {
   const reduxCart = useSelector((state) => state.restaurantReducer.cart);
   const dispatch = useDispatch();
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+
+  const paymentHandler = async (e) => {
+    e.preventDefault();
+
+    const API_URL = "http://localhost:5000/api/users/";
+    const orderUrl = `${API_URL}orderId?amount=${cartValue}`;
+    const response = await Axios.get(orderUrl);
+    const { data } = response;
+    const options = {
+      name: "Order Payment",
+      description: "Payment of order",
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const paymentId = response.razorpay_payment_id;
+          const url = `${API_URL}capture/${paymentId}`;
+          const captureResponse = await Axios.post(url, {
+            order: reduxCart,
+            amount: cartValue,
+            userId: activeUserDetails.id,
+          });
+          const successObj = captureResponse.data;
+          const captured = successObj.captured;
+          if (captured) {
+            console.log("success");
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      theme: {
+        color: "#c6203d",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -389,7 +427,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                       </p>
                       <hr />
                       <button
-                        disabled
+                        onClick={paymentHandler}
                         type="button"
                         className="btn btn-secondary btn-lg btn-block"
                       >

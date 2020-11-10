@@ -45,6 +45,7 @@ const addAddress = async (req, res) => {
 };
 
 const getOrderId = async (req, res) => {
+  console.log(req.query);
   try {
     const options = {
       amount: req.query.amount * 100,
@@ -67,36 +68,29 @@ const getOrderId = async (req, res) => {
 
 const capturePayment = async (req, res) => {
   try {
-    return Axios(
-      {
-        method: "POST",
-        url: `https://${process.env.RAZOR_PAY_KEY_ID}:${process.env.RAZOR_PAY_KEY_SECRET}@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
-        data: {
-          amount: req.body.amount * 100,
-          currency: "INR",
-        },
+    let response = await Axios({
+      method: "POST",
+      url: `https://${process.env.RAZOR_PAY_KEY_ID}:${process.env.RAZOR_PAY_KEY_SECRET}@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
+      data: {
+        amount: req.body.amount * 100,
+        currency: "INR",
       },
-      async function (err, res, body) {
-        if (err) {
-          return res.status(500).json({
-            message: "Something Went Wrong",
-          });
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.data)
+      .then(async (res) => {
+        let user = await User.findOne({ id: req.body.userId });
+        if (user) {
+          user.orders.push(...req.body.order);
+          await user.save();
         }
-        let user = await User.findOne({ id: req.body.userId }).then(
-          (err, user) => {
-            if (err)
-              return res
-                .status(404)
-                .json({ err: true, message: "Invalid user Id" });
-            return user;
-          }
-        );
-        user.order = [...user.order, order];
-        await user.save();
-        return res.status(200).json(body);
-      }
-    );
+        return res;
+      });
+    return res.json(response);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       message: "Something Went Wrong",
     });
