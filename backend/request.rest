@@ -296,15 +296,13 @@ Content-Type: application/json
 ###
 POST http://localhost:5000/api/restaurant/18749515 HTTP/1.1
 
-<<<<<<< HEAD
-=======
 
 ###
 GET http://localhost:5000/api/restaurant/all HTTP/1.1
 Content-Type: application/json
 
 {
-  "city_id":"asdf"
+  "city_id":"asdf",
 }
 
 ###
@@ -325,7 +323,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:5000/api/search/localities
+GET http://localhost:5000/api/search/localities
 Content-Type: application/json
 
 {
@@ -335,3 +333,19 @@ Content-Type: application/json
 
 ### 
 GET http://localhost:5000/api/search/restaurant?q="roti"&city_id=4 HTTP/1.1
+
+
+###
+
+POST  http://localhost:5000/api/restaurant/filterd HTTP/1.1
+Content-Type: application/json
+
+{
+  "filters":[{
+    "location.city_id":2,
+    "cuisines":"north"
+  },{"cuisines":1}],
+  "sort":[
+    {}
+  ]
+}

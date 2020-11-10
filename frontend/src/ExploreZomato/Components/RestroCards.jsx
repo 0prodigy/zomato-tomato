@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AssistantIcon from "@material-ui/icons/Star";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getFilterRestaurant } from "../Redux/action";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   * {
@@ -50,9 +54,42 @@ const Wrapper = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  .sidebar h5.form-check-label {
+    cursor: pointer;
+  }
 `;
 
 function RestroCards() {
+  const [filters, setFilter] = useState({});
+  const [sort, setSort] = useState({});
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { restaurants, isLoading } = useSelector(
+    (state) => state.restaurantFilterReducer
+  );
+
+  const handleRequest = () => {
+    dispatch(
+      getFilterRestaurant(filters, sort, location.sate && location.sate.city_id)
+    );
+  };
+
+  const handleFilter = (payload) => {
+    setFilter({ ...payload });
+    handleRequest();
+  };
+
+  const handleSort = (payload) => {
+    setSort({ ...payload });
+    handleRequest();
+  };
+
+  useEffect(() => {
+    handleRequest();
+    //eslint-disable-next-line
+  }, [filters, sort]);
+
   return (
     <>
       <Wrapper>
@@ -62,7 +99,7 @@ function RestroCards() {
           </div>
 
           <div className="row">
-            <div className="col-2 bg-white mb-5 p-2 rounded border">
+            <div className="col-2 bg-white mb-5 p-2 rounded border sidebar">
               <div>
                 <h5>Filters</h5>
               </div>
@@ -139,6 +176,7 @@ function RestroCards() {
                       className="form-check-input"
                       type="checkbox"
                       id="gridCheck"
+                      onChange={() => handleFilter({ has_online_delivery: 1 })}
                     />
                     <label
                       className="form-check-label"
@@ -166,6 +204,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleSort({ "user_rating.votes": 1 })}
                 >
                   Popularity-high to low
                 </h5>
@@ -173,6 +212,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleSort({ all_reviews_count: 1 })}
                 >
                   Delivery Rating
                 </h5>
@@ -180,6 +220,9 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleSort({ "user_rating.aggregate_rating": 1 })
+                  }
                 >
                   Rating
                 </h5>
@@ -187,6 +230,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleSort({ photo_count: 1 })}
                 >
                   Recently Added
                 </h5>
@@ -207,6 +251,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "North Indian" })}
                 >
                   North Indian
                 </h5>
@@ -214,6 +259,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Chinese" })}
                 >
                   Chinese
                 </h5>
@@ -221,6 +267,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Beverages" })}
                 >
                   Beverages
                 </h5>
@@ -228,6 +275,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Mughlai" })}
                 >
                   Mughlai
                 </h5>
@@ -235,6 +283,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Rolls" })}
                 >
                   Rolls
                 </h5>
@@ -242,6 +291,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "South Indian" })}
                 >
                   South Indian
                 </h5>
@@ -249,6 +299,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Biriyani" })}
                 >
                   Biriyani
                 </h5>
@@ -256,6 +307,7 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() => handleFilter({ cuisines: "Italian" })}
                 >
                   Italian
                 </h5>
@@ -310,6 +362,9 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({ average_cost_for_two: { $lt: 250 } })
+                  }
                 >
                   Less than ₹250
                 </h5>
@@ -317,6 +372,11 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({
+                      average_cost_for_two: { $lt: 500, $gt: 250 },
+                    })
+                  }
                 >
                   ₹250 to ₹500
                 </h5>
@@ -324,6 +384,11 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({
+                      average_cost_for_two: { $lt: 1000, $gt: 500 },
+                    })
+                  }
                 >
                   ₹500 to ₹1000
                 </h5>
@@ -331,6 +396,11 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({
+                      average_cost_for_two: { $lt: 1500, $gt: 1000 },
+                    })
+                  }
                 >
                   ₹1000 to ₹1500
                 </h5>
@@ -338,6 +408,11 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({
+                      average_cost_for_two: { $lt: 2500, $gt: 1500 },
+                    })
+                  }
                 >
                   ₹1500 to ₹2500
                 </h5>
@@ -345,6 +420,9 @@ function RestroCards() {
                   className="form-check-label p-1"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
+                  onClick={() =>
+                    handleFilter({ average_cost_for_two: { $gt: 2500 } })
+                  }
                 >
                   ₹2500+
                 </h5>
@@ -426,6 +504,124 @@ function RestroCards() {
                 </div>
               </div>
               <div className="row mt-3">
+                <h1>{isLoading && "Loading......"}</h1>
+                {restaurants &&
+                  restaurants?.map((restaurant, i) => (
+                    <div className="col-6" key={restaurant.id}>
+                      <div className="card">
+                        <div className="card-body d-flex">
+                          <img
+                            src={restaurant && restaurant.thumb}
+                            style={{ width: "87px", height: "101px" }}
+                            className="mr-3 rounded"
+                            alt="card1"
+                          />
+                          <div>
+                            <div className="col-lg-12 col-sm-13">
+                              <div className="row">
+                                <Link className="card-heading-link" to="/#">
+                                  {restaurant && restaurant.name}
+                                </Link>
+                                <div className="single-rating d-flex">
+                                  <div className="d-flex m-1">
+                                    {restaurant &&
+                                      new Array(
+                                        Math.floor(
+                                          parseInt(
+                                            restaurant.user_rating
+                                              .aggregate_rating
+                                          )
+                                        )
+                                      )
+                                        .fill(0)
+                                        .map((star, i) => (
+                                          <AssistantIcon
+                                            key={i}
+                                            style={{ color: "#E23744" }}
+                                          />
+                                        ))}
+                                    <AssistantIcon
+                                      style={{ color: "#E23744" }}
+                                    />
+                                    <AssistantIcon
+                                      style={{ color: "#E23744" }}
+                                    />
+                                    <span className="ratings-count">
+                                      {parseInt(
+                                        restaurant.user_rating.aggregate_rating
+                                      ).toFixed(1)}
+                                    </span>
+                                    <span className="review-count">
+                                      (
+                                      {restaurant &&
+                                        restaurant.all_reviews_count}{" "}
+                                      Reviews)
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="description">
+                                  <div className="clear"></div>
+                                  <div className="grey-text flex-nowrap  ln24 ">
+                                    {" "}
+                                    {restaurant &&
+                                      restaurant.cuisines
+                                        .split(",")
+                                        .map(
+                                          (item, i) =>
+                                            i < 5 && (
+                                              <React.Fragment key={item + i}>
+                                                {item}
+                                              </React.Fragment>
+                                            )
+                                        )}
+                                  </div>
+                                  <div className="grey-text flex-nowrap   ln24 ">
+                                    Cost ₹
+                                    {restaurant &&
+                                      restaurant.average_cost_for_two}{" "}
+                                    for two
+                                  </div>
+                                  <div className="flex-nowrap order-min ln24 ">
+                                    Min ₹50
+                                    <span className="middot"> · </span> Up to 34
+                                    min{" "}
+                                  </div>
+                                  <div className="flex-nowrap  order-min ln24 ">
+                                    Accepts cash{" "}
+                                    {restaurant &&
+                                      restaurant.has_online_delivery &&
+                                      "& online payments"}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          className="card-footer bg-white "
+                          style={{
+                            padding: "0px",
+                            margin: "0px",
+                          }}
+                        >
+                          <div className="d-flex bd-highlight">
+                            <div
+                              className="ml-auto bd-highlight text-success p-2 border-left"
+                              style={{
+                                backgroundColor: "#e6f5ec",
+                                marginBottom: "0px",
+                              }}
+                            >
+                              Order Online
+                              <ArrowForwardIosIcon />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 <div className="col-6">
                   <div className="card">
                     <div className="card-body d-flex">
