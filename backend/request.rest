@@ -349,3 +349,16 @@ Content-Type: application/json
     {}
   ]
 }
+
+###
+
+GET http://localhost:5000/api/users/findById/104251653508062487859 HTTP/1.1
+
+###
+POST http://localhost:5000/api/users/addAddress HTTP/1.1
+Content-Type: application/json
+
+{
+  "id":"110690392745756270940",
+  "address": "Mahavir Colony, Patna, Bihar"
+}
