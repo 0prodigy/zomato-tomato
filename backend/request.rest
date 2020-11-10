@@ -323,7 +323,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/search/localities
+POST  http://localhost:5000/api/search/localities
 Content-Type: application/json
 
 {

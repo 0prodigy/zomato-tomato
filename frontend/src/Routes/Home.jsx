@@ -20,6 +20,7 @@ function Home(props) {
   };
   useEffect(() => {
     initialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
