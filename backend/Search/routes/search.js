@@ -20,7 +20,7 @@ router.post(
   getCollection
 );
 
-router.get(
+router.post(
   "/localities",
   [
     body("city_id")

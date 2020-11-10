@@ -67,8 +67,6 @@ const CollectionCard = styled.div`
 function Collections(props) {
   const { cityCollections, searchCity } = props;
   const match = useRouteMatch();
-  console.log("The city collections are", cityCollections);
-  console.log("The match are", match);
   return (
     <>
       <Wrapper>
@@ -89,7 +87,6 @@ function Collections(props) {
           <div className="d-flex" style={{ height: "340px" }}>
             {cityCollections.collections !== undefined &&
               cityCollections.collections.map((collection, index) => {
-                console.log("Collection is", collection);
                 if (index < 4) {
                   return (
                     <CollectionCard
