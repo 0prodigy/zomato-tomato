@@ -1,3 +1,4 @@
+import { constant } from "lodash";
 import * as constants from "./actionTypes";
 
 const initialState = {
@@ -5,6 +6,7 @@ const initialState = {
   errorMessage: "",
   isLoading: false,
   restaurant: {},
+  cart: [],
 };
 
 export const restaurantReducer = (state = initialState, action) => {

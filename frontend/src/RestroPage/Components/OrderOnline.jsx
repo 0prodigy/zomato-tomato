@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Cancel from "@material-ui/icons/Cancel";
@@ -13,8 +13,19 @@ import Popover from "react-bootstrap/Popover";
 // import PopoverContent from "react-bootstrap/PopoverContent";
 // import PopoverTitle from "react-bootstrap/PopoverTitle";
 import LanguageIcon from "@material-ui/icons/Language";
+import clsx from "clsx";
 import DishComponent from "./DishComponent";
 import MainFooter from "../../LandingPage/Components/MainFooter";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  IconButton,
+  Button,
+  Modal,
+  Backdrop,
+  Divider,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CloseIcon from "@material-ui/icons/Close";
 
 const Wrapper = styled.div`
   * {
@@ -224,30 +235,206 @@ const Wrapper = styled.div`
     word-break: break-all;
     color: rgb(156, 156, 156);
   }
+
+  ${"" /* .cartFooterPresent {
+    margin-bottom: 70px;
+  } */}
 `;
+
+const CartWrapper = styled.div`
+  position: fixed;
+  z-index: 1400;
+  width: 100%;
+  height: 65px;
+  bottom: 0;
+  background-color: white;
+  .cartFooter {
+    margin: 0px auto;
+    height: 65px;
+    width: 73%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .showMoreItems {
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 0;
+    width: fit-content;
+    margin-right: 20px;
+  }
+
+  .customizeButton {
+    border: 1px solid grey;
+    display: flex;
+    border-radius: 6px;
+    cursor: pointer;
+    justify-content: center;
+    align-content: center;
+    width: 80px;
+
+    div {
+      padding: 2px 0px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div:nth-last-child(2) {
+      background-color: rgb(247, 235, 236);
+      :hover {
+        background-color: #f7d7da;
+      }
+    }
+  }
+`;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "4px",
+  },
+  expand: {
+    transform: "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(0deg)",
+  },
+  goToCart: {
+    background: "rgb(237, 90, 107)",
+    width: "150px",
+    color: "white",
+    margin: "20px 0px",
+    padding: "6px 0px",
+    borderRadius: "6px",
+    fontSize: "16px",
+    textTransform: "none",
+    fontWeight: "300",
+    "&:hover": {
+      background: "#f7394f",
+    },
+  },
+  clearCart: {
+    border: "1px solid rgb(237, 90, 107)",
+    width: "150px",
+    color: "rgb(237, 90, 107)",
+    margin: "20px 10px",
+    padding: "6px 0px",
+    borderRadius: "6px",
+    fontSize: "16px",
+    fontWeight: "300",
+    textTransform: "none",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    width: "100%",
+    position: "absolute",
+    bottom: "60px",
+    height: "300px",
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(0, 4, 3),
+  },
+
+  showCartItems: {
+    width: "73%",
+    margin: "0px auto",
+    "& >div >div": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+  },
+
+  customizeButton: {
+    border: "1px solid grey",
+    height: "30px",
+    display: "flex",
+    borderRadius: "6px",
+    cursor: "pointer",
+    justifyContent: "center",
+    alignContent: "center",
+    width: "80px",
+
+    "& div": {
+      padding: "2px 0px",
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    "& div:nth-last-child(2)": {
+      backgroundColor: "rgb(247, 235, 236)",
+      "& :hover": {
+        backgroundColor: "#f7d7da",
+      },
+    },
+  },
+}));
 
 function OrderOnline(props) {
   const { data } = props;
+  const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+  let [cart, setCart] = useState([]);
+  const [totalValue, setTotalValue] = useState(0);
 
-  const [cart, setCart] = useState({});
-
-  // const addToCart = (dish) => {
-  //   console.log(dish);
-  //   console.log("added", cart.length + 1);
-  //   setCart([...cart, dish]);
-  // };
-
-  const cartFunction = (dish, quantity) => {
-    console.log(dish, quantity);
-    setCart({
-      ...cart,
-      dish: quantity,
-    });
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
+  const cartFunction = (dishName, dish, quantity) => {
+    setCart([
+      ...cart,
+      {
+        ...dish,
+        quantity: quantity,
+      },
+    ]);
+  };
+
+  const addQuantity = (dishName, dish, quantity) => {
+    let newData;
+    if (quantity === 0) {
+      newData = cart.filter((item) => item.dish !== dishName);
+    } else {
+      newData = cart.map((item) => {
+        if (item.dish === dishName) {
+          return {
+            ...item,
+            quantity: quantity,
+          };
+        }
+        return item;
+      });
+    }
+    setCart(newData);
+  };
+
+  const addItem = (dishName, dish, quantity) => {
+    setTotalValue((prev) => prev + Number(dish.cost));
+    addQuantity(dish.dish, dish, quantity + 1);
+  };
+
+  const removeItem = (dishName, dish, quantity) => {
+    setTotalValue((prev) => prev - Number(dish.cost));
+    addQuantity(dish.dish, dish, quantity - 1);
+  };
+
+  console.log("The cart is", cart);
+
   return (
-    <div>
-      <>
+    <>
+      <div>
         <Wrapper>
           {/* Order Online */}
           <div className="container">
@@ -341,206 +528,15 @@ function OrderOnline(props) {
                       data.menu?.map((dish, i) => (
                         <DishComponent
                           cartFunction={cartFunction}
+                          addQuantity={addQuantity}
+                          setTotalValue={setTotalValue}
+                          addItem={addItem}
+                          cart={cart}
+                          removeItem={removeItem}
                           dish={dish}
                           key={i}
                         />
                       ))}
-                    <div className="mb-3">
-                      <div className="d-flex">
-                        <div className="mr-3">
-                          <img
-                            src="https://b.zmtcdn.com/data/dish_photos/39e/d0335754835f2bea93f9b2882b0c239e.jpg?output-format=webp&fit=around|130:130&crop=130:130;*,*"
-                            alt="card"
-                            style={{
-                              height: "129px",
-                              width: "127px",
-                              borderRadius: "10px",
-                            }}
-                          />
-                          <div className="mr-3"></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div>
-                            <h5>Dhoda Special</h5>
-                            <div className="d-flex">
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />{" "}
-                              <p>214 Votes</p>
-                            </div>
-                            <p>₹114.28</p>
-                          </div>
-                          <div>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              style={{ marginLeft: "400px" }}
-                            >
-                              ADD +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <div className="d-flex">
-                        <div className="mr-3">
-                          <img
-                            src="https://b.zmtcdn.com/data/dish_photos/fb3/9ec8913365d9d5a5428639e59572dfb3.jpg?output-format=webp&fit=around|130:130&crop=130:130;*,*"
-                            alt="card"
-                            style={{
-                              height: "129px",
-                              width: "127px",
-                              borderRadius: "10px",
-                            }}
-                          />
-                          <div className="mr-3"></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div>
-                            <h5>Dhoda Special</h5>
-                            <div className="d-flex">
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />{" "}
-                              <p>214 Votes</p>
-                            </div>
-                            <p>₹114.28</p>
-                          </div>
-                          <div>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              style={{ marginLeft: "400px" }}
-                            >
-                              ADD +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <div className="d-flex">
-                        <div className="mr-3">
-                          <img
-                            src="https://b.zmtcdn.com/data/dish_photos/867/1780e4c87bf57cd83f6c8e1ebe3ff867.jpg?output-format=webp&fit=around|130:130&crop=130:130;*,*"
-                            alt="card"
-                            style={{
-                              height: "129px",
-                              width: "127px",
-                              borderRadius: "10px",
-                            }}
-                          />
-                          <div className="mr-3"></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div>
-                            <h5>Dhoda Special</h5>
-                            <div className="d-flex">
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />{" "}
-                              <p>214 Votes</p>
-                            </div>
-                            <p>₹114.28</p>
-                          </div>
-                          <div>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              style={{ marginLeft: "400px" }}
-                            >
-                              ADD +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <div className="d-flex">
-                        <div className="mr-3">
-                          <img
-                            src="https://b.zmtcdn.com/data/dish_photos/5d2/43b99589688105bc9751ea43c52c35d2.jpg?output-format=webp&fit=around|130:130&crop=130:130;*,*"
-                            alt="card"
-                            style={{
-                              height: "129px",
-                              width: "127px",
-                              borderRadius: "10px",
-                            }}
-                          />
-                          <div className="mr-3"></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div>
-                            <h5>Dhoda Special</h5>
-                            <div className="d-flex">
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />
-                              <AssistantIcon
-                                style={{ color: "rgb(255,216,0)" }}
-                              />{" "}
-                              <p>214 Votes</p>
-                            </div>
-                            <p>₹114.28</p>
-                          </div>
-                          <div>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              style={{ marginLeft: "400px" }}
-                            >
-                              ADD +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </section>
               </section>
@@ -568,9 +564,168 @@ function OrderOnline(props) {
             </div>
           </div>
           <MainFooter />
+          <div className={cart.length > 0 ? "cartFooterPresent" : ""}></div>
         </Wrapper>
-      </>
-    </div>
+      </div>
+      {cart.length > 0 && (
+        <CartWrapper>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={expanded}
+            onClose={() => setExpanded((prev) => !prev)}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <div className={classes.paper}>
+              <div className={classes.showCartItems}>
+                <div
+                  style={{
+                    margin: "8px 0px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ fontSize: "24px" }}>Your Orders</div>
+                  <IconButton onClick={() => setExpanded((prev) => !prev)}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+                <div style={{ overflow: "auto", height: "235px" }}>
+                  {cart.map((item) => {
+                    return (
+                      <div
+                        style={{
+                          display: "block",
+                          margin: "8px 0px",
+                        }}
+                      >
+                        <Divider orientation="horizontal" />
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                            padding: "4px 0px",
+                          }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            <div>
+                              {item.veg === false ? (
+                                <img
+                                  src="/non-veg.png"
+                                  alt="Non-Veg Item"
+                                  style={{ width: "15px", margin: "0px 8px" }}
+                                />
+                              ) : (
+                                <img
+                                  src="/veg.png"
+                                  alt="Veg Item"
+                                  style={{ width: "15px", margin: "0px 8px" }}
+                                />
+                              )}
+                            </div>
+                            <div style={{ fontSize: "16px", marginTop: "2px" }}>
+                              {item.dish}
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <div className={classes.customizeButton}>
+                              <div
+                                style={{ color: "red", fontWeight: "300" }}
+                                class="bd-highlight"
+                                onClick={() =>
+                                  removeItem(item.dish, item, item.quantity)
+                                }
+                              >
+                                -
+                              </div>
+                              <div
+                                class="bd-highlight"
+                                style={{ fontSize: "16px" }}
+                              >
+                                {item.quantity}
+                              </div>
+                              <div
+                                style={{ color: "red", fontWeight: "300" }}
+                                class="bd-highlight"
+                                onClick={() =>
+                                  addItem(item.dish, item, item.quantity)
+                                }
+                              >
+                                +
+                              </div>
+                            </div>
+                            <div
+                              style={{ fontSize: "14px", fontWeight: "300" }}
+                            >
+                              ₹{item.quantity * Number(item.cost)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </Modal>
+
+          <div className="cartFooter">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div className="showMoreItems">
+                <IconButton
+                  className={clsx(classes.expand, classes.root, {
+                    [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                  disableRipple
+                  color="inherit"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </div>
+              <div style={{ fontSize: "18px" }}>
+                {" "}
+                Your Order ({cart.length})
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "fit-content",
+                  fontSize: "18px",
+                  marginRight: "12px",
+                }}
+              >
+                Subtotal: ₹<span>{totalValue}</span>
+              </div>
+              {expanded && (
+                <Button
+                  className={classes.clearCart}
+                  onClick={() => setCart([])}
+                >
+                  Clear Cart
+                </Button>
+              )}
+              <Button className={classes.goToCart}>Continue</Button>
+            </div>
+          </div>
+        </CartWrapper>
+      )}
+    </>
   );
 }
 
