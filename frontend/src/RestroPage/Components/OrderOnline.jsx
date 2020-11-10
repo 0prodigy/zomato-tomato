@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  emptyCartItems,
+  changeItemQuantityInCart,
+  setTotalCartValue,
+} from "../Redux/action";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Cancel from "@material-ui/icons/Cancel";
-import AssistantIcon from "@material-ui/icons/Star";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import TwitterIcon from "@material-ui/icons/Twitter";
-import InstagramIcon from "@material-ui/icons/Instagram";
-// import Overlay from "react-bootstrap/Overlay";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-// import Tooltip from "react-bootstrap/Tooltip";
-import Popover from "react-bootstrap/Popover";
-// import PopoverContent from "react-bootstrap/PopoverContent";
-// import PopoverTitle from "react-bootstrap/PopoverTitle";
-import LanguageIcon from "@material-ui/icons/Language";
 import clsx from "clsx";
 import DishComponent from "./DishComponent";
 import MainFooter from "../../LandingPage/Components/MainFooter";
@@ -384,53 +380,16 @@ const useStyles = makeStyles((theme) => ({
 function OrderOnline(props) {
   const { data } = props;
   const classes = useStyles();
+  const location = useLocation();
+  const history = useHistory();
   const [expanded, setExpanded] = useState(false);
-  let [cart, setCart] = useState([]);
-  const [totalValue, setTotalValue] = useState(0);
+  const cartValue = useSelector((state) => state.restaurantReducer.cartValue);
+  const reduxCart = useSelector((state) => state.restaurantReducer.cart);
+  const dispatch = useDispatch();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const cartFunction = (dishName, dish, quantity) => {
-    setCart([
-      ...cart,
-      {
-        ...dish,
-        quantity: quantity,
-      },
-    ]);
-  };
-
-  const addQuantity = (dishName, dish, quantity) => {
-    let newData;
-    if (quantity === 0) {
-      newData = cart.filter((item) => item.dish !== dishName);
-    } else {
-      newData = cart.map((item) => {
-        if (item.dish === dishName) {
-          return {
-            ...item,
-            quantity: quantity,
-          };
-        }
-        return item;
-      });
-    }
-    setCart(newData);
-  };
-
-  const addItem = (dishName, dish, quantity) => {
-    setTotalValue((prev) => prev + Number(dish.cost));
-    addQuantity(dish.dish, dish, quantity + 1);
-  };
-
-  const removeItem = (dishName, dish, quantity) => {
-    setTotalValue((prev) => prev - Number(dish.cost));
-    addQuantity(dish.dish, dish, quantity - 1);
-  };
-
-  console.log("The cart is", cart);
 
   return (
     <>
@@ -526,16 +485,7 @@ function OrderOnline(props) {
                     </div>
                     {data &&
                       data.menu?.map((dish, i) => (
-                        <DishComponent
-                          cartFunction={cartFunction}
-                          addQuantity={addQuantity}
-                          setTotalValue={setTotalValue}
-                          addItem={addItem}
-                          cart={cart}
-                          removeItem={removeItem}
-                          dish={dish}
-                          key={i}
-                        />
+                        <DishComponent dish={dish} key={i} />
                       ))}
                   </div>
                 </section>
@@ -564,10 +514,12 @@ function OrderOnline(props) {
             </div>
           </div>
           <MainFooter />
-          <div className={cart.length > 0 ? "cartFooterPresent" : ""}></div>
+          <div
+            className={reduxCart.length > 0 ? "cartFooterPresent" : ""}
+          ></div>
         </Wrapper>
       </div>
-      {cart.length > 0 && (
+      {reduxCart.length > 0 && (
         <CartWrapper>
           <Modal
             aria-labelledby="transition-modal-title"
@@ -596,7 +548,7 @@ function OrderOnline(props) {
                   </IconButton>
                 </div>
                 <div style={{ overflow: "auto", height: "235px" }}>
-                  {cart.map((item) => {
+                  {reduxCart.map((item) => {
                     return (
                       <div
                         style={{
@@ -644,9 +596,19 @@ function OrderOnline(props) {
                               <div
                                 style={{ color: "red", fontWeight: "300" }}
                                 class="bd-highlight"
-                                onClick={() =>
-                                  removeItem(item.dish, item, item.quantity)
-                                }
+                                onClick={() => {
+                                  dispatch(
+                                    setTotalCartValue(
+                                      cartValue - Number(item.cost)
+                                    )
+                                  );
+                                  dispatch(
+                                    changeItemQuantityInCart(
+                                      item.dish,
+                                      item.quantity - 1
+                                    )
+                                  );
+                                }}
                               >
                                 -
                               </div>
@@ -659,9 +621,19 @@ function OrderOnline(props) {
                               <div
                                 style={{ color: "red", fontWeight: "300" }}
                                 class="bd-highlight"
-                                onClick={() =>
-                                  addItem(item.dish, item, item.quantity)
-                                }
+                                onClick={() => {
+                                  dispatch(
+                                    setTotalCartValue(
+                                      cartValue + Number(item.cost)
+                                    )
+                                  );
+                                  dispatch(
+                                    changeItemQuantityInCart(
+                                      item.dish,
+                                      item.quantity + 1
+                                    )
+                                  );
+                                }}
                               >
                                 +
                               </div>
@@ -699,7 +671,7 @@ function OrderOnline(props) {
               </div>
               <div style={{ fontSize: "18px" }}>
                 {" "}
-                Your Order ({cart.length})
+                Your Order ({reduxCart.length})
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -710,17 +682,33 @@ function OrderOnline(props) {
                   marginRight: "12px",
                 }}
               >
-                Subtotal: ₹<span>{totalValue}</span>
+                Subtotal: ₹<span>{cartValue}</span>
               </div>
               {expanded && (
                 <Button
                   className={classes.clearCart}
-                  onClick={() => setCart([])}
+                  onClick={() => {
+                    dispatch(setTotalCartValue(0));
+                    dispatch(emptyCartItems());
+                  }}
                 >
                   Clear Cart
                 </Button>
               )}
-              <Button className={classes.goToCart}>Continue</Button>
+              <Button
+                className={classes.goToCart}
+                onClick={() =>
+                  history.push({
+                    pathname: location.pathname + "/order",
+                    state: {
+                      restaurantName: data.name,
+                      restaurantLocation: data.location.locality_verbose,
+                    },
+                  })
+                }
+              >
+                Continue
+              </Button>
             </div>
           </div>
         </CartWrapper>

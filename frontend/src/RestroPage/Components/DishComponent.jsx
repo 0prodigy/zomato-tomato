@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import AssistantIcon from "@material-ui/icons/Star";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addItemToCart,
+  changeItemQuantityInCart,
+  setTotalCartValue,
+} from "../Redux/action";
 
 const Wrapper = styled.div`
   .addButton {
@@ -41,25 +47,20 @@ const Wrapper = styled.div`
 `;
 
 function DishComponent(props) {
-  const {
-    dish,
-    cartFunction,
-    setTotalValue,
-    addItem,
-    removeItem,
-    cart,
-  } = props;
-
+  const { dish } = props;
+  const cartValue = useSelector((state) => state.restaurantReducer.cartValue);
+  const reduxCart = useSelector((state) => state.restaurantReducer.cart);
+  const dispatch = useDispatch();
   const [dishCount, setDishCount] = useState(0);
 
   React.useEffect(() => {
-    let newCount = cart.filter((item) => item.dish === dish.dish);
+    let newCount = reduxCart.filter((item) => item.dish === dish.dish);
     if (newCount[0] !== undefined) {
       setDishCount(newCount[0].quantity);
     } else {
       setDishCount(0);
     }
-  }, [cart, dish]);
+  }, [reduxCart, dish.dish]);
 
   return (
     <>
@@ -118,7 +119,13 @@ function DishComponent(props) {
                     style={{ color: "red" }}
                     class="bd-highlight"
                     onClick={() => {
-                      removeItem(dish.dish, dish, dishCount);
+                      setDishCount((prev) => prev - 1);
+                      dispatch(
+                        setTotalCartValue(cartValue - Number(dish.cost))
+                      );
+                      dispatch(
+                        changeItemQuantityInCart(dish.dish, dishCount - 1)
+                      );
                     }}
                   >
                     -
@@ -128,7 +135,13 @@ function DishComponent(props) {
                     style={{ color: "red" }}
                     class="bd-highlight"
                     onClick={() => {
-                      addItem(dish.dish, dish, dishCount);
+                      setDishCount((prev) => prev + 1);
+                      dispatch(
+                        setTotalCartValue(cartValue + Number(dish.cost))
+                      );
+                      dispatch(
+                        changeItemQuantityInCart(dish.dish, dishCount + 1)
+                      );
                     }}
                   >
                     +
@@ -141,8 +154,9 @@ function DishComponent(props) {
                 class="btn btn-light addButton"
                 onClick={() => {
                   setDishCount((prev) => prev + 1);
-                  setTotalValue((prev) => prev + Number(dish.cost));
-                  cartFunction(dish.dish, dish, dishCount + 1);
+                  dispatch(changeItemQuantityInCart(dish.dish, 1));
+                  dispatch(setTotalCartValue(cartValue + Number(dish.cost)));
+                  dispatch(addItemToCart(dish, 1));
                 }}
               >
                 Add <span style={{ color: "red", fontWeight: "500" }}>+</span>
