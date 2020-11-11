@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -72,6 +72,9 @@ function LoginCheckout() {
   const reduxCart = useSelector((state) => state.restaurantReducer.cart);
   const dispatch = useDispatch();
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+  const [getUserDetails, setUserDetails] = useState();
+
+  const handleUserLocation = () => {};
 
   const paymentHandler = async (e) => {
     e.preventDefault();
