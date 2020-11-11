@@ -14,6 +14,13 @@ import MainFooter from "../../LandingPage/Components/MainFooter";
 import { Wrapper } from "../Style/OrderOnlineStyle";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Backdrop from "@material-ui/core/Backdrop";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
 
 const CartWrapper = styled.div`
   position: fixed;
