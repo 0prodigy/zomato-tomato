@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUserLocation } from "../../LandingPage/Redux/action";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import AssistantIcon from "@material-ui/icons/Star";
-// import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import DirectionsIcon from "@material-ui/icons/Directions";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -231,7 +233,56 @@ const Wrapper = styled.div`
 `;
 
 function ItemName(props) {
+  const userCoordinates = useSelector(
+    (state) => state.landingPageReducer.userCoordinates
+  );
   const { data } = props;
+  const dispatch = useDispatch();
+
+  const getUserCoordinates = () => {
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      dispatch(getUserLocation(longitude, latitude));
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${
+          data && data.location && data.location.cords.coordinates[1]
+        },${data && data.location && data.location.cords.coordinates[0]}`
+      );
+    }
+
+    function error() {
+      console.log("Unable to retrieve your location");
+      window.open(
+        `https://www.google.com/maps/dir/${
+          data && data.location && data.location.cords.coordinates[1]
+        },${data && data.location && data.location.cords.coordinates[0]}`
+      );
+    }
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+    } else {
+      console.log(navigator.geolocation.getCurrentPosition(success, error));
+      return navigator.geolocation.getCurrentPosition(success, error);
+    }
+  };
+
+  const goToLocation = () => {
+    if (userCoordinates.latitude === undefined) {
+      getUserCoordinates();
+    } else {
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&origin=${
+          userCoordinates.latitude
+        },${userCoordinates.longitude}&destination=${
+          data && data.location && data.location.cords.coordinates[1]
+        },${data && data.location && data.location.cords.coordinates[0]}`
+      );
+    }
+  };
+
+  console.log("User coordinates", data);
   return (
     <Wrapper>
       <section className="container main-div">
@@ -338,10 +389,22 @@ function ItemName(props) {
               </span>
             </button>
             <div className="btn">
-              <span className="add">
+              {/* <a
+                rel="noreferrer"
+                target="_blank"
+                href={`https://www.google.com/maps/dir/?api=1&origin=${
+                  userCoordinates.latitude
+                },${userCoordinates.longitude}&destination=${
+                  data && data.location && data.location.cords.coordinates[1]
+                },${
+                  data && data.location && data.location.cords.coordinates[0]
+                }`}
+              > */}
+              <span className="add" onClick={goToLocation}>
                 <DirectionsIcon />
                 <span style={{ color: "rgb(28, 28, 28)" }}>Direction</span>
               </span>
+              {/* </a> */}
             </div>
             <div className="btn">
               <span className="add">
