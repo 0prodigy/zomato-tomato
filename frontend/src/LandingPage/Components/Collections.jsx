@@ -58,7 +58,6 @@ function Collections(props) {
                       >
                         <div className="bottom-right">
                           {collection.collection.title}
-                          {collection.collection.res_count}
                         </div>
                       </Link>
                     </CollectionCard>

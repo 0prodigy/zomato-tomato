@@ -384,11 +384,11 @@ function MainFooter() {
                 className="footer-heading"
                 style={{ fontWeight: "400", letterSpacing: "0.2rem" }}
               >
-                FOR RESTAURENTS
+                FOR RESTAURANTS
               </h6>
               <nav className="footer-name">
                 <Link to={"/Add Restaurents"}>
-                  <p className="footer-Link">Add Restaurents</p>
+                  <p className="footer-Link">Add Restaurant</p>
                 </Link>
                 <Link to={"/Claim-Your-Listing"}>
                   <p className="footer-Link">Claim Your Listing</p>
@@ -397,10 +397,10 @@ function MainFooter() {
                   <p className="footer-Link">Bussiness App</p>
                 </Link>
                 <Link to={"/Restaurents-Widgets"}>
-                  <p className="footer-Link">Restaurents Widgets</p>
+                  <p className="footer-Link">Restaurant Widgets</p>
                 </Link>
                 <Link to={"/Products-for-Bussiness"}>
-                  <p className="footer-Link">Products for Bussiness</p>
+                  <p className="footer-Link">Products for Businesses</p>
                 </Link>
               </nav>
             </div>
@@ -469,7 +469,7 @@ function MainFooter() {
             </div>
           </div>
           <hr className="container" />
-          <p className="policy container">
+          <p className="policy container" style={{ marginBottom: "0px" }}>
             By continuing past this page, you agree to our Terms of Service,
             Cookie Policy, Privacy Policy and Content Policies. All trademarks
             are properties of their respective owners. 2008-2020 © Zomato™ Pvt

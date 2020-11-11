@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { Wrapper } from "../Style/PopolarLocalitiesStyle";
+import axios from "axios";
 
 function PopularLocalities() {
   const searchCity = useSelector(
     (state) => state.landingPageReducer.searchCity
   );
+  const cityId = useSelector((state) => state.landingPageReducer.cityId);
+  const [localities, setLocalities] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/search/localities",
+      data: {
+        city_id: cityId,
+      },
+    })
+      .then((response) => setLocalities(response.data.localities))
+      .catch((error) => setLocalities([]));
+  }, []);
   return (
     <>
       <Wrapper>
@@ -15,19 +30,16 @@ function PopularLocalities() {
             Popular localities in and around{" "}
             <span className="city-name">{searchCity}</span>
           </p>
-          <div className="container d-flex justify-content-between">
-            {[
-              "Connaught Place (376 pl...",
-              "Sector 29,Gurgaon (20..",
-              "Sector 18,Noida(254 pl..",
-            ].map((item) => (
-              <div className="card list-body m-2" key={item}>
-                <div className="card-body list-text">
-                  {item}
+          <div className="container d-flex justify-content-between flex-wrap">
+            {localities.length > 0 &&
+              localities.map((item) => (
+                <div className="card list-body m-2" key={item._id}>
+                  <div className="card-body list-text">
+                    {item.location.locality}
+                  </div>
                   <ArrowForwardIosIcon className="icons" />
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </Wrapper>

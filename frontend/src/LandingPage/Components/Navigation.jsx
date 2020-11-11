@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
 import Fade from "@material-ui/core/Fade";
 import { NavigationWrapper } from "../Style/NavigationStyle";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -76,34 +77,39 @@ function Navigation(props) {
         <ul className="defaultNavigation">
           <li className="zomatoLogo">Get the app</li>
           {activeUserDetails.active !== false ? (
-            <li className="navigationButton userDetails">
-              <Avatar alt="User profile Image" src={activeUserDetails.image} />
-              <span>{activeUserDetails.name}</span>
-              <IconButton
-                disableRipple={true}
-                className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </IconButton>
+            <ClickAwayListener onClickAway={() => setExpanded(false)}>
+              <li className="navigationButton userDetails">
+                <Avatar
+                  alt="User profile Image"
+                  src={activeUserDetails.image}
+                />
+                <span>{activeUserDetails.name}</span>
+                <IconButton
+                  disableRipple={true}
+                  className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
 
-              <Fade in={expanded}>
-                <Card className={classes.root}>
-                  <div>Profile</div>
-                  <div>Notifications</div>
-                  <div>Bookmarks</div>
-                  <div>Reviews</div>
-                  <div>Network</div>
-                  <div>Find friends</div>
-                  <div>Settings</div>
-                  <div>Log out</div>
-                </Card>
-              </Fade>
-            </li>
+                <Fade in={expanded}>
+                  <Card className={classes.root}>
+                    <div>Profile</div>
+                    <div>Notifications</div>
+                    <div>Bookmarks</div>
+                    <div>Reviews</div>
+                    <div>Network</div>
+                    <div>Find friends</div>
+                    <div>Settings</div>
+                    <div>Log out</div>
+                  </Card>
+                </Fade>
+              </li>
+            </ClickAwayListener>
           ) : (
             <>
               <li className="navigationButton">

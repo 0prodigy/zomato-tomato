@@ -5,16 +5,19 @@ import { landingPageReducer } from "../LandingPage/Redux/reducer";
 import { restaurantReducer } from "../RestroPage/Redux/reducer";
 import { collectionPageReducer } from "../CollectionsPage/Redux/reducer";
 import thunk from "redux-thunk";
+import { restaurantFilterReducer } from "../ExploreZomato/Redux/reducer";
 
 const rootReducer = combineReducers({
   landingPageReducer,
   collectionPageReducer,
   restaurantReducer,
+  restaurantFilterReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["restaurantReducer"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
