@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 function RestroCards() {
   const [filters, setFilter] = useState({});
+  const [title, setTitle] = useState("Order-online");
   const [sort, setSort] = useState({});
   const location = useLocation();
   const dispatch = useDispatch();
@@ -19,7 +20,11 @@ function RestroCards() {
 
   const handleRequest = () => {
     dispatch(
-      getFilterRestaurant(filters, sort, location.sate && location.sate.city_id)
+      getFilterRestaurant(
+        filters,
+        sort,
+        location.state && location.state.city_id
+      )
     );
   };
 
@@ -35,15 +40,19 @@ function RestroCards() {
 
   useEffect(() => {
     handleRequest();
+    if (location.state && location.state.filter) {
+      setFilter(location.state.filter);
+      setTitle(location.state.title);
+    }
     //eslint-disable-next-line
-  }, [filters, sort]);
-
+  }, [filters, sort, location]);
+  console.log(location);
   return (
     <>
       <Wrapper>
         <div className="container">
           <div className="mt-5">
-            <h3>Order Food Online in Jai Singh Road</h3>
+            <h3>Order Food Online in {title}</h3>
           </div>
 
           <div className="row">

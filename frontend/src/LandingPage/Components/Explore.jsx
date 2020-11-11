@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Wrapper } from "../Style/ExploreStyle";
 
 function Explore() {
@@ -83,9 +84,20 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text" style={{ fontWeight: "500" }}>
-                Order Food Online
-              </h5>
+              <Link
+                to={{
+                  pathname: "kolkata/explore",
+                  state: {
+                    city_id: 2,
+                    filter: { average_cost_for_two: 1500 },
+                    title: "near_you",
+                  },
+                }}
+              >
+                <h5 className="card-text" style={{ fontWeight: "500" }}>
+                  Order Food Online
+                </h5>
+              </Link>
             </div>
           </div>
         </div>
