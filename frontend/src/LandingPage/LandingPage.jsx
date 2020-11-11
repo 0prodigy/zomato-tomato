@@ -8,6 +8,7 @@ import PopularLocalities from "./Components/PopularLocalities";
 import styled from "styled-components";
 import Navigation from "./Components/Navigation";
 import Banner from "./Components/Banner";
+import MobileApp from "./Components/MobileApp";
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -34,6 +35,7 @@ function LandingPage() {
       <Explore />
       <Collections />
       <PopularLocalities />
+      <MobileApp />
       <LandingFooter />
     </div>
   );

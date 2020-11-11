@@ -1,18 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
-
-// const Wrapper = styled.div``;
-const Wrapper = styled.div`
-  .navigation-shadow {
-   
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
-  
-  }
-  ,
- 
-`;
+import Wrapper from "../Styles/NavbarStyle";
 
 function Navbar() {
   return (

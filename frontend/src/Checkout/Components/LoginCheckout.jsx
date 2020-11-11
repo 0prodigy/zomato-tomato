@@ -1,10 +1,10 @@
 import React from "react";
-import styled from "styled-components";
 import Navbar from "./Navbar";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
+import { Wrapper } from "../Styles/LoginCheckoutStyle";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -31,76 +31,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-
-const Wrapper = styled.div`
-  * {
-    font-family: Poppins;
-    fotn-weight: 300;
-    filter: brightness(1);
-  }
-  .card-border {
-    border: 1px solid white;
-  }
-  .card-text {
-    font-size: 14px;
-    color: rgb(193, 193, 193);
-    font-weight: 200;
-  }
-  .order-text {
-    line-height: 1.5;
-    margin: 0px 0px 1rem;
-    font-size: 1rem;
-    letter-spacing: 0.3rem;
-    text-transform: uppercase;
-    color: rgb(79, 79, 79);
-    font-weight: 500;
-  }
-  .menu-text {
-    font-size: inherit;
-    line-height: 1.5;
-    margin: 0px;
-    font-weight: 00;
-    color: rgb(54, 54, 54);
-  }
-  .loc-text {
-    line-height: 1.5;
-    margin: 0px;
-    font-size: 0.6rem;
-    color: rgb(54, 54, 54);
-  }
-  .veg-border {
-    border: 1px solid green;
-    height: 12px;
-    width: 12px;
-    margin-left: 0px;
-    padding: 1px;
-  }
-  .veg-color {
-    background-color: green;
-    border-radius: 50%;
-    height: 8px;
-    width: 8px;
-  }
-  .instruction-text{
-       border-bottom:1px dashed black;
-       align-items:center
-       font-size: 0.6rem;
-  }
-  .offer-text{
-       color:red
-   
-  }
-  .heading-text{
-      font-size:15px;
-  }
-  .cost{
-      font-size:12px;
-  }
-  .card-outline{
-      border:1px dashed red
-  }
-  
-`;
 
 function LoginCheckout() {
   const classes = useStyles();

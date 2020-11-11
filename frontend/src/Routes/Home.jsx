@@ -5,6 +5,7 @@ import LandingPage from "../LandingPage/LandingPage";
 import { getCityId, getCityCollection } from "../LandingPage/Redux/action";
 import RestroPage from "../RestroPage/RestroPage";
 import CollectionsPage from "../CollectionsPage/CollectionsPage";
+import ExploreZomato from "../ExploreZomato/ExploreZomato";
 
 function Home(props) {
   const { getCityId, searchCity, getCityCollection } = props;
@@ -42,8 +43,15 @@ function Home(props) {
         path="/:city/collections/:collections"
         render={() => <CollectionsPage />}
       />
+      <Route path="/:city/explore" render={() => <ExploreZomato />} />
     </div>
   );
 }
-
-export default Home;
+const mapStateToProps = (state) => ({
+  searchCity: state.landingPageReducer.searchCity,
+});
+const mapDispatchToProps = (dispatch) => ({
+  getCityId: (payload) => dispatch(getCityId(payload)),
+  getCityCollection: (cityId) => dispatch(getCityCollection(cityId)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
