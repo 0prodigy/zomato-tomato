@@ -343,7 +343,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
         <div>DELIVERY AREA</div>
         <div className={classes.currentUserLocationDiv}>
           <CheckCircleIcon style={{ color: " rgb(39, 129, 231)" }} />
-          <div
+          {/* <div
             style={{
               flex: "1",
               marginTop: "5px",
@@ -360,9 +360,10 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                 textOverflow: "ellipsis",
               }}
             >
-              {locationSearchResults && locationSearchResults[0].place_name}
+              {locationSearchResults.length > 0 &&
+                locationSearchResults[0]}
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{
@@ -411,7 +412,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
         <div>DELIVERY AREA</div>
         <div className={classes.currentUserLocationDiv}>
           <CheckCircleIcon style={{ color: " rgb(39, 129, 231)" }} />
-          <div
+          {/* <div
             style={{
               flex: "1",
               marginTop: "5px",
@@ -430,7 +431,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
             >
               {locationSearchResults && locationSearchResults[0].place_name}
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{

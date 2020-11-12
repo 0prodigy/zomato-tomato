@@ -8,6 +8,7 @@ import CollectionsPage from "../CollectionsPage/CollectionsPage";
 import ExploreZomato from "../ExploreZomato/ExploreZomato";
 import Checkout from "../Checkout/Checkout";
 import ProfilePage from "../ProfilePage/ProfilePage";
+import PaymentSuccessPage from "../PaymentSuccessPage/PaymentSuccessPage";
 
 function Home(props) {
   const { getCityId, searchCity, getCityCollection } = props;
@@ -56,6 +57,7 @@ function Home(props) {
       {/* {activeUserDetails.active !== false && activeUserDetails.name && (
       )} */}
       <Route path="/users/:username" render={() => <ProfilePage />} />
+      <Route path="/:city/payment" render={() => <PaymentSuccessPage />} />
     </div>
   );
 }
