@@ -17,13 +17,13 @@ export const Wrapper = styled.div`
     font-weight: 400;
   }
   .list-body {
-    width: 100%;
+    width: 30%;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: start;
   }
   .list-body:hover {
-    box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px #e6e6e6;
   }
   .list-text {
     overflow-x: hidden;
@@ -35,8 +35,14 @@ export const Wrapper = styled.div`
     font-weight: 400;
     color: rgb(28, 28, 28);
     margin: 0px;
+    width: fit-content;
+    max-width: 90%;
   }
   .icons {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     margin-left: 25px;
     height: 15px;
     color: rgb(28, 28, 28);

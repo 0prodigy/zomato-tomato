@@ -28,7 +28,6 @@ export const getAllRestaurantsFailure = (error) => {
 
 export const getAllRestaurants = (cityId) => {
   return (dispatch) => {
-    console.log("Comes here in action.js collection", cityId);
     dispatch(getAllRestaurantsRequest());
     return axios({
       method: "get",
@@ -38,7 +37,6 @@ export const getAllRestaurants = (cityId) => {
       },
     })
       .then((response) => {
-        console.log("Get all restaurants in redux", response.data);
         return dispatch(getAllRestaurantsSuccess(response.data));
       })
       .catch((error) => {

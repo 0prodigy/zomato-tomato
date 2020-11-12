@@ -1,5 +1,4 @@
 import axios from "axios";
-import { constant } from "lodash";
 import * as constants from "./actionTypes";
 
 export const restaurantFetchRequest = () => {

@@ -44,6 +44,27 @@ const addAddress = async (req, res) => {
   }
 };
 
+const addPhonenumber = async (req, res) => {
+  const { id, phoneNumber } = req.body;
+  try {
+    let user = await User.findOne({ id: id });
+    if (user) {
+      user.phone = phoneNumber;
+      await user.save();
+      return res.json({
+        err: false,
+        message: "Successfully updated mobile number",
+        user: user,
+      });
+    } else {
+      return res.status(404).json({ err: true, message: "Invalid user Id" });
+    }
+  } catch (err) {
+    console.log("The error while adding user phone number is", err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
 const getOrderId = async (req, res) => {
   console.log(req.query);
   try {
@@ -97,4 +118,10 @@ const capturePayment = async (req, res) => {
   }
 };
 
-module.exports = { getUser, addAddress, getOrderId, capturePayment };
+module.exports = {
+  getUser,
+  addAddress,
+  addPhonenumber,
+  getOrderId,
+  capturePayment,
+};

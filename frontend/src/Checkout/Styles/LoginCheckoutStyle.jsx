@@ -67,5 +67,33 @@ export const Wrapper = styled.div`
   .card-outline{
       border:1px dashed red
   }
-  
+
+  .loginBtn{
+    padding: 8px 0px;
+    font-weight: 300;
+    width: 100%;
+    margin: 0px 8px;
+    outline: none;
+    background-color: white;
+    color:  rgb(237, 90, 107);
+  }
+
+  .signupBtn{
+    padding: 8px 0px;
+    font-weight: 300;
+    width: 100%;
+    margin: 0px 8px;
+    outline: none;
+    background-color: rgb(237, 90, 107);
+    color: white;
+    :hover{
+      background-color: rgb(247, 77, 96);
+    }
+  }
+
+  .addNewAddress{
+    :hover{
+      cursor: pointer;
+    }
+  }
 `;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Signup from "./Signup";
@@ -11,6 +12,7 @@ import Card from "@material-ui/core/Card";
 import Fade from "@material-ui/core/Fade";
 import { NavigationWrapper } from "../Style/NavigationStyle";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { userLogout } from "../Redux/action";
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Navigation(props) {
   const classes = useStyles();
-  const { activeUserDetails } = props;
+  const { activeUserDetails, userLogout } = props;
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
@@ -68,6 +70,11 @@ function Navigation(props) {
   const handleNavigationClose = (e) => {
     setOpenLogin(false);
     setOpenSignup(false);
+  };
+
+  const logOutUser = () => {
+    userLogout();
+    setExpanded(false);
   };
 
   return (
@@ -98,14 +105,21 @@ function Navigation(props) {
 
                 <Fade in={expanded}>
                   <Card className={classes.root}>
-                    <div>Profile</div>
+                    <Link
+                      to={`/users/${activeUserDetails.name
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}-${activeUserDetails.id}`}
+                    >
+                      <div>Profile</div>
+                    </Link>
                     <div>Notifications</div>
                     <div>Bookmarks</div>
                     <div>Reviews</div>
                     <div>Network</div>
                     <div>Find friends</div>
                     <div>Settings</div>
-                    <div>Log out</div>
+                    <div onClick={logOutUser}>Log out</div>
                   </Card>
                 </Fade>
               </li>
@@ -148,4 +162,8 @@ const mapStateToProps = (state) => ({
   activeUserDetails: state.landingPageReducer.activeUserDetails,
 });
 
-export default connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = (dispatch) => ({
+  userLogout: () => dispatch(userLogout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
