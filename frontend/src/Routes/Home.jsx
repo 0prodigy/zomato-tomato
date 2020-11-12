@@ -7,9 +7,11 @@ import RestroPage from "../RestroPage/RestroPage";
 import CollectionsPage from "../CollectionsPage/CollectionsPage";
 import ExploreZomato from "../ExploreZomato/ExploreZomato";
 import Checkout from "../Checkout/Checkout";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 function Home(props) {
   const { getCityId, searchCity, getCityCollection } = props;
+  const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
   const initialData = async () => {
     let initialPayload = {
       long: 88.363895,
@@ -51,6 +53,9 @@ function Home(props) {
         render={() => <CollectionsPage />}
       />
       <Route path="/:city/explore" render={() => <ExploreZomato />} />
+      {/* {activeUserDetails.active !== false && activeUserDetails.name && (
+      )} */}
+      <Route path="/users/:username" render={() => <ProfilePage />} />
     </div>
   );
 }

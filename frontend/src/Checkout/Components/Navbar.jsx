@@ -1,5 +1,5 @@
 import React from "react";
-import Wrapper from "../Styles/NavbarStyle";
+import { Wrapper } from "../Styles/NavbarStyle";
 import { Link, useHistory } from "react-router-dom";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import { Container, Avatar } from "@material-ui/core";

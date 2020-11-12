@@ -707,4 +707,58 @@ export const Wrapper = styled.div`
   word-break: break-all;
   color: rgb(156, 156, 156);
 }
+.overviewWrapper{
+  width: fit-content;
+  margin: auto;
+  position: relative;
+}
+.restaurantMapDiv{
+  width: 350px;
+  position: absolute;
+  top: 0px;
+  right: 10px;
+}
+.add {
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  min-width: auto;
+  min-height: 36px;
+  line-height: 36px;
+  margin-top: 0px;
+  margin-left: 0px;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgb(237, 90, 107);
+  opacity: 1;
+
+  border-color: rgb(28, 28, 28);
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 0.6rem;
+  padding: 0px 1.6rem;
+  transition: transform 0.25s ease 0s, opacity 0.25s ease 0s,
+    box-shadow 0.25s ease 0s;
+  outline: none !important;
+}
+.btn {
+  margin-right: 1rem;
+  min-width: auto;
+  min-height: 36px;
+  display: inline-flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  border-radius: 0.6rem;
+  background: transparent;
+  padding: 0px;
+  border: 1px solid rgb(28, 28, 28);
+  cursor: pointer;
+  }
+}
 `;

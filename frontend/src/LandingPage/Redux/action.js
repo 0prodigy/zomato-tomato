@@ -511,3 +511,9 @@ export const getCityLocalities = (cityId) => {
       });
   };
 };
+
+export const userLogout = () => {
+  return {
+    type: constants.USER_LOGOUT,
+  };
+};

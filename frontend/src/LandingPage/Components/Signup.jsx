@@ -422,7 +422,7 @@ function LoginPage(props) {
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                   >
-                    <img src="./google svg.svg" alt="google icon" />
+                    <img src="/google svg.svg" alt="google icon" />
                     Continue with Google
                   </GoogleButton>
                 )}

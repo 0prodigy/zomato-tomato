@@ -261,6 +261,14 @@ const landingPageReducer = (state = initialState, action) => {
         error: action.error,
         errorMessage: action.message,
       };
+
+    case constants.USER_LOGOUT:
+      localStorage.removeItem("activeUser");
+      localStorage.setItem("activeUser", JSON.stringify({ active: false }));
+      return {
+        ...state,
+        activeUserDetails: JSON.parse(localStorage.getItem("activeUser")),
+      };
     default:
       return state;
   }
