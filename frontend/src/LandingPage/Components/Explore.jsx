@@ -27,7 +27,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Go out for a meal</h5>
+              <Link
+                to={{
+                  pathname: "kolkata/explore",
+                  state: {
+                    city_id: 2,
+                    filter: { has_online_delivery: 0 },
+                    title: "near you",
+                  },
+                }}
+              >
+                <h5 className="card-text">Go out for a meal</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -46,7 +57,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Nightlife & Clubs</h5>
+              <Link
+                to={{
+                  pathname: "kolkata/explore",
+                  state: {
+                    city_id: 2,
+                    filter: { cuisines: "cafe" },
+                    title: "near you",
+                  },
+                }}
+              >
+                <h5 className="card-text">Nightlife & Clubs</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -65,7 +87,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Zomato Pro</h5>
+              <Link
+                to={{
+                  pathname: "kolkata/explore",
+                  state: {
+                    city_id: 2,
+                    filter: { average_cost_for_two: 1500 },
+                    title: "From Zomato Pro",
+                  },
+                }}
+              >
+                <h5 className="card-text">Zomato Pro</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -89,8 +122,8 @@ function Explore() {
                   pathname: "kolkata/explore",
                   state: {
                     city_id: 2,
-                    filter: { average_cost_for_two: 1500 },
-                    title: "near_you",
+                    filter: { has_online_delivery: 1 },
+                    title: "near you",
                   },
                 }}
               >

@@ -21,7 +21,7 @@ function RestroCards() {
   const handleRequest = () => {
     dispatch(
       getFilterRestaurant(
-        filters,
+        (location.state && location.state.filter) || filters,
         sort,
         location.state && location.state.city_id
       )
@@ -39,11 +39,10 @@ function RestroCards() {
   };
 
   useEffect(() => {
-    handleRequest();
-    if (location.state && location.state.filter) {
-      setFilter(location.state.filter);
+    if (location.state) {
       setTitle(location.state.title);
     }
+    handleRequest();
     //eslint-disable-next-line
   }, [filters, sort, location]);
   console.log(location);
