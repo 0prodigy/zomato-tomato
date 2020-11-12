@@ -324,7 +324,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
       </div>
     </>
   );
-
+  console.log(locationSearchResults);
   const SelectAddress = (
     <Modal
       open={open}

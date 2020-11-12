@@ -76,11 +76,7 @@ function Navbar(props) {
       <Wrapper>
         <nav className="navbar navbar-light bg-danger">
           <Link className="navbar-brand">
-            <img
-              className="logo-img ml-5"
-              src="https://b.zmtcdn.com/images/zomato_white_logo_new.svg"
-              alt="logo"
-            />
+            <img className="logo-img ml-5" src="/logoz.png" alt="logo1" />
           </Link>
 
           {activeUserDetails.active !== false ? (
