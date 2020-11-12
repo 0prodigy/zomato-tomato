@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { Wrapper } from "../Style/PopolarLocalitiesStyle";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function PopularLocalities() {
   const searchCity = useSelector(
@@ -34,10 +35,21 @@ function PopularLocalities() {
             {localities.length > 0 &&
               localities.map((item) => (
                 <div className="card list-body m-2" key={item._id}>
-                  <div className="card-body list-text">
-                    {item.location.locality}
-                  </div>
-                  <ArrowForwardIosIcon className="icons" />
+                  <Link
+                    to={{
+                      pathname: `/${searchCity.toLowerCase()}/explore`,
+                      state: {
+                        city_id: parseInt(cityId),
+                        filter: { "location.locality": item.location.locality },
+                        title: item.location.locality,
+                      },
+                    }}
+                  >
+                    <div className="card-body list-text">
+                      {item.location.locality}
+                    </div>
+                    <ArrowForwardIosIcon className="icons" />
+                  </Link>
                 </div>
               ))}
           </div>

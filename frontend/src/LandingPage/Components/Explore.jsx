@@ -1,8 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Wrapper } from "../Style/ExploreStyle";
 
 function Explore() {
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+  const cityId = useSelector((state) => state.landingPageReducer.cityId);
   return (
     <>
       <Wrapper>
@@ -29,9 +34,9 @@ function Explore() {
             <div className="card-body">
               <Link
                 to={{
-                  pathname: "kolkata/explore",
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
-                    city_id: 2,
+                    city_id: parseInt(cityId),
                     filter: { has_online_delivery: 0 },
                     title: "near you",
                   },
@@ -59,9 +64,9 @@ function Explore() {
             <div className="card-body">
               <Link
                 to={{
-                  pathname: "kolkata/explore",
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
-                    city_id: 2,
+                    city_id: parseInt(cityId),
                     filter: { cuisines: "cafe" },
                     title: "near you",
                   },
@@ -89,9 +94,9 @@ function Explore() {
             <div className="card-body">
               <Link
                 to={{
-                  pathname: "kolkata/explore",
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
-                    city_id: 2,
+                    city_id: parseInt(cityId),
                     filter: { average_cost_for_two: 1500 },
                     title: "From Zomato Pro",
                   },
@@ -119,9 +124,9 @@ function Explore() {
             <div className="card-body">
               <Link
                 to={{
-                  pathname: "kolkata/explore",
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
-                    city_id: 2,
+                    city_id: parseInt(cityId),
                     filter: { has_online_delivery: 1 },
                     title: "near you",
                   },
