@@ -137,6 +137,9 @@ function LoginCheckout() {
 
   const dispatch = useDispatch();
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+  const [getUserDetails, setUserDetails] = useState();
+
+  const handleUserLocation = () => {};
 
   const paymentHandler = async (e) => {
     e.preventDefault();
