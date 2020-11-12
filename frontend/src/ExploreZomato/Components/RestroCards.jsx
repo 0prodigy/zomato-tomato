@@ -465,7 +465,10 @@ function RestroCards() {
                 {restaurants &&
                   restaurants?.map((restaurant, i) => (
                     <div className="col-6" key={restaurant.id}>
-                      <div className="card">
+                      <div
+                        className="card mt-4"
+                        style={{ maxHeight: "275px", height: "450px" }}
+                      >
                         <div className="card-body d-flex">
                           <img
                             src={restaurant && restaurant.thumb}

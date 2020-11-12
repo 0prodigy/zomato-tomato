@@ -406,7 +406,7 @@ function LoginPage(props) {
                 </DividerWrapper>
 
                 <DefaultButton onClick={() => setLoginWithEmail(true)}>
-                  <img src="./login with email.png" alt="Login email icon" />
+                  <img src="/login with email.png" alt="Login email icon" />
                   Continue with Email
                 </DefaultButton>
 
@@ -417,7 +417,7 @@ function LoginPage(props) {
                       onClick={renderProps.onClick}
                       disabled={renderProps.disabled}
                     >
-                      <img src="./google svg.svg" alt="google icon" />
+                      <img src="/google svg.svg" alt="google icon" />
                       Continue with Google
                     </DefaultButton>
                     // <button
