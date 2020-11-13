@@ -343,7 +343,7 @@ Content-Type: application/json
 {
   "filters":[{
     "location.city_id":2,
-    "cuisines":"north"
+    "location.locality":"Hindustan Park"
   },{"cuisines":1}],
   "sort":[
     {}
