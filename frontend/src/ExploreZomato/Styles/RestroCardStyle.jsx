@@ -46,4 +46,8 @@ export const Wrapper = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .active {
+    color: green;
+    font-weight: 500;
+  }
 `;

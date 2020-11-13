@@ -30,11 +30,11 @@ function RestroCards() {
     );
   };
 
-  const handleFilter = (payload) => {
+  const handleFilter = (e, payload) => {
     setFilter({ ...payload });
   };
 
-  const handleSort = (payload) => {
+  const handleSort = (e, payload) => {
     setSort({ ...payload });
   };
 
@@ -45,7 +45,8 @@ function RestroCards() {
     handleRequest();
     //eslint-disable-next-line
   }, [filters, sort]);
-  console.log(filters, location);
+  console.log(filters);
+  console.log(sort);
   return (
     <>
       <Wrapper>
@@ -157,36 +158,53 @@ function RestroCards() {
                   Sort By
                 </p>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    sort["user_rating.votes"] === 1
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
+                  name="pop"
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleSort({ "user_rating.votes": 1 })}
+                  onClick={(e) => handleSort(e, { "user_rating.votes": 1 })}
                 >
                   Popularity-high to low
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    sort.all_reviews_count === 1
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleSort({ all_reviews_count: 1 })}
+                  onClick={(e) => handleSort(e, { all_reviews_count: 1 })}
                 >
                   Delivery Rating
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    sort["user_rating.aggregate_rating"] === 1
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleSort({ "user_rating.aggregate_rating": 1 })
+                  onClick={(e) =>
+                    handleSort(e, { "user_rating.aggregate_rating": 1 })
                   }
                 >
                   Rating
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    sort.photo_count === 1
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleSort({ photo_count: 1 })}
+                  onClick={(e) => handleSort(e, { photo_count: 1 })}
                 >
                   Recently Added
                 </h5>
@@ -204,66 +222,98 @@ function RestroCards() {
                   Cuisines
                 </p>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "North Indian"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "North Indian" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "North Indian" })}
                 >
                   North Indian
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Chinese"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Chinese" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Chinese" })}
                 >
                   Chinese
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Beverages"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Beverages" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Beverages" })}
                 >
                   Beverages
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Mughlai"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Mughlai" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Mughlai" })}
                 >
                   Mughlai
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Rolls"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Rolls" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Rolls" })}
                 >
                   Rolls
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "South Indian"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "South Indian" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "South Indian" })}
                 >
                   South Indian
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Biriyani"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Biriyani" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Biriyani" })}
                 >
                   Biriyani
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters.cuisines === "Italian"
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() => handleFilter({ cuisines: "Italian" })}
+                  onClick={(e) => handleFilter(e, { cuisines: "Italian" })}
                 >
                   Italian
                 </h5>
@@ -315,21 +365,34 @@ function RestroCards() {
                   Cost for Two
                 </p>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$lt"] === 250
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({ average_cost_for_two: { $lt: 250 } })
+                  onClick={(e) =>
+                    handleFilter(e, { average_cost_for_two: { $lt: 250 } })
                   }
                 >
                   Less than ₹250
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$lt"] === 500 &&
+                    filters.average_cost_for_two["$gt"] === 250
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({
+                  onClick={(e) =>
+                    handleFilter(e, {
                       average_cost_for_two: { $lt: 500, $gt: 250 },
                     })
                   }
@@ -337,11 +400,18 @@ function RestroCards() {
                   ₹250 to ₹500
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$lt"] === 1000 &&
+                    filters.average_cost_for_two["$gt"] === 500
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({
+                  onClick={(e) =>
+                    handleFilter(e, {
                       average_cost_for_two: { $lt: 1000, $gt: 500 },
                     })
                   }
@@ -349,11 +419,18 @@ function RestroCards() {
                   ₹500 to ₹1000
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$lt"] === 1500 &&
+                    filters.average_cost_for_two["$gt"] === 1000
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({
+                  onClick={(e) =>
+                    handleFilter(e, {
                       average_cost_for_two: { $lt: 1500, $gt: 1000 },
                     })
                   }
@@ -361,11 +438,18 @@ function RestroCards() {
                   ₹1000 to ₹1500
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$lt"] === 2500 &&
+                    filters.average_cost_for_two["$gt"] === 1500
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({
+                  onClick={(e) =>
+                    handleFilter(e, {
                       average_cost_for_two: { $lt: 2500, $gt: 1500 },
                     })
                   }
@@ -373,11 +457,17 @@ function RestroCards() {
                   ₹1500 to ₹2500
                 </h5>
                 <h5
-                  className="form-check-label p-1"
+                  className={
+                    filters &&
+                    filters.average_cost_for_two &&
+                    filters.average_cost_for_two["$gt"] === 2500
+                      ? "active form-check-label p-1"
+                      : " form-check-label p-1"
+                  }
                   for="gridCheck"
                   style={{ fontSize: "12px" }}
-                  onClick={() =>
-                    handleFilter({ average_cost_for_two: { $gt: 2500 } })
+                  onClick={(e) =>
+                    handleFilter(e, { average_cost_for_two: { $gt: 2500 } })
                   }
                 >
                   ₹2500+
@@ -465,7 +555,7 @@ function RestroCards() {
                   restaurants?.map((restaurant, i) => (
                     <div className="col-6" key={restaurant.id}>
                       <div
-                        className="card mt-4"
+                        className="card mt-4 mb-2"
                         style={{ maxHeight: "275px", height: "450px" }}
                       >
                         <div className="card-body d-flex">
@@ -581,153 +671,6 @@ function RestroCards() {
                       </div>
                     </div>
                   ))}
-                <div className="col-6">
-                  <div className="card">
-                    <div className="card-body d-flex">
-                      <img
-                        src="https://b.zmtcdn.com/data/pictures/chains/8/301718/c754be5e4d4ed74f5f07da1c3fe6ce77.jpg?output-format=webp"
-                        style={{ width: "87px", height: "101px" }}
-                        className="mr-3 rounded"
-                        alt="card1"
-                      />
-                      <div>
-                        <div className="col-lg-12 col-sm-13">
-                          <div className="row">
-                            <Link className="card-heading-link">
-                              Biryani Blues
-                            </Link>
-                            <div className="single-rating d-flex">
-                              <div className="d-flex m-1">
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#cfcfcf" }} />
-                                <span className="ratings-count">4.0</span>
-                                <span className="review-count">
-                                  (3,384 Reviews)
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="description">
-                              <div className="clear"></div>
-                              <div className="grey-text flex-nowrap  ln24 ">
-                                {" "}
-                                Biryani, Hyderabadi, Fast Food, Kebab
-                              </div>
-                              <div className="grey-text flex-nowrap   ln24 ">
-                                Cost ₹250 for one
-                              </div>
-                              <div className="flex-nowrap order-min ln24 ">
-                                Min ₹50
-                                <span className="middot"> · </span> Up to 34 min{" "}
-                              </div>
-                              <div className="flex-nowrap  order-min ln24 ">
-                                Accepts cash & online payments
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      className="card-footer bg-white "
-                      style={{
-                        padding: "0px",
-                        margin: "0px",
-                      }}
-                    >
-                      <div className="d-flex bd-highlight">
-                        <div
-                          className="ml-auto bd-highlight text-success p-2 border-left"
-                          style={{
-                            backgroundColor: "#e6f5ec",
-                            marginBottom: "0px",
-                          }}
-                        >
-                          Order Online
-                          <ArrowForwardIosIcon />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-6">
-                  <div className="card">
-                    <div className="card-body d-flex">
-                      <img
-                        src="https://b.zmtcdn.com/data/pictures/chains/8/301718/c754be5e4d4ed74f5f07da1c3fe6ce77.jpg?output-format=webp"
-                        style={{ width: "87px", height: "101px" }}
-                        className="mr-3 rounded"
-                        alt="card1"
-                      />
-                      <div>
-                        <div className="col-lg-12 col-sm-13">
-                          <div className="row">
-                            <Link className="card-heading-link">
-                              Biryani Blues
-                            </Link>
-                            <div className="single-rating d-flex">
-                              <div className="d-flex m-1">
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#E23744" }} />
-                                <AssistantIcon style={{ color: "#cfcfcf" }} />
-                                <span className="ratings-count">4.0</span>
-                                <span className="review-count">
-                                  (3,384 Reviews)
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="description">
-                              <div className="clear"></div>
-                              <div className="grey-text flex-nowrap  ln24 ">
-                                {" "}
-                                Biryani, Hyderabadi, Fast Food, Kebab
-                              </div>
-                              <div className="grey-text flex-nowrap   ln24 ">
-                                Cost ₹250 for one
-                              </div>
-                              <div className="flex-nowrap order-min ln24 ">
-                                Min ₹50
-                                <span className="middot"> · </span> Up to 34 min{" "}
-                              </div>
-                              <div className="flex-nowrap  order-min ln24 ">
-                                Accepts cash & online payments
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      className="card-footer bg-white "
-                      style={{
-                        padding: "0px",
-                        margin: "0px",
-                      }}
-                    >
-                      <div className="d-flex bd-highlight">
-                        <div
-                          className="ml-auto bd-highlight text-success p-2 border-left"
-                          style={{
-                            backgroundColor: "#e6f5ec",
-                            marginBottom: "0px",
-                          }}
-                        >
-                          Order Online
-                          <ArrowForwardIosIcon />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

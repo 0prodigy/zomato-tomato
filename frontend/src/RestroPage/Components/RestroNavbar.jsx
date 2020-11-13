@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "50px",
     padding: "8px 0px",
+    position: "relative",
   },
   cityDropdown: {
     display: "flex",
@@ -141,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     zIndex: "2",
     top: 60,
-    right: 280,
+    right: 0,
   },
   searchRestaurantCard: {
     width: 500,
@@ -299,7 +300,7 @@ function RestroNavbar(props) {
           </IconButton>
 
           <img
-            src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png"
+            src="/logoz.png"
             alt="logo"
             style={{ height: "30px", width: "150px" }}
           />

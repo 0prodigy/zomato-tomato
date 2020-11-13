@@ -118,12 +118,14 @@ const getLocalities = async (req, res) => {
 
 const getRestaurant = async (req, res) => {
   let { q, city_id } = req.query;
+  let query = new RegExp(q, "i");
+  console.log(query);
   try {
     let result = await Restaurant.find(
       {
         "location.city_id": parseInt(city_id),
         $text: {
-          $search: q,
+          $search: query,
           $diacriticSensitive: false,
           $caseSensitive: false,
         },
