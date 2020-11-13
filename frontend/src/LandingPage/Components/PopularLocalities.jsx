@@ -44,6 +44,10 @@ function PopularLocalities() {
                         title: item.location.locality,
                       },
                     }}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
                   >
                     <div className="card-body list-text">
                       {item.location.locality}

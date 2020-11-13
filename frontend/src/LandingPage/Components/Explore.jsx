@@ -41,8 +41,21 @@ function Explore() {
                     title: "near you",
                   },
                 }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
-                <h5 className="card-text">Go out for a meal</h5>
+                <h5
+                  className="card-text"
+                  style={{
+                    fontWeight: "500",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
+                  Go out for a meal
+                </h5>
               </Link>
             </div>
           </div>
@@ -71,8 +84,21 @@ function Explore() {
                     title: "near you",
                   },
                 }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
-                <h5 className="card-text">Nightlife & Clubs</h5>
+                <h5
+                  className="card-text"
+                  style={{
+                    fontWeight: "500",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
+                  Nightlife & Clubs
+                </h5>
               </Link>
             </div>
           </div>
@@ -101,8 +127,21 @@ function Explore() {
                     title: "From Zomato Pro",
                   },
                 }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
-                <h5 className="card-text">Zomato Pro</h5>
+                <h5
+                  className="card-text"
+                  style={{
+                    fontWeight: "500",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
+                  Zomato Pro
+                </h5>
               </Link>
             </div>
           </div>
@@ -131,8 +170,19 @@ function Explore() {
                     title: "near you",
                   },
                 }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
-                <h5 className="card-text" style={{ fontWeight: "500" }}>
+                <h5
+                  className="card-text"
+                  style={{
+                    fontWeight: "500",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
                   Order Food Online
                 </h5>
               </Link>
