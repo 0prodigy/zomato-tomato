@@ -3,6 +3,7 @@ import { Wrapper } from "../Style/ProfileViewStyle";
 import RoomIcon from "@material-ui/icons/Room";
 
 function ProfileView() {
+  const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
   return (
     <>
       <Wrapper>
@@ -14,15 +15,15 @@ function ProfileView() {
               alt="profile-background"
             />
             <img
-              src="https://b.zmtcdn.com/data/user_profile_pictures/efd/48941cdf5e7432c5a14cf8f1cbbb1efd.jpg"
+              src={`${activeUserDetails.image}`}
               className="profile-image"
               alt="profile-pic"
             />
-            <p className="profile-name">Gargi Das</p>
-            <p className="profile-location">
+            <p className="profile-name">{activeUserDetails.name}</p>
+            {/* <p className="profile-location">
               <RoomIcon />
               Kolkata
-            </p>
+            </p> */}
             <div className="profile-text-div d-flex">
               <div className="reviews" style={{ textAlign: "center" }}>
                 0<p>Reviews</p>

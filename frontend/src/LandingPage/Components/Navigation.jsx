@@ -109,7 +109,7 @@ function Navigation(props) {
                       to={`/users/${activeUserDetails.name
                         .toLowerCase()
                         .split(" ")
-                        .join("-")}-${activeUserDetails.id}`}
+                        .join("-")}`}
                     >
                       <div>Profile</div>
                     </Link>

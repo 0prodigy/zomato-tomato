@@ -28,11 +28,11 @@ const getUser = async (req, res) => {
 };
 
 const addAddress = async (req, res) => {
-  const { id, address } = req.body;
+  const { id, address, type } = req.body;
   try {
     let user = await User.findOne({ id: id });
     if (user) {
-      user.address = [...user.address, address];
+      user.address = [...user.address, { address: address, type: type }];
       await user.save();
       return res.json({ err: false, message: "Success", user: user });
     } else {
@@ -103,8 +103,14 @@ const capturePayment = async (req, res) => {
       .then((res) => res.data)
       .then(async (res) => {
         let user = await User.findOne({ id: req.body.userId });
+        let timeStamp = new Date();
         if (user) {
-          user.orders.push(...req.body.order);
+          user.orders.push({
+            totalOrder: [...req.body.order],
+            timeStamp: timeStamp,
+            orderId: req.body.order_id,
+            restaurantDetails: req.body.restaurantDetails,
+          });
           await user.save();
         }
         return res;
