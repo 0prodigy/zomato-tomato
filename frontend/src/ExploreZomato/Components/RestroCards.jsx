@@ -1,6 +1,6 @@
 import React from "react";
 import { Wrapper } from "../Styles/RestroCardStyle";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import AssistantIcon from "@material-ui/icons/Star";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { getFilterRestaurant } from "../Redux/action";
 import { useEffect } from "react";
 
 function RestroCards() {
+  const match = useRouteMatch();
   const location = useLocation();
   const [filters, setFilter] = useState(
     (location.state && location.state.filter) || {}
@@ -45,8 +46,7 @@ function RestroCards() {
     handleRequest();
     //eslint-disable-next-line
   }, [filters, sort]);
-  console.log(filters);
-  console.log(sort);
+
   return (
     <>
       <Wrapper>
@@ -552,125 +552,154 @@ function RestroCards() {
               <div className="row mt-3">
                 <h1>{isLoading && "Loading......"}</h1>
                 {restaurants &&
-                  restaurants?.map((restaurant, i) => (
-                    <div className="col-6" key={restaurant.id}>
-                      <div
-                        className="card mt-4 mb-2"
-                        style={{ maxHeight: "275px", height: "450px" }}
-                      >
-                        <div className="card-body d-flex">
-                          <img
-                            src={restaurant && restaurant.thumb}
-                            style={{ width: "87px", height: "101px" }}
-                            className="mr-3 rounded"
-                            alt="card1"
-                          />
-                          <div>
-                            <div className="col-lg-12 col-sm-13">
-                              <div className="row">
-                                <Link className="card-heading-link" to="/#">
-                                  {restaurant && restaurant.name}
-                                </Link>
-                                <div className="single-rating d-flex">
-                                  <div className="d-flex m-1">
-                                    {restaurant &&
-                                      new Array(
-                                        Math.floor(
-                                          parseInt(
-                                            restaurant.user_rating
-                                              .aggregate_rating
+                  restaurants?.map((restaurant, i) => {
+                    console.log("The restaurant is", restaurant);
+                    return (
+                      <div className="col-6" key={restaurant.id}>
+                        <div
+                          className="card mt-4 mb-2"
+                          style={{ maxHeight: "275px", height: "450px" }}
+                        >
+                          <div className="card-body d-flex">
+                            <img
+                              src={restaurant && restaurant.thumb}
+                              style={{ width: "87px", height: "101px" }}
+                              className="mr-3 rounded"
+                              alt="card1"
+                            />
+                            <div>
+                              <div className="col-lg-12 col-sm-13">
+                                <div className="row">
+                                  <Link
+                                    to={{
+                                      pathname: `/${
+                                        match.params.city
+                                      }/restaurants/${restaurant.name
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .join("")}`,
+                                      state: { res_id: restaurant.id },
+                                    }}
+                                    className="card-heading-link"
+                                    style={{ textDecoration: "none" }}
+                                  >
+                                    {restaurant && restaurant.name}
+                                  </Link>
+                                  <div className="single-rating d-flex">
+                                    <div className="d-flex m-1">
+                                      {restaurant &&
+                                        new Array(
+                                          Math.floor(
+                                            parseInt(
+                                              restaurant.user_rating
+                                                .aggregate_rating
+                                            )
                                           )
                                         )
-                                      )
-                                        .fill(0)
-                                        .map((star, i) => (
-                                          <AssistantIcon
-                                            key={i}
-                                            style={{ color: "#E23744" }}
-                                          />
-                                        ))}
-                                    <AssistantIcon
-                                      style={{ color: "#E23744" }}
-                                    />
-                                    <AssistantIcon
-                                      style={{ color: "#E23744" }}
-                                    />
-                                    <span className="ratings-count">
-                                      {parseInt(
-                                        restaurant.user_rating.aggregate_rating
-                                      ).toFixed(1)}
-                                    </span>
-                                    <span className="review-count">
-                                      (
-                                      {restaurant &&
-                                        restaurant.all_reviews_count}{" "}
-                                      Reviews)
-                                    </span>
+                                          .fill(0)
+                                          .map((star, i) => (
+                                            <AssistantIcon
+                                              key={i}
+                                              style={{ color: "#E23744" }}
+                                            />
+                                          ))}
+                                      <AssistantIcon
+                                        style={{ color: "#E23744" }}
+                                      />
+                                      <AssistantIcon
+                                        style={{ color: "#E23744" }}
+                                      />
+                                      <span className="ratings-count">
+                                        {parseInt(
+                                          restaurant.user_rating
+                                            .aggregate_rating
+                                        ).toFixed(1)}
+                                      </span>
+                                      <span className="review-count">
+                                        (
+                                        {restaurant &&
+                                          restaurant.all_reviews_count}{" "}
+                                        Reviews)
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="description">
-                                  <div className="clear"></div>
-                                  <div className="grey-text flex-nowrap  ln24 ">
-                                    {" "}
-                                    {restaurant &&
-                                      restaurant.cuisines
-                                        .split(",")
-                                        .map(
-                                          (item, i) =>
-                                            i < 5 && (
-                                              <React.Fragment key={item + i}>
-                                                {item}
-                                              </React.Fragment>
-                                            )
-                                        )}
-                                  </div>
-                                  <div className="grey-text flex-nowrap   ln24 ">
-                                    Cost ₹
-                                    {restaurant &&
-                                      restaurant.average_cost_for_two}{" "}
-                                    for two
-                                  </div>
-                                  <div className="flex-nowrap order-min ln24 ">
-                                    Min ₹50
-                                    <span className="middot"> · </span> Up to 34
-                                    min{" "}
-                                  </div>
-                                  <div className="flex-nowrap  order-min ln24 ">
-                                    Accepts cash{" "}
-                                    {restaurant &&
-                                      restaurant.has_online_delivery &&
-                                      "& online payments"}
+                                  <div className="description">
+                                    <div className="clear"></div>
+                                    <div className="grey-text flex-nowrap  ln24 ">
+                                      {" "}
+                                      {restaurant &&
+                                        restaurant.cuisines
+                                          .split(",")
+                                          .map(
+                                            (item, i) =>
+                                              i < 5 && (
+                                                <React.Fragment key={item + i}>
+                                                  {item}
+                                                </React.Fragment>
+                                              )
+                                          )}
+                                    </div>
+                                    <div className="grey-text flex-nowrap   ln24 ">
+                                      Cost ₹
+                                      {restaurant &&
+                                        restaurant.average_cost_for_two}{" "}
+                                      for two
+                                    </div>
+                                    <div className="flex-nowrap order-min ln24 ">
+                                      Min ₹50
+                                      <span className="middot"> · </span> Up to
+                                      34 min{" "}
+                                    </div>
+                                    <div className="flex-nowrap  order-min ln24 ">
+                                      Accepts cash{" "}
+                                      {restaurant &&
+                                        restaurant.has_online_delivery &&
+                                        "& online payments"}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div
-                          className="card-footer bg-white "
-                          style={{
-                            padding: "0px",
-                            margin: "0px",
-                          }}
-                        >
-                          <div className="d-flex bd-highlight">
-                            <div
-                              className="ml-auto bd-highlight text-success p-2 border-left"
-                              style={{
-                                backgroundColor: "#e6f5ec",
-                                marginBottom: "0px",
+                          <div
+                            className="card-footer bg-white "
+                            style={{
+                              padding: "0px",
+                              margin: "0px",
+                            }}
+                          >
+                            <Link
+                              to={{
+                                pathname: `/${
+                                  match.params.city
+                                }/restaurants/${restaurant.name
+                                  .toLowerCase()
+                                  .split(" ")
+                                  .join("")}`,
+                                state: { res_id: restaurant.id },
                               }}
+                              style={{ textDecoration: "none" }}
                             >
-                              Order Online
-                              <ArrowForwardIosIcon />
-                            </div>
+                              <div className="d-flex bd-highlight">
+                                <div
+                                  className="ml-auto bd-highlight text-success p-2 border-left"
+                                  style={{
+                                    backgroundColor: "#e6f5ec",
+                                    marginBottom: "0px",
+                                  }}
+                                >
+                                  Order Online
+                                  <ArrowForwardIosIcon />
+                                </div>
+                              </div>
+                            </Link>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </div>
           </div>
