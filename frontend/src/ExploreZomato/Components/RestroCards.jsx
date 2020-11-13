@@ -9,10 +9,12 @@ import { getFilterRestaurant } from "../Redux/action";
 import { useEffect } from "react";
 
 function RestroCards() {
-  const [filters, setFilter] = useState({});
+  const location = useLocation();
+  const [filters, setFilter] = useState(
+    (location.state && location.state.filter) || {}
+  );
   const [title, setTitle] = useState("Order-online");
   const [sort, setSort] = useState({});
-  const location = useLocation();
   const dispatch = useDispatch();
   const { restaurants, isLoading } = useSelector(
     (state) => state.restaurantFilterReducer
@@ -30,23 +32,20 @@ function RestroCards() {
 
   const handleFilter = (payload) => {
     setFilter({ ...payload });
-    handleRequest();
   };
 
   const handleSort = (payload) => {
     setSort({ ...payload });
-    handleRequest();
   };
 
   useEffect(() => {
-    handleRequest();
-    if (location.state && location.state.filter) {
-      setFilter(location.state.filter);
+    if (location.state && location.state.title) {
       setTitle(location.state.title);
     }
+    handleRequest();
     //eslint-disable-next-line
-  }, [filters, sort, location]);
-  console.log(location);
+  }, [filters, sort]);
+  console.log(filters, location);
   return (
     <>
       <Wrapper>

@@ -1,8 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Wrapper } from "../Style/ExploreStyle";
 
 function Explore() {
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+  const cityId = useSelector((state) => state.landingPageReducer.cityId);
   return (
     <>
       <Wrapper>
@@ -27,7 +32,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Go out for a meal</h5>
+              <Link
+                to={{
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
+                  state: {
+                    city_id: parseInt(cityId),
+                    filter: { has_online_delivery: 0 },
+                    title: "near you",
+                  },
+                }}
+              >
+                <h5 className="card-text">Go out for a meal</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -46,7 +62,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Nightlife & Clubs</h5>
+              <Link
+                to={{
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
+                  state: {
+                    city_id: parseInt(cityId),
+                    filter: { cuisines: "cafe" },
+                    title: "near you",
+                  },
+                }}
+              >
+                <h5 className="card-text">Nightlife & Clubs</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -65,7 +92,18 @@ function Explore() {
               alt="card1"
             />
             <div className="card-body">
-              <h5 className="card-text">Zomato Pro</h5>
+              <Link
+                to={{
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
+                  state: {
+                    city_id: parseInt(cityId),
+                    filter: { average_cost_for_two: 1500 },
+                    title: "From Zomato Pro",
+                  },
+                }}
+              >
+                <h5 className="card-text">Zomato Pro</h5>
+              </Link>
             </div>
           </div>
           <div
@@ -86,11 +124,11 @@ function Explore() {
             <div className="card-body">
               <Link
                 to={{
-                  pathname: "kolkata/explore",
+                  pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
-                    city_id: 2,
-                    filter: { average_cost_for_two: 1500 },
-                    title: "near_you",
+                    city_id: parseInt(cityId),
+                    filter: { has_online_delivery: 1 },
+                    title: "near you",
                   },
                 }}
               >
