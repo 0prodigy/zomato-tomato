@@ -488,6 +488,7 @@ function OrderOnline(props) {
                   history.push({
                     pathname: location.pathname + "/order",
                     state: {
+                      restaurantImage: data.thumb,
                       restaurantName: data.name,
                       restaurantLocation: data.location.locality_verbose,
                     },

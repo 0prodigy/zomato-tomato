@@ -137,9 +137,6 @@ function LoginCheckout() {
 
   const dispatch = useDispatch();
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
-  const [getUserDetails, setUserDetails] = useState();
-
-  const handleUserLocation = () => {};
 
   const paymentHandler = async (e) => {
     e.preventDefault();
@@ -159,6 +156,12 @@ function LoginCheckout() {
           const captureResponse = await Axios.post(url, {
             order: reduxCart,
             amount: cartValue,
+            restaurantDetails: {
+              restaurantName: location.state.restaurantName,
+              restaurantLocation: location.state.restaurantLocation,
+              restaurantImage: location.state.restaurantImage,
+            },
+            order_id: response.razorpay_order_id,
             userId: activeUserDetails.id,
           });
           const successObj = captureResponse.data;
@@ -253,12 +256,16 @@ function LoginCheckout() {
   };
 
   const saveUserAddress = () => {
+    let address = `${userAddress}, ${
+      locationSearchResults && locationSearchResults[0].place_name
+    }`;
     Axios({
       method: "post",
       url: "http://localhost:5000/api/users/addAddress",
       data: {
         id: activeUserDetails.id,
-        address: userAddress,
+        address: address,
+        type: userAddressType,
       },
     })
       .then((response) => {
@@ -589,6 +596,8 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
     </Modal>
   );
 
+  console.log("The user Backend details are,", userBackendDetails);
+
   if (reduxCart.length === 0) {
     return emptyCartPage;
   } else {
@@ -702,7 +711,10 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                               />
                             </div>
                             <div style={{ width: "fit-content" }}>
-                              {userBackendDetails.address}
+                              {userBackendDetails &&
+                                userBackendDetails.address &&
+                                userBackendDetails.address[0] &&
+                                userBackendDetails.address[0].address}
                             </div>
                           </div>
                         </div>
@@ -718,7 +730,99 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                   </div>
                 )}
 
-                {!userBackendDetails.phone ? (
+                {activeUserDetails && activeUserDetails.active !== false ? (
+                  userBackendDetails &&
+                  userBackendDetails.address &&
+                  userBackendDetails.address[0] &&
+                  userBackendDetails.address[0].address.length > 0 &&
+                  userBackendDetails.phone ? (
+                    <div className="card m-3 rounded">
+                      <div className="card-body">
+                        <h4 style={{ color: "black" }}>
+                          Select Payment Method
+                        </h4>
+
+                        {paymentMethodSelected ? (
+                          <>
+                            <div
+                              onClick={() =>
+                                setPaymentMethodSelected((prev) => !prev)
+                              }
+                              style={{
+                                border: "1px solid rgb(39, 129, 231)",
+                                width: "150px",
+                                height: "70px",
+                                borderRadius: "5px",
+                                padding: "5px",
+                                backgroundColor: "#cae2fc",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <div>
+                                <div style={{ display: "flex" }}>
+                                  <div style={{ flex: "1" }}>
+                                    <img
+                                      src="/razorpay.png"
+                                      alt="Razorpay Payment"
+                                      style={{ width: "90px" }}
+                                    />
+                                  </div>
+                                  <CheckCircleIcon
+                                    style={{ color: " rgb(39, 129, 231)" }}
+                                  />
+                                </div>
+                                <div style={{ marginLeft: "5px" }}>
+                                  Razorpay
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              onClick={() =>
+                                setPaymentMethodSelected((prev) => !prev)
+                              }
+                              style={{
+                                border: "1px solid grey",
+                                width: "150px",
+                                height: "70px",
+                                borderRadius: "5px",
+                                padding: "5px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <div>
+                                <div style={{ display: "flex" }}>
+                                  <div style={{ flex: "1" }}>
+                                    <img
+                                      src="/razorpay.png"
+                                      alt="Razorpay Payment"
+                                      style={{ width: "90px" }}
+                                    />
+                                  </div>
+                                  <CheckCircleIcon />
+                                </div>
+                                <div style={{ marginLeft: "5px" }}>
+                                  Razorpay
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="card m-3 rounded">
+                      <div className="card-body">
+                        <h4 style={{ color: "grey" }}>Select Payment Method</h4>
+                        <p className="card-text">
+                          Please enter your mobile number to proceed to payment.
+                        </p>
+                      </div>
+                    </div>
+                  )
+                ) : (
                   <div className="card m-3 rounded">
                     <div className="card-body">
                       <h4 style={{ color: "grey" }}>Select Payment Method</h4>
@@ -726,77 +830,6 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                         Login and select delivery address to select payment
                         methods
                       </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="card m-3 rounded">
-                    <div className="card-body">
-                      <h4 style={{ color: "black" }}>Select Payment Method</h4>
-
-                      {paymentMethodSelected ? (
-                        <>
-                          <div
-                            onClick={() =>
-                              setPaymentMethodSelected((prev) => !prev)
-                            }
-                            style={{
-                              border: "1px solid rgb(39, 129, 231)",
-                              width: "150px",
-                              height: "70px",
-                              borderRadius: "5px",
-                              padding: "5px",
-                              backgroundColor: "#cae2fc",
-                              cursor: "pointer",
-                            }}
-                          >
-                            <div>
-                              <div style={{ display: "flex" }}>
-                                <div style={{ flex: "1" }}>
-                                  <img
-                                    src="/razorpay.png"
-                                    alt="Razorpay Payment"
-                                    style={{ width: "90px" }}
-                                  />
-                                </div>
-                                <CheckCircleIcon
-                                  style={{ color: " rgb(39, 129, 231)" }}
-                                />
-                              </div>
-                              <div style={{ marginLeft: "5px" }}>Razorpay</div>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div
-                            onClick={() =>
-                              setPaymentMethodSelected((prev) => !prev)
-                            }
-                            style={{
-                              border: "1px solid grey",
-                              width: "150px",
-                              height: "70px",
-                              borderRadius: "5px",
-                              padding: "5px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            <div>
-                              <div style={{ display: "flex" }}>
-                                <div style={{ flex: "1" }}>
-                                  <img
-                                    src="/razorpay.png"
-                                    alt="Razorpay Payment"
-                                    style={{ width: "90px" }}
-                                  />
-                                </div>
-                                <CheckCircleIcon />
-                              </div>
-                              <div style={{ marginLeft: "5px" }}>Razorpay</div>
-                            </div>
-                          </div>
-                        </>
-                      )}
                     </div>
                   </div>
                 )}
@@ -949,7 +982,8 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                       </p>
                       <hr />
 
-                      {activeUserDetails.active === false ? (
+                      {!activeUserDetails ||
+                      activeUserDetails.active === false ? (
                         <button
                           onClick={paymentHandler}
                           disabled={

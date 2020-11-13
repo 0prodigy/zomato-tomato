@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Modal from "@material-ui/core/Modal";
 import { Wrapper } from "../Style/ProfileBodyStyle";
+import Axios from "axios";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,11 +20,7 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -57,19 +53,13 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
 }));
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -80,11 +70,28 @@ function getModalStyle() {
 
 export default function ProfileBody() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [userBackendDetails, setUserBackendDetails] = useState([]);
+  const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const getActiveUserDetails = () => {
+    Axios({
+      method: "get",
+      url: `http://localhost:5000/api/users/findById/${activeUserDetails.id}`,
+    })
+      .then((response) => setUserBackendDetails(response.data.user))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    if (activeUserDetails.active !== false) {
+      getActiveUserDetails();
+    }
+  }, []);
 
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -98,73 +105,6 @@ export default function ProfileBody() {
     setOpen(false);
   };
 
-  const body = (
-    <Wrapper>
-      <div style={modalStyle} className={classes.paper}>
-        <div class="card" style={{ width: "18rem" }}>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <div class="d-flex bd-highlight">
-                <div class="p-2 bd-highlight ml-0">
-                  <img
-                    src="https://www.texcial.com/wp-content/uploads/2019/12/gsjgdjsydyj.jpg"
-                    alt="card1"
-                    style={{
-                      height: "60px",
-                      width: "50px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-                <div class="p-2 bd-highlight">
-                  <p>
-                    Aminia
-                    <p className="text-muted" style={{ fontSize: "12px" }}>
-                      Kolkata
-                    </p>
-                  </p>
-                </div>
-                <div class="ml-auto p-2 bd-highlight">Delivery</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="order-div">
-                <p class="order-text">Order Number</p>
-                <p class="order-id">2029441541</p>
-              </div>
-              <div class="order-div">
-                <p class="order-text">TOTAL AMOUNT</p>
-                <p class="order-id">₹296.50</p>
-              </div>
-              <div class="order-div">
-                <p class="order-text">ITEMS</p>
-                <p class="order-id">1 x Chicken Biryani [1 Piece]</p>
-              </div>
-              <div class="order-div">
-                <p class="order-text">ORDERED ON</p>
-                <p class="order-id">February 27, 2020 at 04:05 PM</p>
-              </div>
-              <hr />
-              <h3>Order Details</h3>
-              <div class="order-div">
-                <p class="order-text">ORDER ID</p>
-                <p class="order-id">2029441541</p>
-              </div>
-              <div class="order-div">
-                <p class="order-text">PAYMENT</p>
-                <p class="order-id">Cash on Delivery</p>
-              </div>
-              <div class="order-div">
-                <p class="order-text">PHONE NUMBER</p>
-                <p class="order-id">7003400548</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </Wrapper>
-  );
-
   const address = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Text in a modal</h2>
@@ -174,6 +114,21 @@ export default function ProfileBody() {
     </div>
   );
 
+  const getTotalAmount = (item) => {
+    let totalValue = item.totalOrder.reduce((a, c) => {
+      let itemCost1 = c.cost === undefined ? 0 : Number(c.cost);
+      return a + itemCost1;
+    }, 0);
+    return totalValue;
+  };
+
+  const getTransactionDate = (timeStamp) => {
+    let transactionTimestamp = timeStamp.split("T");
+    let date = new Date(`${transactionTimestamp[0]}`).toLocaleDateString();
+    let time = new Date(`${timeStamp}`).toLocaleTimeString();
+    return `${date} at ${time}`;
+  };
+  console.log(userBackendDetails);
   return (
     <>
       <Wrapper>
@@ -185,7 +140,6 @@ export default function ProfileBody() {
               variant="scrollable"
               value={value}
               onChange={handleChange}
-              aria-label="Vertical tabs example"
               className={classes.tabs}
             >
               <Tab label="Dineline" {...a11yProps(0)} />
@@ -265,14 +219,14 @@ export default function ProfileBody() {
                   marginTop: "90px",
                 }}
               />
-              <p
+              <div
                 style={{
                   marginLeft: "300px",
                   marginRight: "300px",
                 }}
               >
                 You are not followed by any users yet.
-              </p>
+              </div>
             </TabPanel>
             <TabPanel value={value} index={3}>
               <h3>Bookmarks</h3>
@@ -344,144 +298,304 @@ export default function ProfileBody() {
               </p>
             </TabPanel>
             <TabPanel value={value} index={6}>
-              <h3>Order History</h3>
+              <h3 style={{ paddingLeft: "15px" }}>Order History</h3>
               <div className="d-flex">
-                <div className="col-6">
-                  <div class="card rounded" style={{ width: "22rem" }}>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item">
-                        <div class="d-flex bd-highlight">
-                          <div class="p-2 bd-highlight ml-0">
-                            <img
-                              src="https://www.texcial.com/wp-content/uploads/2019/12/gsjgdjsydyj.jpg"
-                              alt="card1"
-                              style={{
-                                height: "60px",
-                                width: "50px",
-                                borderRadius: "10px",
-                              }}
-                            />
-                          </div>
-                          <div class="p-2 bd-highlight">
-                            <p>
-                              Aminia
-                              <p
-                                className="text-muted"
-                                style={{ fontSize: "12px" }}
-                              >
-                                Kolkata
-                              </p>
-                            </p>
-                          </div>
-                          <div class="ml-auto p-2 bd-highlight">Delivery</div>
+                {userBackendDetails.orders &&
+                  userBackendDetails.orders.map((item) => {
+                    console.log("Item is", item);
+                    return (
+                      <div className="col-6">
+                        <div class="card rounded" style={{ width: "22rem" }}>
+                          <ul class="list-group list-group-flush">
+                            <li
+                              class="list-group-item"
+                              style={{ padding: "4px" }}
+                            >
+                              <div class="d-flex bd-highlight">
+                                <div class="p-1 bd-highlight ml-0">
+                                  <img
+                                    src={item.restaurantDetails.restaurantImage}
+                                    alt="card1"
+                                    style={{
+                                      height: "60px",
+                                      width: "60px",
+                                      borderRadius: "10px",
+                                    }}
+                                  />
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                  <div>
+                                    {item.restaurantDetails.restaurantName}
+                                    <div
+                                      className="text-muted"
+                                      style={{ fontSize: "12px" }}
+                                    >
+                                      {
+                                        item.restaurantDetails
+                                          .restaurantLocation
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="ml-auto p-2 bd-highlight">
+                                  Delivered
+                                </div>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="order-div">
+                                <p class="order-text">Order Number</p>
+                                <p class="order-id">{item.orderId}</p>
+                              </div>
+                              <div class="order-div">
+                                <p class="order-text">TOTAL AMOUNT</p>
+                                <p class="order-id">₹{getTotalAmount(item)}</p>
+                              </div>
+                              <div class="order-div">
+                                <p class="order-text">ITEMS</p>
+                                <p class="order-id">
+                                  {item.totalOrder.reduce((a, c) => {
+                                    return `${a}${c.quantity} x ${c.dish}, `;
+                                  }, "")}
+                                </p>
+                              </div>
+                              <div class="order-div">
+                                <p class="order-text">ORDERED ON</p>
+                                <p class="order-id">
+                                  {getTransactionDate(item.timeStamp)}
+                                </p>
+                              </div>
+                              <div>
+                                <button
+                                  type="button"
+                                  class="btn btn-outline-danger"
+                                  onClick={handleOpen}
+                                >
+                                  View Details
+                                </button>
+                                <Modal
+                                  open={open}
+                                  onClose={handleClose}
+                                  aria-labelledby="simple-modal-title"
+                                  aria-describedby="simple-modal-description"
+                                >
+                                  <div
+                                    style={modalStyle}
+                                    className={classes.paper}
+                                  >
+                                    <div class="card" style={{ width: "100%" }}>
+                                      <ul class="list-group list-group-flush">
+                                        <li
+                                          class="list-group-item"
+                                          style={{ padding: "4px" }}
+                                        >
+                                          <div class="d-flex bd-highlight">
+                                            <div class="p-2 bd-highlight ml-0">
+                                              <img
+                                                src={
+                                                  item.restaurantDetails
+                                                    .restaurantImage
+                                                }
+                                                alt="card1"
+                                                style={{
+                                                  height: "60px",
+                                                  width: "60px",
+                                                  borderRadius: "10px",
+                                                }}
+                                              />
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                              <p>
+                                                {
+                                                  item.restaurantDetails
+                                                    .restaurantName
+                                                }
+                                                <p
+                                                  className="text-muted"
+                                                  style={{ fontSize: "12px" }}
+                                                >
+                                                  {
+                                                    item.restaurantDetails
+                                                      .restaurantLocation
+                                                  }
+                                                </p>
+                                              </p>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                              Delivery
+                                            </div>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <div class="order-div">
+                                            <p class="order-text">Your Order</p>
+                                            {item.totalOrder.map((dish) => {
+                                              return (
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    width: "100%",
+                                                    padding: "4px 0px",
+                                                  }}
+                                                >
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      flex: "1",
+                                                    }}
+                                                  >
+                                                    <div>
+                                                      {dish.veg === false ? (
+                                                        <img
+                                                          src="/non-veg.png"
+                                                          alt="Non-Veg Item"
+                                                          style={{
+                                                            width: "15px",
+                                                            margin: "0px 8px",
+                                                          }}
+                                                        />
+                                                      ) : (
+                                                        <img
+                                                          src="/veg.png"
+                                                          alt="Veg Item"
+                                                          style={{
+                                                            width: "15px",
+                                                            margin: "0px 8px",
+                                                          }}
+                                                        />
+                                                      )}
+                                                    </div>
+                                                    <div
+                                                      style={{
+                                                        fontSize: "16px",
+                                                        marginTop: "2px",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                      }}
+                                                    >
+                                                      <div>{dish.dish}</div>
+                                                      <div>
+                                                        {dish.quantity} x{" "}
+                                                        {dish.cost}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div>
+                                                    ₹
+                                                    {Number(dish.quantity) *
+                                                      Number(dish.cost)}
+                                                  </div>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                          <li
+                                            className="bg-light pl-1"
+                                            style={{ listStyleType: "none" }}
+                                          >
+                                            <div className="d-flex justify-content-between align-items-center pl-2 pr-2 pt-2">
+                                              <div className="heading-text">
+                                                Subtotal
+                                              </div>
+
+                                              <div>
+                                                <p className="cost m-0">
+                                                  ₹{getTotalAmount(item)}
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            <hr style={{ margin: "2px 0px" }} />
+                                            <div className="d-flex justify-content-between align-items-center pl-2 pr-2">
+                                              <div className="heading-text">
+                                                Grand Total
+                                              </div>
+
+                                              <div>
+                                                <p className="cost m-0">
+                                                  ₹{getTotalAmount(item)}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </li>
+
+                                          <hr />
+                                          <div style={{ fontSize: "18px" }}>
+                                            Order Details
+                                          </div>
+                                          <div class="order-div">
+                                            <p
+                                              class="order-text"
+                                              style={{
+                                                margin: "0px",
+                                                fontWeight: "300",
+                                                color: "grey",
+                                              }}
+                                            >
+                                              ORDER ID
+                                            </p>
+                                            <p class="order-id">2029441541</p>
+                                          </div>
+                                          <div class="order-div">
+                                            <p
+                                              class="order-text"
+                                              style={{
+                                                margin: "0px",
+                                                fontWeight: "300",
+                                                color: "grey",
+                                              }}
+                                            >
+                                              PAYMENT
+                                            </p>
+                                            <p class="order-id">
+                                              Cash on Delivery
+                                            </p>
+                                          </div>
+                                          <div class="order-div">
+                                            <p
+                                              class="order-text"
+                                              style={{
+                                                margin: "0px",
+                                                fontWeight: "300",
+                                                color: "grey",
+                                              }}
+                                            >
+                                              DATE
+                                            </p>
+                                            <p class="order-id">
+                                              {getTransactionDate(
+                                                item.timeStamp
+                                              )}
+                                            </p>
+                                          </div>
+                                          <div class="order-div">
+                                            <p
+                                              class="order-text"
+                                              style={{
+                                                margin: "0px",
+                                                fontWeight: "300",
+                                                color: "grey",
+                                              }}
+                                            >
+                                              PHONE NUMBER
+                                            </p>
+                                            <p class="order-id">
+                                              {userBackendDetails &&
+                                                userBackendDetails.phone}
+                                            </p>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </Modal>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
-                      </li>
-                      <li class="list-group-item">
-                        <div class="order-div">
-                          <p class="order-text">Order Number</p>
-                          <p class="order-id">2029441541</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">TOTAL AMOUNT</p>
-                          <p class="order-id">₹296.50</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">ITEMS</p>
-                          <p class="order-id">1 x Chicken Biryani [1 Piece]</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">ORDERED ON</p>
-                          <p class="order-id">February 27, 2020 at 04:05 PM</p>
-                        </div>
-                        <div>
-                          <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            onClick={handleOpen}
-                          >
-                            View Details
-                          </button>
-                          <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                          >
-                            {body}
-                          </Modal>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div class="card rounded" style={{ width: "22rem" }}>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item">
-                        <div class="d-flex bd-highlight">
-                          <div class="p-2 bd-highlight ml-0">
-                            <img
-                              src="https://www.texcial.com/wp-content/uploads/2019/12/gsjgdjsydyj.jpg"
-                              alt="card1"
-                              style={{
-                                height: "60px",
-                                width: "50px",
-                                borderRadius: "10px",
-                              }}
-                            />
-                          </div>
-                          <div class="p-2 bd-highlight">
-                            <p>
-                              Aminia
-                              <p
-                                className="text-muted"
-                                style={{ fontSize: "12px" }}
-                              >
-                                Kolkata
-                              </p>
-                            </p>
-                          </div>
-                          <div class="ml-auto p-2 bd-highlight">Delivery</div>
-                        </div>
-                      </li>
-                      <li class="list-group-item">
-                        <div class="order-div">
-                          <p class="order-text">Order Number</p>
-                          <p class="order-id">2029441541</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">TOTAL AMOUNT</p>
-                          <p class="order-id">₹296.50</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">ITEMS</p>
-                          <p class="order-id">1 x Chicken Biryani [1 Piece]</p>
-                        </div>
-                        <div class="order-div">
-                          <p class="order-text">ORDERED ON</p>
-                          <p class="order-id">February 27, 2020 at 04:05 PM</p>
-                        </div>
-                        <div>
-                          <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            onClick={handleOpen}
-                          >
-                            View Details
-                          </button>
-                          <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                          >
-                            {body}
-                          </Modal>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                      </div>
+                    );
+                  })}
               </div>
             </TabPanel>
             <TabPanel value={value} index={7}>
@@ -491,14 +605,6 @@ export default function ProfileBody() {
                     style={{ color: "red", marginLeft: "60px" }}
                   />
                   <h5 style={{ textAlign: "center" }}>Add address</h5>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                  >
-                    {address}
-                  </Modal>
                 </div>
               </div>
             </TabPanel>
