@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   getLocationCard: {
-    minHeight: "95vh",
+    maxHeight: "95vh",
     width: "600px",
     position: "absolute",
     top: "20px",
@@ -138,7 +138,8 @@ function LoginCheckout() {
   );
 
   const dispatch = useDispatch();
-  const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+  const activeUserDetails =
+    JSON.parse(localStorage.getItem("activeUser")) || {};
 
   const paymentHandler = async (e) => {
     e.preventDefault();
@@ -358,7 +359,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
       aria-describedby="simple-modal-description"
     >
       <Card className={classes.getLocationCard}>
-        <Mapbox userCoordinates={userCoordinates} width="100%" height="470px" />
+        <Mapbox userCoordinates={userCoordinates} width="100%" height="400px" />
         <div className={classes.getLocationTitle}>
           <h2>Set your delivery location</h2>
           <IconButton onClick={handleNavigationClose}>
@@ -642,7 +643,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
             <div className="d-flex">
               <div className="col-8">
                 {/* Active User Name and Email Details */}
-                {activeUserDetails && activeUserDetails.active !== false ? (
+                {activeUserDetails && activeUserDetails.email ? (
                   <div className="card m-3 rounded">
                     <div className="card-body">
                       <div style={{ display: "flex", alignItems: "center" }}>
@@ -693,7 +694,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                 )}
 
                 {/* Active User Address Details */}
-                {activeUserDetails && activeUserDetails.active !== false ? (
+                {activeUserDetails && activeUserDetails.email ? (
                   userBackendDetails &&
                   userBackendDetails.address &&
                   userBackendDetails.address.length === 0 ? (
@@ -750,7 +751,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                   </div>
                 )}
 
-                {activeUserDetails && activeUserDetails.active !== false ? (
+                {activeUserDetails && activeUserDetails.email !== false ? (
                   userBackendDetails &&
                   userBackendDetails.address &&
                   userBackendDetails.address[0] &&
@@ -1002,7 +1003,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                       </p>
                       <hr />
 
-                      {!activeUserDetails ||
+                      {!activeUserDetails &&
                       activeUserDetails.active === false ? (
                         <button
                           onClick={paymentHandler}
