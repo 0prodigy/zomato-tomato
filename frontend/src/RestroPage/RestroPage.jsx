@@ -146,7 +146,7 @@ function RestroPage() {
 
   useEffect(() => {
     dispatch(getRestaurant(location.state.res_id));
-  }, []);
+  }, [location]);
 
   return (
     <div>
