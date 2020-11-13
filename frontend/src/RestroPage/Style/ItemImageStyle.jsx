@@ -39,7 +39,7 @@ export const Wrapper = styled.div`
   .img-div1 {
     width: 100%;
     display: flex;
-    height: 30rem;
+    height: 380px;
   }
   .img-div2 {
     min-width: 64.4%;
@@ -59,11 +59,14 @@ export const Wrapper = styled.div`
     left: 0px;
     height: 100%;
   }
-  img-1 {
-    width: 100%;
+  .img-1 {
     height: 100%;
+    width: 100%;
     filter: brightness(0.95);
-    transition: transform 0.4s ease-in-out 0s, filter 0.4s ease 0s;
+    transition: transform 0.5s ease-in-out 0s, filter 0.5s ease 0s;
+    :hover {
+      transform: scale(1.025);
+    }
   }
   .img-sec2 {
     width: 100%;
@@ -118,7 +121,10 @@ export const Wrapper = styled.div`
     will-change: transform, opacity;
     border-radius: inherit;
     filter: brightness(0.95);
-    transition: transform 0.4s ease-in-out 0s, filter 0.4s ease 0s;
+    transition: transform 0.5s ease-in-out 0s, filter 0.5s ease 0s;
+    :hover {
+      transform: scale(1.1);
+    }
   }
   .img-div8 {
     min-width: 62.4%;
@@ -165,6 +171,9 @@ export const Wrapper = styled.div`
     opacity: 1;
     will-change: transform, opacity;
     border-radius: inherit;
-    transition: opacity 0.25s ease 0s, transform 0.25s ease 0s;
+    transition: opacity 0.5s ease 0s, transform 0.5s ease 0s;
+    :hover {
+      transform: scale(1.1);
+    }
   }
 `;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Link } from "react-router-dom";
 import {
   queryCity,
   getUserLocation,
@@ -203,11 +203,13 @@ function Navbar(props) {
             {/* <MenuIcon /> */}
           </IconButton>
 
-          <img
-            src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png"
-            alt="logo"
-            style={{ height: "30px", width: "150px" }}
-          />
+          <Link to="/">
+            <img
+              src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png"
+              alt="logo"
+              style={{ height: "30px", width: "150px" }}
+            />
+          </Link>
 
           {/* <Typography variant="h6" className={classes.typo1}>
             Login

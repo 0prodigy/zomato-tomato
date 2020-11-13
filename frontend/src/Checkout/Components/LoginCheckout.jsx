@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, Redirect, Route, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import LoginPage from "../../LandingPage/Components/LoginPage";
 import Signup from "../../LandingPage/Components/Signup";
@@ -26,6 +26,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import PaymentSuccessPage from "../../PaymentSuccessPage/PaymentSuccessPage";
 import Axios from "axios";
 import Mapbox from "./Mapbox";
 
@@ -115,6 +116,7 @@ const VerifyUserPhoneButton = styled.button`
 function LoginCheckout() {
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
@@ -168,6 +170,22 @@ function LoginCheckout() {
           const captured = successObj.captured;
           if (captured) {
             console.log("success");
+            history.push({
+              pathname: `${location.pathname}/success`,
+              state: {
+                transactionSuccess: true,
+                cart: reduxCart,
+                amount: cartValue,
+                restaurantDetails: {
+                  restaurantName: location.state.restaurantName,
+                  restaurantLocation: location.state.restaurantLocation,
+                  restaurantImage: location.state.restaurantImage,
+                },
+                order_id: response.razorpay_order_id,
+                userId: activeUserDetails.id,
+              },
+            });
+            // <Redirect to={`${location.pathname}/success`} />;
           }
         } catch (err) {
           console.log(err);
@@ -600,6 +618,8 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
 
   if (reduxCart.length === 0) {
     return emptyCartPage;
+  } else if (location.pathname.includes("success")) {
+    return <PaymentSuccessPage />;
   } else {
     return (
       <>

@@ -214,7 +214,6 @@ const landingPageReducer = (state = initialState, action) => {
       return {
         ...state,
         searchCity: action.searchCity,
-        userCoordinates: action.userCoordinates,
       };
 
     case constants.GET_CITY_ID_REQUEST:

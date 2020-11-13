@@ -299,12 +299,11 @@ export default function ProfileBody() {
             </TabPanel>
             <TabPanel value={value} index={6}>
               <h3 style={{ paddingLeft: "15px" }}>Order History</h3>
-              <div className="d-flex">
+              <div className="d-flex flex-wrap">
                 {userBackendDetails.orders &&
                   userBackendDetails.orders.map((item) => {
-                    console.log("Item is", item);
                     return (
-                      <div className="col-6">
+                      <div className="col-5 my-2">
                         <div class="card rounded" style={{ width: "22rem" }}>
                           <ul class="list-group list-group-flush">
                             <li
