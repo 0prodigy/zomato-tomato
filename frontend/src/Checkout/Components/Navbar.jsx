@@ -6,7 +6,8 @@ import { Container, Avatar } from "@material-ui/core";
 
 function Navbar() {
   const history = useHistory();
-  const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+  const activeUserDetails =
+    JSON.parse(localStorage.getItem("activeUser")) || {};
   console.log("The history is", history);
   return (
     <>
@@ -29,7 +30,7 @@ function Navbar() {
                 />
               </Link>
             </div>
-            {activeUserDetails.active !== false ? (
+            {!activeUserDetails && activeUserDetails.active !== false ? (
               <div className="loginSignupDiv">
                 <li className="navigationButton userDetails">
                   <Avatar

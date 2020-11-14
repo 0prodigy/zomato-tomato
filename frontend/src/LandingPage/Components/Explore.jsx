@@ -123,7 +123,7 @@ function Explore() {
                   pathname: `/${searchCity.toLowerCase()}/explore`,
                   state: {
                     city_id: parseInt(cityId),
-                    filter: { average_cost_for_two: 1500 },
+                    filter: { average_cost_for_two: { $gt: 1200 } },
                     title: "From Zomato Pro",
                   },
                 }}

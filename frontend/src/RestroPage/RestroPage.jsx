@@ -148,6 +148,8 @@ function RestroPage() {
     dispatch(getRestaurant(location.state.res_id));
   }, [location]);
 
+  console.log(location);
+
   return (
     <div>
       {data && (
