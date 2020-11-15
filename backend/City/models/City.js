@@ -15,13 +15,9 @@ const citySchema = new Schema({
     type: String,
     required: true,
   },
-  latitude: {
-    type: Number,
-    required: true,
-  },
-  longitude: {
-    type: Number,
-    required: true,
+  location: {
+    type: { type: String, default: "Point" },
+    coordinates: { type: [Number] },
   },
   cusine: {
     type: Array,

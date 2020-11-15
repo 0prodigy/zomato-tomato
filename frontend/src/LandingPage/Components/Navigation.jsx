@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Signup from "./Signup";
@@ -9,81 +10,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
 import Fade from "@material-ui/core/Fade";
-
-const NavigationWrapper = styled.div`
-  position: relative;
-  padding: 0px;
-  z-index: 1;
-  .mobileNavigation {
-    display: none;
-  }
-  .defaultNavigation {
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    max-width: 100%;
-    background: transparent;
-    display: flex;
-    justify-content: flex-end;
-    padding: 1.7rem 0px;
-
-    > .zomatoLogo {
-      position: absolute;
-      left: 0px;
-      cursor: pointer;
-      top: 50%;
-      transform: translateY(-50%);
-      color: white;
-      font-weight: 500;
-      font-size: 1.2rem;
-      max-width: 35rem;
-    }
-
-    .navigationButton:nth-last-child(2) {
-      margin-right: 12px;
-    }
-
-    > .navigationButton {
-      padding: 0px 0.6rem;
-      color: white;
-      font-family: "Poppins";
-
-      button {
-        background: inherit;
-        color: inherit;
-        border: none;
-        outline: none;
-      }
-
-      :hover {
-        cursor: pointer;
-      }
-    }
-
-    .userDetails {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      > span {
-        margin-left: 8px;
-      }
-      button {
-        margin-left: auto;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 769px) {
-    .mobileNavigation {
-      display: block;
-    }
-    .defaultNavigation {
-      display: none;
-    }
-  }
-`;
+import { NavigationWrapper } from "../Style/NavigationStyle";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { userLogout } from "../Redux/action";
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -116,11 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navigation() {
+function Navigation(props) {
   const classes = useStyles();
+  const { activeUserDetails, userLogout } = props;
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -143,41 +72,58 @@ function Navigation() {
     setOpenSignup(false);
   };
 
+  const logOutUser = () => {
+    userLogout();
+    setExpanded(false);
+  };
+
   return (
     <NavigationWrapper className="container">
       <nav>
         <ul className="mobileNavigation"></ul>
         <ul className="defaultNavigation">
           <li className="zomatoLogo">Get the app</li>
-          {authenticated ? (
-            <li className="navigationButton userDetails">
-              <Avatar>MK</Avatar>
-              <span>Manish</span>
-              <IconButton
-                disableRipple={true}
-                className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </IconButton>
+          {activeUserDetails.active !== false ? (
+            <ClickAwayListener onClickAway={() => setExpanded(false)}>
+              <li className="navigationButton userDetails">
+                <Avatar
+                  alt="User profile Image"
+                  src={activeUserDetails.image}
+                />
+                <span>{activeUserDetails.name}</span>
+                <IconButton
+                  disableRipple={true}
+                  className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
 
-              <Fade in={expanded}>
-                <Card className={classes.root}>
-                  <div>Profile</div>
-                  <div>Notifications</div>
-                  <div>Bookmarks</div>
-                  <div>Reviews</div>
-                  <div>Network</div>
-                  <div>Find friends</div>
-                  <div>Settings</div>
-                  <div>Log out</div>
-                </Card>
-              </Fade>
-            </li>
+                <Fade in={expanded}>
+                  <Card className={classes.root}>
+                    <Link
+                      to={`/users/${activeUserDetails.name
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}`}
+                    >
+                      <div>Profile</div>
+                    </Link>
+                    <div>Notifications</div>
+                    <div>Bookmarks</div>
+                    <div>Reviews</div>
+                    <div>Network</div>
+                    <div>Find friends</div>
+                    <div>Settings</div>
+                    <div onClick={logOutUser}>Log out</div>
+                  </Card>
+                </Fade>
+              </li>
+            </ClickAwayListener>
           ) : (
             <>
               <li className="navigationButton">
@@ -212,4 +158,12 @@ function Navigation() {
   );
 }
 
-export default Navigation;
+const mapStateToProps = (state) => ({
+  activeUserDetails: state.landingPageReducer.activeUserDetails,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userLogout: () => dispatch(userLogout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

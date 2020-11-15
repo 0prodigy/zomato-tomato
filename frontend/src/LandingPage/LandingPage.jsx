@@ -1,4 +1,6 @@
 import React from "react";
+import { useLocation, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Collections from "./Components/Collections";
 import Explore from "./Components/Explore";
 import LandingFooter from "./Components/LandingFooter";
@@ -6,6 +8,7 @@ import PopularLocalities from "./Components/PopularLocalities";
 import styled from "styled-components";
 import Navigation from "./Components/Navigation";
 import Banner from "./Components/Banner";
+import MobileApp from "./Components/MobileApp";
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -16,6 +19,13 @@ const HeaderWrapper = styled.div`
 `;
 
 function LandingPage() {
+  const location = useLocation();
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+  if (location.pathname !== `/${searchCity.toLowerCase()}`) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <HeaderWrapper>
@@ -25,6 +35,7 @@ function LandingPage() {
       <Explore />
       <Collections />
       <PopularLocalities />
+      <MobileApp />
       <LandingFooter />
     </div>
   );

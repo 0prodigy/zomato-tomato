@@ -42,7 +42,7 @@ const addMenu = async (req, res) => {
   if (restaurant) {
     try {
       let { menu } = req.body;
-      restaurant.menu = [...restaurant.menu, menu];
+      restaurant.menu = [...restaurant.menu, ...menu];
       await restaurant.save();
       return res.json({ err: false, message: "Menu  added successfully" });
     } catch (err) {
@@ -69,4 +69,46 @@ const getRestaurant = async (req, res) => {
   }
 };
 
-module.exports = { addRestaurant, addPhoto, addMenu, getRestaurant };
+const getAllRestaurant = async (req, res) => {
+  try {
+    const resturants = await Restaurant.find({
+      "location.city_id": parseInt(req.query["city_id"]),
+    });
+    if (resturants) {
+      return res.json({ err: false, message: "Success", resturants });
+    } else {
+      return res
+        .status(404)
+        .json({ err: true, message: "Fail No resturant found" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
+const fillterdRestaurant = async (req, res) => {
+  let { filters, sort } = req.body;
+  for (let key in filters[0]) {
+    if (key == "cuisines") {
+      let reg = new RegExp(filters[0][key], "i");
+      filters = [{ ...filters[0], cuisines: reg }];
+    }
+  }
+  try {
+    const restaurant = await Restaurant.find(...filters).sort(...sort);
+    return res.json({ err: false, message: "Success", restaurant: restaurant });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: true, message: "Something went wrong" });
+  }
+};
+
+module.exports = {
+  addRestaurant,
+  addPhoto,
+  addMenu,
+  getRestaurant,
+  getAllRestaurant,
+  fillterdRestaurant,
+};

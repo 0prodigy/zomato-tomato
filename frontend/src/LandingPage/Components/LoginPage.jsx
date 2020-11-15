@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { userLogin, userLoginVerify } from "../Redux/action";
+import { userLogin, userLoginVerify, userLoginGoogle } from "../Redux/action";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,6 +17,7 @@ import clsx from "clsx";
 import { Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import InputBox from "./InputBox";
+import { GoogleLogin } from "react-google-login";
 
 const DefaultButton = styled.button`
   width: 100%;
@@ -141,6 +142,7 @@ function LoginPage(props) {
     setOpenLogin,
     setOpenSignup,
     userLogin,
+    userLoginGoogle,
     userLoginVerify,
   } = props;
   const [loginWithEmail, setLoginWithEmail] = useState(false);
@@ -196,7 +198,7 @@ function LoginPage(props) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [otpVerification, timerValue]);
+  }, []);
 
   const validateOTP = async (val) => {
     setOtpValue(val);
@@ -210,6 +212,15 @@ function LoginPage(props) {
         setLoginWithEmail(false);
         handleNavigationClose();
       }
+    }
+  };
+
+  const responseGoogle = async (response) => {
+    let googleResponse = response.profileObj.email;
+    console.log("The google response in login page is", googleResponse);
+    let result = await userLoginGoogle(googleResponse);
+    if (result.error === false) {
+      handleNavigationClose();
     }
   };
 
@@ -395,13 +406,33 @@ function LoginPage(props) {
                 </DividerWrapper>
 
                 <DefaultButton onClick={() => setLoginWithEmail(true)}>
-                  <img src="./login with email.png" alt="Login email icon" />
+                  <img src="/login with email.png" alt="Login email icon" />
                   Continue with Email
                 </DefaultButton>
-                <DefaultButton>
-                  <img src="./google svg.svg" alt="google icon" />
-                  Continue with Google
-                </DefaultButton>
+
+                <GoogleLogin
+                  clientId="175559645991-3mrpajh4dnlmn3n0fltr6hasvs8pkcvo.apps.googleusercontent.com"
+                  render={(renderProps) => (
+                    <DefaultButton
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                    >
+                      <img src="/google svg.svg" alt="google icon" />
+                      Continue with Google
+                    </DefaultButton>
+                    // <button
+                    //   onClick={renderProps.onClick}
+                    //   disabled={renderProps.disabled}
+                    // >
+                    //   This is my custom Google button
+                    // </button>
+                  )}
+                  buttonText="Login"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
+
                 <div style={{ margin: "25px 0px" }}>
                   <Divider />
                 </div>
@@ -428,6 +459,7 @@ function LoginPage(props) {
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (email) => dispatch(userLogin(email)),
   userLoginVerify: (payload) => dispatch(userLoginVerify(payload)),
+  userLoginGoogle: (email) => dispatch(userLoginGoogle(email)),
 });
 
 export default connect(null, mapDispatchToProps)(LoginPage);
