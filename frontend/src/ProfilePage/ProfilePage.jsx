@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "./Components/Navbar";
 import ProfileBody from "./Components/ProfileBody";
 import ProfileView from "./Components/ProfileView";
-import MainFooter from "../LandingPage/Components/MainFooter";
 
 function ProfilePage() {
   return (
@@ -10,7 +9,6 @@ function ProfilePage() {
       <Navbar />
       <ProfileView />
       <ProfileBody />
-      <MainFooter />
     </div>
   );
 }
