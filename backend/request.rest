@@ -243,52 +243,43 @@ POST http://localhost:5000/api/restaurant/addMenu HTTP/1.1
 Content-Type: application/json
 
 {
-  "res_id":"20350",
+  "res_id":"54044",
   "menu":[
     {
-    "dish": "Lobster Thermidor",
-      "cost": "625",
-      "image": "https://b.zmtcdn.com/data/dish_photos/cf3/b4bc60884a57165649b404697f86ccf3.jpg?fit=around|130:130&crop=130:130;*,*",
-      "description":"Lobster Delight",
+    "dish": "The All English Breakfast",
+      "cost": "330",
+      "image": "https://b.zmtcdn.com/data/dish_photos/2c4/0f46a23ca27a95bdecf495e56b42b2c4.jpg",
+      "description":"Chicken Sausages, Bacon, 2 Fried Eggs, Baked Beans, Sauteed Mushrooms, Mashed Potato, Spinach and Grilled Tomato, Served with 2 slices of Brown Bread n Butter",
       "veg": false,
-      "votes":9,
-      "ratings":5
+      "votes":36,
+      "ratings":4.1
   },
   {
-    "dish": "Surf and Turf",
-      "cost": "400",
-      "image": "https://b.zmtcdn.com/data/dish_photos/a12/b4ad988a04330e01625333a5ed118a12.jpg?fit=around|130:130&crop=130:130;*,*",
-      "description":"Fillet of chicken stuffed with butter. An old favourite. The Russians love it.",
+    "dish": "The Full Monty American Breakfast",
+      "cost": "330",
+      "image": "https://b.zmtcdn.com/data/dish_photos/047/c34f66ed721f798ebe5d29c894a64047.jpg",
+      "description":"2 Scrambled eggs, 2 pancakes, 2 slices of brown bread and butter with side order of your choice",
+      "veg": false,
+      "votes":16,
+      "ratings":3.9
+  },
+  {
+    "dish": "The Big Frenchie",
+      "cost": "330",
+      "image": "https://b.zmtcdn.com/data/dish_photos/4c7/c463afdef514016717b39fb3324dc4c7.jpg",
+      "description":"2 Slices of French toast topped with honey butter sauce and served with 2 fried eggs and 2 chicken sausages, Bonjout",
+      "veg": false,
+      "votes":12,
+      "ratings":4.4
+  },
+  {
+    "dish": "Chicken Fajita Breakfast Tacos",
+      "cost": "250",
+      "image": "https://b.zmtcdn.com/data/dish_photos/704/3e72b99885d705e3dea1376a7f425704.jpg",
+      "description":"2 Tortillas topped with Onion, Green Peppers and Chicken in homemade fajita seasonign with tomato salsa, a fried egg, a drizzle of spicy mayo",
       "veg": false,
       "votes":8,
-      "ratings":4
-  },
-   {
-    "dish": "Chicken Paprika",
-      "cost": "400",
-      "image": "https://b.zmtcdn.com/data/dish_photos/cf3/d0201f138ba677b71e303ed05c32dcf3.jpg?fit=around|130:130&crop=130:130;*,*",
-      "description":"Mocambos new award winning recipe a tasty creamy blend of chilli pepper flakes, black pepper and crushed red peppers.",
-      "veg": false,
-      "votes":10,
-      "ratings":5
-  },
-  {
-    "dish": "Fish A La Diana",
-      "cost": "475",
-      "image": "https://i.pinimg.com/originals/3c/86/df/3c86dfd283b31196be3b3fe1b2c4b992.jpg",
-      "description":"FThis Stir-fried Kimchi Chicken Noodles is quick and easy to make, and full of the BEST spicy",
-      "veg": false,
-      "votes":10,
-      "ratings":4
-  },
-   {
-    "dish": "Chicken Steak",
-      "cost": "380",
-      "image": "https://b.zmtcdn.com/data/dish_photos/fb0/59d3bcfe7b6f49878ed6736722e55fb0.jpg?fit=around|130:130&crop=130:130;*,*",
-      "description":"For chicken lovers, no trip to Mocambo is complete without a taste of this delicious speciality of Bengal.",
-      "veg": false,
-      "votes":10,
-      "ratings":5
+      "ratings":3.8
   }
   ]
 }
@@ -301,11 +292,11 @@ GET http://localhost:5000/api/restaurant/all HTTP/1.1
 Content-Type: application/json
 
 {
-  "city_id":"asdf",
+  "city_id":"asdf"
 }
 
 ###
-POST http://localhost:5000/api/search/cityId
+POST http://65.0.196.225/api/api/search/cityId
 Content-Type: application/json
 
 {
@@ -314,7 +305,7 @@ Content-Type: application/json
 }
 
 ###
-POST  http://localhost:5000/api/search/collection
+POST http://zomato-tomato.tk/api/api/search/collection
 Content-Type: application/json
 
 {

@@ -23,7 +23,7 @@ function MainFooter() {
 
             {["bottom"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger={["hover", "focus"]}
                 key={placement}
                 placement={placement}
                 className="p-2 bd-highlight m-2"
@@ -296,46 +296,46 @@ function MainFooter() {
             className="container mt-3"
             style={{ borderTop: "0.1px solid  #3c3f46" }}
           ></div>
-          <div class="d-flex bd-highlight mb-3 container">
+          <div className="d-flex bd-highlight mb-3 container">
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               Privay
             </div>
 
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               Terms
             </div>
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               Api Policy
             </div>
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               CSR
             </div>
 
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               Security
             </div>
             <div
-              class="p-2 bd-highlight terms-link"
+              className="p-2 bd-highlight terms-link"
               style={{ color: "#adb0b6" }}
             >
               Sitemap
             </div>
-            <div class="ml-auto p-2 bd-highlight">
+            <div className="ml-auto p-2 bd-highlight">
               <div className="d-flex">
                 <Link to={"/facebook"} className="icon-tag">
                   <div className="social-icons">

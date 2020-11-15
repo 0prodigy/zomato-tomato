@@ -97,14 +97,14 @@ function SuccessMessage() {
   const location = useLocation();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [openSuccessMessage, setOpenSuccessMessage] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenSuccessMessage = () => {
+    setOpenSuccessMessage(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseSuccessMessage = () => {
+    setOpenSuccessMessage(false);
   };
 
   const getTotalAmount = (item) => {
@@ -223,14 +223,14 @@ function SuccessMessage() {
                   >
                     <button
                       type="button"
-                      onClick={handleOpen}
+                      onClick={handleOpenSuccessMessage}
                       className="btn-view"
                     >
                       View Complete Order Details <ArrowRightIcon />
                     </button>
                     <Modal
-                      open={open}
-                      onClose={handleClose}
+                      open={openSuccessMessage}
+                      onClose={handleCloseSuccessMessage}
                       aria-labelledby="simple-modal-title"
                       aria-describedby="simple-modal-description"
                     >
@@ -281,7 +281,7 @@ function SuccessMessage() {
                                   </p>
                                 </div>
                                 <div class="ml-auto p-2 bd-highlight">
-                                  Delivery
+                                  In Transit
                                 </div>
                               </div>
                             </li>
@@ -403,7 +403,7 @@ function SuccessMessage() {
                                 >
                                   PAYMENT
                                 </p>
-                                <p class="order-id">Cash on Delivery</p>
+                                <p class="order-id">Razorpay</p>
                               </div>
                             </li>
                           </ul>

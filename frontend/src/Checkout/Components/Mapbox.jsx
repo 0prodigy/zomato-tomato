@@ -47,6 +47,7 @@ const Mapbox = (props) => {
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
   return (

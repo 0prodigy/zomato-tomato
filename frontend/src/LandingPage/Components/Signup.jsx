@@ -167,7 +167,6 @@ function LoginPage(props) {
   };
 
   const handleSignup = async (e) => {
-    console.log("The values are ", fullname, email);
     if (fullname === "") {
       setFullnameError(true);
       setFullnameErrorMessage("Please enter a valid name");
@@ -242,11 +241,10 @@ function LoginPage(props) {
     };
     axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/googleRegister",
+      url: "http://zomato-tomato.tk/api/api/auth/googleRegister",
       data: payload,
     })
       .then((response) => {
-        console.log("Comes here");
         setUserSignupSuccess(true);
         setUserSignupSuccessMessage(`${response.data.message}`);
         setTimeout(() => {

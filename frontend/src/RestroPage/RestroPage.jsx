@@ -146,9 +146,8 @@ function RestroPage() {
 
   useEffect(() => {
     dispatch(getRestaurant(location.state.res_id));
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-
-  console.log(location);
 
   return (
     <div>

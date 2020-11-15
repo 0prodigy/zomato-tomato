@@ -31,7 +31,7 @@ export const getAllRestaurants = (cityId) => {
     dispatch(getAllRestaurantsRequest());
     return axios({
       method: "get",
-      url: "http://localhost:5000/api/restaurant/all",
+      url: "http://zomato-tomato.tk/api/api/restaurant/all",
       params: {
         city_id: cityId,
       },

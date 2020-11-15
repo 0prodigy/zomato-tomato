@@ -17,6 +17,10 @@ function ItemName(props) {
   const userCoordinates = useSelector(
     (state) => state.landingPageReducer.userCoordinates
   );
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+  const cityId = useSelector((state) => state.landingPageReducer.cityId);
   const { data } = props;
   const dispatch = useDispatch();
 
@@ -44,7 +48,6 @@ function ItemName(props) {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
     } else {
-      console.log(navigator.geolocation.getCurrentPosition(success, error));
       return navigator.geolocation.getCurrentPosition(success, error);
     }
   };
@@ -63,7 +66,6 @@ function ItemName(props) {
     }
   };
 
-  console.log("User coordinates", data);
   return (
     <Wrapper>
       <section className="container main-div">
@@ -77,14 +79,25 @@ function ItemName(props) {
                     .trim()
                     .split(",")
                     .map((cuisine) => (
-                      <Link className="loc-link" key={cuisine}>
+                      <Link
+                        className="loc-link"
+                        to={{
+                          pathname: `/${searchCity.toLowerCase()}/explore`,
+                          state: {
+                            city_id: parseInt(cityId),
+                            filter: {
+                              cuisines: cuisine,
+                            },
+                            title: cuisine,
+                          },
+                        }}
+                        key={cuisine}
+                      >
                         {cuisine} ,{" "}
                       </Link>
                     ))}
-                {/* <Link className="loc-link">Quick Bites</Link>
-                <span>,</span> */}
               </div>
-              <Link className="loc-link">
+              <Link className="loc-link" to="/#">
                 {data.location && data.location.address}
               </Link>
             </section>
@@ -99,7 +112,7 @@ function ItemName(props) {
                 <div>
                   {["right"].map((placement) => (
                     <OverlayTrigger
-                      trigger="hover"
+                      trigger={["hover", "focus"]}
                       key={placement}
                       placement={placement}
                       className="p-2 bd-highlight m-2"
