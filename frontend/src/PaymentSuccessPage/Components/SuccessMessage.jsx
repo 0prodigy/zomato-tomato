@@ -235,7 +235,14 @@ function SuccessMessage() {
                       aria-describedby="simple-modal-description"
                     >
                       <div style={modalStyle} className={classes.paper}>
-                        <div class="card" style={{ width: "100%" }}>
+                        <div
+                          class="card"
+                          style={{
+                            width: "100%",
+                            border: "none",
+                            outline: "none",
+                          }}
+                        >
                           <ul class="list-group list-group-flush">
                             <li
                               class="list-group-item"

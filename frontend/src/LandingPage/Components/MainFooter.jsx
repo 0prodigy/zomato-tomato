@@ -16,7 +16,7 @@ function MainFooter() {
           <section className="logo-section d-flex container bd-highlight mb-3">
             <img
               className="footer-logo mr-auto bd-highlight mb-3"
-              src="/logoz.png"
+              src="/tomato_black_final_logo.png"
               alt="logo"
             />
             {["top"].map((placement) => (

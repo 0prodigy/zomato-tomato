@@ -243,7 +243,14 @@ function Navbar(props) {
 
                 <Fade in={expanded}>
                   <Card className={classes.popup}>
-                    <div>Profile</div>
+                    <Link
+                      to={`/users/${activeUserDetails.name
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}`}
+                    >
+                      <div>Profile</div>
+                    </Link>
                     <div>Notifications</div>
                     <div>Bookmarks</div>
                     <div>Reviews</div>

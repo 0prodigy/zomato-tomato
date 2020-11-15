@@ -25,7 +25,6 @@ import {
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SearchIcon from "@material-ui/icons/Search";
@@ -298,7 +297,7 @@ function RestroNavbar(props) {
           </IconButton>
 
           <img
-            src="/logoz.png"
+            src="/tomato_black_final_logo.png"
             alt="logo"
             style={{ height: "30px", width: "150px" }}
           />

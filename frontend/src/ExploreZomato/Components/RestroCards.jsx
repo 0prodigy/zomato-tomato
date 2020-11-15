@@ -165,7 +165,7 @@ function RestroCards() {
                   }
                   name="pop"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleSort(e, { "user_rating.votes": 1 })}
                 >
                   Popularity-high to low
@@ -177,7 +177,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleSort(e, { all_reviews_count: 1 })}
                 >
                   Delivery Rating
@@ -189,7 +189,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleSort(e, { "user_rating.aggregate_rating": 1 })
                   }
@@ -203,7 +203,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleSort(e, { photo_count: 1 })}
                 >
                   Recently Added
@@ -228,7 +228,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "North Indian" })}
                 >
                   North Indian
@@ -240,7 +240,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Chinese" })}
                 >
                   Chinese
@@ -252,7 +252,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Beverages" })}
                 >
                   Beverages
@@ -264,7 +264,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Mughlai" })}
                 >
                   Mughlai
@@ -276,7 +276,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Rolls" })}
                 >
                   Rolls
@@ -288,7 +288,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "South Indian" })}
                 >
                   South Indian
@@ -300,7 +300,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Biriyani" })}
                 >
                   Biriyani
@@ -312,7 +312,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) => handleFilter(e, { cuisines: "Italian" })}
                 >
                   Italian
@@ -333,21 +333,21 @@ function RestroCards() {
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to 30 minutes
                 </h5>
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to 45 minutes
                 </h5>
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to 60 minutes
                 </h5>
@@ -373,7 +373,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, { average_cost_for_two: { $lt: 250 } })
                   }
@@ -390,7 +390,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, {
                       average_cost_for_two: { $lt: 500, $gt: 250 },
@@ -409,7 +409,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, {
                       average_cost_for_two: { $lt: 1000, $gt: 500 },
@@ -428,7 +428,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, {
                       average_cost_for_two: { $lt: 1500, $gt: 1000 },
@@ -447,7 +447,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, {
                       average_cost_for_two: { $lt: 2500, $gt: 1500 },
@@ -465,7 +465,7 @@ function RestroCards() {
                       : " form-check-label p-1"
                   }
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                   onClick={(e) =>
                     handleFilter(e, { average_cost_for_two: { $gt: 2500 } })
                   }
@@ -487,28 +487,28 @@ function RestroCards() {
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   No minimum order
                 </h5>
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to ₹150
                 </h5>
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to ₹250
                 </h5>
                 <h5
                   className="form-check-label p-1"
                   for="gridCheck"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "12px", cursor: "pointer" }}
                 >
                   Up to ₹500
                 </h5>

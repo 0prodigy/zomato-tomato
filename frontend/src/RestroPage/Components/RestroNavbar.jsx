@@ -300,7 +300,7 @@ function RestroNavbar(props) {
           </IconButton>
 
           <img
-            src="/logoz.png"
+            src="/tomato_black_final_logo.png"
             alt="logo"
             style={{ height: "30px", width: "150px" }}
           />

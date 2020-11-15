@@ -24,7 +24,7 @@ function Navbar() {
               <Link className="navbar-brand">
                 <img
                   className="logo-img"
-                  src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png"
+                  src="/tomato_black_final_logo.png"
                   alt="logo"
                   style={{ width: "150px" }}
                 />
