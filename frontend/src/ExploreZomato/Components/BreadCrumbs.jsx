@@ -1,8 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Wrapper } from "../Styles/BreadCrumbsStyle";
 
 function BreadCrumb() {
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+
   return (
     <>
       <Wrapper>
@@ -21,18 +26,16 @@ function BreadCrumb() {
                   </Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to="/delhi-ncr" className="item">
-                    Delhi Ncr
+                  <Link
+                    to={{ pathname: `/${searchCity.toLowerCase()}` }}
+                    className="item"
+                  >
+                    {searchCity.toLowerCase()}
                   </Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to="/gurgaon" className="item">
-                    Central delhi
-                  </Link>
-                </li>
-                <li className="breadcrumb-item">
-                  <Link to="/sector-7" className="item">
-                    Jai Singh Road Restaurents
+                  <Link to="/#" className="item">
+                    Restaurants
                   </Link>
                 </li>
               </ol>

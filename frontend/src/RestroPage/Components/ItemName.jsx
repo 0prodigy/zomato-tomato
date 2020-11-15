@@ -17,6 +17,10 @@ function ItemName(props) {
   const userCoordinates = useSelector(
     (state) => state.landingPageReducer.userCoordinates
   );
+  const searchCity = useSelector(
+    (state) => state.landingPageReducer.searchCity
+  );
+  const cityId = useSelector((state) => state.landingPageReducer.cityId);
   const { data } = props;
   const dispatch = useDispatch();
 
@@ -75,14 +79,25 @@ function ItemName(props) {
                     .trim()
                     .split(",")
                     .map((cuisine) => (
-                      <Link className="loc-link" key={cuisine}>
+                      <Link
+                        className="loc-link"
+                        to={{
+                          pathname: `/${searchCity.toLowerCase()}/explore`,
+                          state: {
+                            city_id: parseInt(cityId),
+                            filter: {
+                              cuisines: cuisine,
+                            },
+                            title: cuisine,
+                          },
+                        }}
+                        key={cuisine}
+                      >
                         {cuisine} ,{" "}
                       </Link>
                     ))}
-                {/* <Link className="loc-link">Quick Bites</Link>
-                <span>,</span> */}
               </div>
-              <Link className="loc-link">
+              <Link className="loc-link" to="/#">
                 {data.location && data.location.address}
               </Link>
             </section>

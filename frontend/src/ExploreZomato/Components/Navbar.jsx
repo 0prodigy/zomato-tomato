@@ -173,7 +173,7 @@ function Navbar(props) {
         <div className="navigation-cont">
           <div className="navigation-content container">
             <div className="left-content">
-              <Link className="mobile-link">
+              <Link to="/#" className="mobile-link">
                 <img
                   src="https://b.zmtcdn.com/images/icons/get-the-app-plain.svg"
                   alt="mobile-icon"
@@ -183,7 +183,7 @@ function Navbar(props) {
               </Link>
             </div>
             <div className="right-content">
-              <Link className="cart-link mobile-link">
+              <Link to="/#" className="cart-link mobile-link">
                 <img
                   src="https://b.zmtcdn.com/images/icons/order-online.svg"
                   alt="order-food"
@@ -191,7 +191,7 @@ function Navbar(props) {
                 />
                 <span className="pl-3">Order Food</span>
               </Link>
-              <Link className="table-link mobile-link">
+              <Link to="/#" className="table-link mobile-link">
                 <img
                   src="https://b.zmtcdn.com/images/icons/book-a-table.svg"
                   alt="table"

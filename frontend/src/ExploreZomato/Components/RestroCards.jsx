@@ -112,7 +112,7 @@ function RestroCards() {
                         type="checkbox"
                         id="gridCheck"
                       />
-                      <label className="form-check-label" for="gridCheck">
+                      <label className="form-check-label" htmlFor="gridCheck">
                         <p
                           className="text-success"
                           style={{ fontSize: "15px", fontWeight: "600" }}
@@ -618,7 +618,7 @@ function RestroCards() {
                                     >
                                       {restaurant && restaurant.name}
                                     </Link>
-                                    <div className="single-rating d-flex">
+                                    <div className="single-rating d-flex align-items-center">
                                       <div className="d-flex m-1">
                                         {restaurant &&
                                           new Array(
@@ -636,13 +636,25 @@ function RestroCards() {
                                                 style={{ color: "#E23744" }}
                                               />
                                             ))}
-                                        <span className="ratings-count">
+                                        <span
+                                          className="ratings-count"
+                                          style={{
+                                            paddingTop: "4px",
+                                            marginLeft: "4px",
+                                          }}
+                                        >
                                           {parseInt(
                                             restaurant.user_rating
                                               .aggregate_rating
                                           ).toFixed(1)}
                                         </span>
-                                        <span className="review-count">
+                                        <span
+                                          className="review-count"
+                                          style={{
+                                            paddingTop: "4px",
+                                            marginLeft: "4px",
+                                          }}
+                                        >
                                           (
                                           {restaurant &&
                                             restaurant.all_reviews_count}{" "}

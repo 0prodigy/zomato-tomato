@@ -246,9 +246,9 @@ function OrderOnline(props) {
                     </div>
                   </div>
                   <div>
-                    <div class="form-check">
+                    <div className="form-check">
                       <input
-                        class="form-check-input position-static"
+                        className="form-check-input position-static"
                         type="checkbox"
                         id="blankCheckbox"
                         value="option1"
@@ -281,12 +281,16 @@ function OrderOnline(props) {
                 RESTAURANTS AROUND {data.location && data.location.locality}
               </h6>
               <div className="loc-near-names">
-                <Link className="loc-near-link">Tilak Nagar Restaurants, </Link>
-                <Link className="loc-near-link">Janakpuri Restaurants, </Link>
-                <Link className="loc-near-link">
+                <Link to="/#" className="loc-near-link">
+                  Tilak Nagar Restaurants,{" "}
+                </Link>
+                <Link to="/#" className="loc-near-link">
+                  Janakpuri Restaurants,{" "}
+                </Link>
+                <Link to="/#" className="loc-near-link">
                   Shubhas Nagar Restaurants,{" "}
                 </Link>
-                <Link className="loc-near-link">
+                <Link to="/#" className="loc-near-link">
                   Mayapuri Phase Two Restaurants
                 </Link>
               </div>
@@ -329,13 +333,14 @@ function OrderOnline(props) {
                   </IconButton>
                 </div>
                 <div style={{ overflow: "auto", height: "235px" }}>
-                  {reduxCart.map((item) => {
+                  {reduxCart.map((item, index) => {
                     return (
                       <div
                         style={{
                           display: "block",
                           margin: "8px 0px",
                         }}
+                        key={index}
                       >
                         <Divider orientation="horizontal" />
                         <div
@@ -376,7 +381,7 @@ function OrderOnline(props) {
                             <div className={classes.customizeButton}>
                               <div
                                 style={{ color: "red", fontWeight: "300" }}
-                                class="bd-highlight"
+                                className="bd-highlight"
                                 onClick={() => {
                                   dispatch(
                                     setTotalCartValue(
@@ -394,14 +399,14 @@ function OrderOnline(props) {
                                 -
                               </div>
                               <div
-                                class="bd-highlight"
+                                className="bd-highlight"
                                 style={{ fontSize: "16px" }}
                               >
                                 {item.quantity}
                               </div>
                               <div
                                 style={{ color: "red", fontWeight: "300" }}
-                                class="bd-highlight"
+                                className="bd-highlight"
                                 onClick={() => {
                                   dispatch(
                                     setTotalCartValue(

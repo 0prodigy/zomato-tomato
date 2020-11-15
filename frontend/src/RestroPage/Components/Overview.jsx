@@ -504,7 +504,7 @@ function Overview(props) {
                   </div>
                 </div>
                 <div className="follow-div">
-                  <button type="button" class="btn btn-outline-danger">
+                  <button type="button" className="btn btn-outline-danger">
                     Follow
                   </button>
                 </div>
@@ -577,7 +577,7 @@ function Overview(props) {
                   </div>
                 </div>
                 <div className="follow-div">
-                  <button type="button" class="btn btn-outline-danger">
+                  <button type="button" className="btn btn-outline-danger">
                     Follow
                   </button>
                 </div>

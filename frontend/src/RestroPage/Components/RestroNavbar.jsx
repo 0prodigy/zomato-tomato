@@ -192,11 +192,13 @@ function RestroNavbar(props) {
     <div className={classes.root}>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar variant="dense" className={clsx(classes.toolbar, "container")}>
-          <img
-            src="/tomato_black_final_logo.png"
-            alt="logo"
-            style={{ height: "30px", width: "150px" }}
-          />
+          <Link to="/">
+            <img
+              src="/tomato_black_final_logo.png"
+              alt="logo"
+              style={{ height: "30px", width: "150px" }}
+            />
+          </Link>
 
           <SearchBar />
 
@@ -252,7 +254,6 @@ function RestroNavbar(props) {
                 name="login"
                 onClick={handleNavigationClick}
                 style={{
-                  marginTop: "20px",
                   backgroundColor: "Transparent",
                   backgroundRepeat: "no-repeat",
                   border: "none",
@@ -267,7 +268,6 @@ function RestroNavbar(props) {
                 name="signup"
                 onClick={handleNavigationClick}
                 style={{
-                  marginTop: "20px",
                   backgroundColor: "Transparent",
                   backgroundRepeat: "no-repeat",
                   border: "none",
