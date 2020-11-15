@@ -1,6 +1,5 @@
 import React from "react";
 import { Wrapper } from "../Style/ProfileViewStyle";
-import RoomIcon from "@material-ui/icons/Room";
 
 function ProfileView() {
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
@@ -20,10 +19,6 @@ function ProfileView() {
               alt="profile-pic"
             />
             <p className="profile-name">{activeUserDetails.name}</p>
-            {/* <p className="profile-location">
-              <RoomIcon />
-              Kolkata
-            </p> */}
             <div className="profile-text-div d-flex">
               <div className="reviews" style={{ textAlign: "center" }}>
                 0<p>Reviews</p>

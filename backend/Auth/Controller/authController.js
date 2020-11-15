@@ -20,8 +20,6 @@ const sendOtp = async (email, name) => {
   let max = 99999;
   let otp = Math.floor(Math.random() * (max - min + 1)) + min;
 
-  console.log(process.env.EMAIL);
-
   let transprter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -201,20 +199,16 @@ const googleLogin = async (req, res) => {
     const { email } = req.body;
     let user = await User.findOne({ email: email });
     if (user) {
-      return res
-        .status(200)
-        .json({
-          err: false,
-          message: "Verified user and logged in",
-          user: user,
-        });
+      return res.status(200).json({
+        err: false,
+        message: "Verified user and logged in",
+        user: user,
+      });
     } else {
-      return res
-        .status(401)
-        .json({
-          err: true,
-          message: "Was not able to verify your credentials",
-        });
+      return res.status(401).json({
+        err: true,
+        message: "Was not able to verify your credentials",
+      });
     }
   }
 };

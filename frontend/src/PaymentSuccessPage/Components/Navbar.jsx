@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
   navbar: {
     backgroundColor: "white",
     color: "black",
-    height: "70px",
+    height: "fit-content",
+    padding: "6px 0px",
   },
   toolbar: {
     display: "flex",
@@ -142,15 +143,18 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     borderRadius: 7,
     top: 50,
+    right: 0,
     width: 160,
     height: "fit-content",
     maxWidth: 180,
+    zIndex: 10,
     "& div": {
       // fontWeight: 200,
       height: 35,
       padding: "5px",
       paddingLeft: "12px",
       "&:hover": {
+        cursor: "pointer",
         backgroundColor: "#d1d1d1",
       },
     },
@@ -159,16 +163,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar(props) {
   const classes = useStyles();
-  const match = useRouteMatch();
   const { activeUserDetails } = props;
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
-
-  // React.useEffect(() => {
-  //     handleRestaurantSearch
-  // }, [match.params.restaurant]);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -189,20 +187,10 @@ function Navbar(props) {
     setOpenSignup(false);
   };
 
-  console.log(match);
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.navbar}>
-        <Toolbar variant="dense" className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            {/* <MenuIcon /> */}
-          </IconButton>
-
+        <Toolbar variant="dense" className={clsx(classes.toolbar, "container")}>
           <Link to="/">
             <img
               src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png"
@@ -211,16 +199,9 @@ function Navbar(props) {
             />
           </Link>
 
-          {/* <Typography variant="h6" className={classes.typo1}>
-            Login
-          </Typography>
-          <Typography variant="h6" className={classes.typo2}>
-            SignUp
-          </Typography> */}
-
           {activeUserDetails.active !== false ? (
             <ClickAwayListener onClickAway={() => setExpanded(false)}>
-              <li style={{ display: "flex" }}>
+              <li style={{ display: "flex", position: "relative" }}>
                 <Avatar
                   alt="User profile Image"
                   src={activeUserDetails.image}
@@ -237,20 +218,24 @@ function Navbar(props) {
                   onClick={handleExpandClick}
                   aria-expanded={expanded}
                   aria-label="show more"
+                  style={{ width: "40px", marginLeft: "8px" }}
                 >
                   <ExpandMoreIcon />
                 </IconButton>
 
                 <Fade in={expanded}>
                   <Card className={classes.popup}>
-                    <div>Profile</div>
-                    <div>Notifications</div>
+                    <Link
+                      to="/"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      <div>Go to Home</div>
+                    </Link>
                     <div>Bookmarks</div>
                     <div>Reviews</div>
                     <div>Network</div>
                     <div>Find friends</div>
                     <div>Settings</div>
-                    <div>Log out</div>
                   </Card>
                 </Fade>
               </li>

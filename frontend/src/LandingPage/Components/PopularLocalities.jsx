@@ -15,13 +15,14 @@ function PopularLocalities() {
   useEffect(() => {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/search/localities",
+      url: "http://zomato-tomato.tk/api/api/search/localities",
       data: {
         city_id: cityId,
       },
     })
       .then((response) => setLocalities(response.data.localities))
       .catch((error) => setLocalities([]));
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

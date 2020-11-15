@@ -316,7 +316,7 @@ export const queryRestaurant = (query, cityId) => {
     dispatch(queryRestaurantRequest());
     return axios({
       method: "get",
-      url: ` http://localhost:5000/api/search/restaurant`,
+      url: ` http://zomato-tomato.tk/api/api/search/restaurant`,
       params: {
         q: query,
         city_id: cityId,
@@ -332,7 +332,7 @@ export const queryRestaurant = (query, cityId) => {
 export const getUserLocation = (longitude, latitude) => {
   return (dispatch) => {
     dispatch(getUserLocationRequest());
-    console.log("The longitude and latitude are", longitude, latitude);
+
     return axios({
       method: "get",
       url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json`,
@@ -343,7 +343,6 @@ export const getUserLocation = (longitude, latitude) => {
       },
     })
       .then((response) => {
-        console.log("the response is", response.data);
         return dispatch(
           getUserLocationSuccess(response.data.features, longitude, latitude)
         );
@@ -354,16 +353,14 @@ export const getUserLocation = (longitude, latitude) => {
 
 //The payload contains the user name and email, needed for registration
 export const userSignup = (payload) => {
-  console.log("The user signup", payload);
   return (dispatch) => {
     dispatch(userSignupRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/register",
+      url: "http://zomato-tomato.tk/api/api/auth/register",
       data: payload,
     })
       .then((response) => {
-        console.log("The response is", response.data);
         return dispatch(userSignupSuccess(response.data));
       })
       .catch((error) => {
@@ -377,15 +374,13 @@ export const userLogin = (email) => {
     dispatch(userLoginRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/login",
+      url: "http://zomato-tomato.tk/api/api/auth/login",
       data: { email: email },
     })
       .then((response) => {
-        console.log("The response is", response.data);
         return dispatch(userLoginSuccess(response.data));
       })
       .catch((error) => {
-        console.log("The login error is", error);
         return dispatch(userLoginFailure(error.response.data.message));
       });
   };
@@ -397,14 +392,10 @@ export const userSignupVerify = (payload) => {
     dispatch(userSignupVerifyRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/verifyRegister",
+      url: "http://zomato-tomato.tk/api/api/auth/verifyRegister",
       data: payload,
     })
       .then((response) => {
-        console.log(
-          "The response verification of user registration is",
-          response.data
-        );
         return dispatch(userSignupVerifySuccess(response.data));
       })
       .catch((error) => {
@@ -418,11 +409,10 @@ export const userLoginVerify = (payload) => {
     dispatch(userLoginVerifyRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/verifyLogin",
+      url: "http://zomato-tomato.tk/api/api/auth/verifyLogin",
       data: payload,
     })
       .then((response) => {
-        console.log("The response while login verification is", response.data);
         return dispatch(userLoginVerifySuccess(response.data));
       })
       .catch((error) => {
@@ -436,11 +426,10 @@ export const userLoginGoogle = (email) => {
     dispatch(userLoginGoogleRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/googleLogin",
+      url: "http://zomato-tomato.tk/api/api/auth/googleLogin",
       data: { email: email },
     })
       .then((response) => {
-        console.log("The user login google success response is", response.data);
         return dispatch(userLoginGoogleSuccess(response.data));
       })
       .catch((error) => {
@@ -461,7 +450,7 @@ export const getCityId = (payload) => {
     dispatch(getCityIdRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/search/cityId",
+      url: "http://zomato-tomato.tk/api/api/search/cityId",
       data: payload,
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
@@ -481,11 +470,10 @@ export const getCityCollection = (cityId) => {
     dispatch(getCityCollectionRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/search/collection",
+      url: "http://zomato-tomato.tk/api/api/search/collection",
       data: { city_id: cityId },
     })
       .then((response) => {
-        console.log("Collection response from redux is", response.data);
         return dispatch(getCityCollectionSuccess(response.data));
       })
       .catch((error) => {
@@ -499,11 +487,10 @@ export const getCityLocalities = (cityId) => {
     dispatch(getCityLocalitiesRequest());
     return axios({
       method: "post",
-      url: "http://localhost:5000/api/search/localities",
+      url: "http://zomato-tomato.tk/api/api/search/localities",
       data: { city_id: cityId },
     })
       .then((response) => {
-        console.log("Collection response from redux is", response.data);
         return dispatch(getCityLocalitiesSuccess(response.data));
       })
       .catch((error) => {

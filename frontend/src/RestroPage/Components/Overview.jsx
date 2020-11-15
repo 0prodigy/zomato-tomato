@@ -12,11 +12,6 @@ import { Wrapper } from "../Style/OverviewStyle";
 import MainFooter from "../../LandingPage/Components/MainFooter";
 import { Card, CardContent } from "@material-ui/core";
 import DirectionsIcon from "@material-ui/icons/Directions";
-//main-div{position: sticky;
-// top: 196px;
-// z-index: 2;}
-// sec-div{ position: relative;
-//     overflow-y: auto;}
 
 function Overview(props) {
   const { data } = props;
@@ -170,11 +165,6 @@ function Overview(props) {
                         {cuisine}
                       </p>
                     ))}
-
-                {/* 
-            <p className="cuisines">Rolls</p>
-
-            <p className="cuisines">Mughlai</p> */}
               </div>
             </div>
             <div className="container">
@@ -235,27 +225,6 @@ function Overview(props) {
                         </div>
                       )
                   )}
-
-                {/* <div className="info-name">
-              <CheckCircleOutline className="info-icons" />
-              <p className="info-text">Breakfast</p>
-            </div>
-            <div className="info-name">
-              <CheckCircleOutline className="info-icons" />
-              <p className="info-text">Home Delivery</p>
-            </div>
-            <div className="info-name">
-              <CheckCircleOutline className="info-icons" />
-              <p className="info-text">Indoor Seating</p>
-            </div>
-            <div className="info-name">
-              <CheckCircleOutline className="info-icons" />
-              <p className="info-text">Desserts and Bakes</p>
-            </div>
-            <div className="info-name">
-              <CheckCircleOutline className="info-icons" />
-              <p className="info-text">Vegetarian Only</p>
-            </div> */}
               </div>
             </div>
             <div className="container">
@@ -302,12 +271,6 @@ function Overview(props) {
                       <p className="votes-number">(128)</p>
                       <div className="hr"></div>
                     </div>
-                    {/* <div className="votes-count">
-                  <AssistantIcon className="votes-icons2" />
-                  <p className="votes-rating">4.2</p>
-                  <p className="votes-number">(1,128)</p>
-                  <div className="hr"></div>
-                </div> */}
                   </div>
                 </div>
               </div>
@@ -714,12 +677,6 @@ function Overview(props) {
                       <p className="votes-number">(128)</p>
                       <div className="hr"></div>
                     </div>
-                    {/* <div className="votes-count">
-                  <AssistantIcon className="votes-icons2" />
-                  <p className="votes-rating">4.2</p>
-                  <p className="votes-number">(1,128)</p>
-                  <div className="hr"></div>
-                </div> */}
                   </div>
                 </div>
               </div>
@@ -781,12 +738,6 @@ function Overview(props) {
                       <p className="votes-number">(128)</p>
                       <div className="hr"></div>
                     </div>
-                    {/* <div className="votes-count">
-                  <AssistantIcon className="votes-icons2" />
-                  <p className="votes-rating">4.2</p>
-                  <p className="votes-number">(1,128)</p>
-                  <div className="hr"></div>
-                </div> */}
                   </div>
                 </div>
               </div>

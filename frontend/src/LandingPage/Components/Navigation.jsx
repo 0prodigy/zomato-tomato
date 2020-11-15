@@ -110,6 +110,7 @@ function Navigation(props) {
                         .toLowerCase()
                         .split(" ")
                         .join("-")}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <div>Profile</div>
                     </Link>

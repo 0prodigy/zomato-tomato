@@ -21,7 +21,7 @@ function BreadCrumb() {
                   </Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to="delhi-ncr" className="item">
+                  <Link to="/delhi-ncr" className="item">
                     Delhi Ncr
                   </Link>
                 </li>

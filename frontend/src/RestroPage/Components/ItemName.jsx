@@ -44,7 +44,6 @@ function ItemName(props) {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
     } else {
-      console.log(navigator.geolocation.getCurrentPosition(success, error));
       return navigator.geolocation.getCurrentPosition(success, error);
     }
   };
@@ -63,7 +62,6 @@ function ItemName(props) {
     }
   };
 
-  console.log("User coordinates", data);
   return (
     <Wrapper>
       <section className="container main-div">
@@ -99,7 +97,7 @@ function ItemName(props) {
                 <div>
                   {["right"].map((placement) => (
                     <OverlayTrigger
-                      trigger="hover"
+                      trigger={["hover", "focus"]}
                       key={placement}
                       placement={placement}
                       className="p-2 bd-highlight m-2"

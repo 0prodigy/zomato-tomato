@@ -198,7 +198,7 @@ function LoginPage(props) {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [otpVerification, timerValue]);
 
   const validateOTP = async (val) => {
     setOtpValue(val);
@@ -217,7 +217,6 @@ function LoginPage(props) {
 
   const responseGoogle = async (response) => {
     let googleResponse = response.profileObj.email;
-    console.log("The google response in login page is", googleResponse);
     let result = await userLoginGoogle(googleResponse);
     if (result.error === false) {
       handleNavigationClose();

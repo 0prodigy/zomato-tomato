@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useLocation, Redirect, Route, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import LoginPage from "../../LandingPage/Components/LoginPage";
 import Signup from "../../LandingPage/Components/Signup";
@@ -144,7 +144,7 @@ function LoginCheckout() {
   const paymentHandler = async (e) => {
     e.preventDefault();
 
-    const API_URL = "http://localhost:5000/api/users/";
+    const API_URL = "http://zomato-tomato.tk/api/api/users/";
     const orderUrl = `${API_URL}orderId?amount=${cartValue}`;
     const response = await Axios.get(orderUrl);
     const { data } = response;
@@ -170,7 +170,6 @@ function LoginCheckout() {
           const successObj = captureResponse.data;
           const captured = successObj.captured;
           if (captured) {
-            console.log("success");
             history.push({
               pathname: `${location.pathname}/success`,
               state: {
@@ -232,7 +231,7 @@ function LoginCheckout() {
   const getActiveUserDetails = () => {
     Axios({
       method: "get",
-      url: `http://localhost:5000/api/users/findById/${activeUserDetails.id}`,
+      url: `http://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
     })
       .then((response) => setUserBackendDetails(response.data.user))
       .catch((error) => console.log(error));
@@ -242,6 +241,7 @@ function LoginCheckout() {
     if (activeUserDetails.active !== false) {
       getActiveUserDetails();
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNavigationClick = (e) => {
@@ -280,7 +280,7 @@ function LoginCheckout() {
     }`;
     Axios({
       method: "post",
-      url: "http://localhost:5000/api/users/addAddress",
+      url: "http://zomato-tomato.tk/api/api/users/addAddress",
       data: {
         id: activeUserDetails.id,
         address: address,
@@ -288,7 +288,6 @@ function LoginCheckout() {
       },
     })
       .then((response) => {
-        console.log("The address was added successfully", response.data);
         getActiveUserDetails();
       })
       .catch((error) =>
@@ -306,14 +305,13 @@ function LoginCheckout() {
     } else {
       Axios({
         method: "post",
-        url: "http://localhost:5000/api/users/addPhonenumber",
+        url: "http://zomato-tomato.tk/api/api/users/addPhonenumber",
         data: {
           id: activeUserDetails.id,
           phoneNumber: userPhonenumber,
         },
       })
         .then((response) => {
-          console.log("The address was added successfully", response.data);
           getActiveUserDetails();
           setVerifyPhoneModal(false);
         })
@@ -350,7 +348,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
       </div>
     </>
   );
-  console.log(locationSearchResults);
+
   const SelectAddress = (
     <Modal
       open={open}
@@ -615,8 +613,6 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
     </Modal>
   );
 
-  console.log("The user Backend details are,", userBackendDetails);
-
   if (reduxCart.length === 0) {
     return emptyCartPage;
   } else if (location.pathname.includes("success")) {
@@ -873,9 +869,12 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {reduxCart.map((item) => {
+                      {reduxCart.map((item, index) => {
                         return (
-                          <div className="d-flex justify-content-around">
+                          <div
+                            className="d-flex justify-content-around"
+                            key={index}
+                          >
                             <div style={{ display: "flex", flex: "1" }}>
                               <div>
                                 {item.veg === false ? (

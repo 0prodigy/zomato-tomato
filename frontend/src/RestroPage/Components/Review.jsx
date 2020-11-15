@@ -183,7 +183,7 @@ function Review() {
             />
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger={["hover", "focus"]}
                 key={placement}
                 placement={placement}
                 className="bd-highlight m-2"
@@ -442,7 +442,7 @@ function Review() {
             ))}
             {["top"].map((placement) => (
               <OverlayTrigger
-                trigger="hover"
+                trigger={["hover", "focus"]}
                 key={placement}
                 placement={placement}
                 className="p-2 bd-highlight m-2"

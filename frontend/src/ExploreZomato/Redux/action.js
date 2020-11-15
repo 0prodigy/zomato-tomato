@@ -31,7 +31,7 @@ export const getFilterRestaurant = (filters, sort, city_id = 2) => {
     dispatch(restaurantFilterRequest());
     return axios({
       method: "post",
-      url: `http://localhost:5000/api/restaurant/filterd`,
+      url: `http://zomato-tomato.tk/api/api/restaurant/filterd`,
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },

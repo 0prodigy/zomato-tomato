@@ -7,7 +7,6 @@ import {
   setTotalCartValue,
 } from "../Redux/action";
 import { Link } from "react-router-dom";
-import Cancel from "@material-ui/icons/Cancel";
 import clsx from "clsx";
 import DishComponent from "./DishComponent";
 import MainFooter from "../../LandingPage/Components/MainFooter";
@@ -207,11 +206,6 @@ function OrderOnline(props) {
                           "Currently closed for online ordering"}
                       </p>
                     </div>
-                    <div>SEARCH BAR</div>
-                  </div>
-                  <div class="alert alert-danger text-danger" role="alert">
-                    <Cancel />
-                    Does not deliver to: DELHI NCR
                   </div>
                   <div className="d-flex">
                     <div className="coupons-div1 m-3">

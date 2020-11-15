@@ -31,7 +31,6 @@ import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "30px",
     borderRadius: "8px",
   },
   container: {
@@ -165,7 +164,6 @@ function SearchBar(props) {
 
   const handleRestaurantSearch = (e) => {
     setSearchRestaurant(e.target.value);
-    console.log("The restaurant value is", e.target.value);
     if (e.target.value !== "") {
       setRestaurantSearchExpanded(true);
     } else {
@@ -199,7 +197,6 @@ function SearchBar(props) {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
     } else {
-      console.log("The button is clicked");
       return navigator.geolocation.getCurrentPosition(success, error);
     }
   };

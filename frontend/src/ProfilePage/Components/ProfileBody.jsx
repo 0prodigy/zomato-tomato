@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-    width: 300,
+    width: 250,
+    minWidth: 250,
   },
   paper: {
     position: "absolute",
@@ -73,6 +74,7 @@ export default function ProfileBody() {
   const [value, setValue] = useState(0);
   const [userBackendDetails, setUserBackendDetails] = useState([]);
   const activeUserDetails = JSON.parse(localStorage.getItem("activeUser"));
+  const [orderDetails, setOrderDetails] = useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -81,7 +83,7 @@ export default function ProfileBody() {
   const getActiveUserDetails = () => {
     Axios({
       method: "get",
-      url: `http://localhost:5000/api/users/findById/${activeUserDetails.id}`,
+      url: `http://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
     })
       .then((response) => setUserBackendDetails(response.data.user))
       .catch((error) => console.log(error));
@@ -91,13 +93,18 @@ export default function ProfileBody() {
     if (activeUserDetails.active !== false) {
       getActiveUserDetails();
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (orderId) => {
+    let orderDetailsWithId = userBackendDetails.orders.filter(
+      (item) => item.orderId === orderId
+    );
+    setOrderDetails(orderDetailsWithId);
     setOpen(true);
   };
 
@@ -105,30 +112,25 @@ export default function ProfileBody() {
     setOpen(false);
   };
 
-  const address = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-    </div>
-  );
-
   const getTotalAmount = (item) => {
-    let totalValue = item.totalOrder.reduce((a, c) => {
-      let itemCost1 = c.cost === undefined ? 0 : Number(c.cost);
-      return a + itemCost1;
-    }, 0);
-    return totalValue;
+    if (item !== false) {
+      let totalValue = item.totalOrder.reduce((a, c) => {
+        let itemCost1 = c.cost === undefined ? 0 : Number(c.cost);
+        return a + itemCost1;
+      }, 0);
+      return totalValue;
+    }
   };
 
   const getTransactionDate = (timeStamp) => {
-    let transactionTimestamp = timeStamp.split("T");
-    let date = new Date(`${transactionTimestamp[0]}`).toLocaleDateString();
-    let time = new Date(`${timeStamp}`).toLocaleTimeString();
-    return `${date} at ${time}`;
+    if (timeStamp !== false) {
+      let transactionTimestamp = timeStamp.split("T");
+      let date = new Date(`${transactionTimestamp[0]}`).toLocaleDateString();
+      let time = new Date(`${timeStamp}`).toLocaleTimeString();
+      return `${date} at ${time}`;
+    }
   };
-  console.log(userBackendDetails);
+
   return (
     <>
       <Wrapper>
@@ -303,15 +305,18 @@ export default function ProfileBody() {
                 {userBackendDetails.orders &&
                   userBackendDetails.orders.map((item) => {
                     return (
-                      <div className="col-5 my-2">
-                        <div class="card rounded" style={{ width: "22rem" }}>
-                          <ul class="list-group list-group-flush">
+                      <div className="col-6 my-2" key={item.orderId}>
+                        <div
+                          className="card rounded"
+                          style={{ width: "22rem" }}
+                        >
+                          <ul className="list-group list-group-flush">
                             <li
-                              class="list-group-item"
+                              className="list-group-item"
                               style={{ padding: "4px" }}
                             >
-                              <div class="d-flex bd-highlight">
-                                <div class="p-1 bd-highlight ml-0">
+                              <div className="d-flex bd-highlight">
+                                <div className="p-1 bd-highlight ml-0">
                                   <img
                                     src={item.restaurantDetails.restaurantImage}
                                     alt="card1"
@@ -322,9 +327,18 @@ export default function ProfileBody() {
                                     }}
                                   />
                                 </div>
-                                <div class="p-2 bd-highlight">
+                                <div className="p-2 bd-highlight">
                                   <div>
-                                    {item.restaurantDetails.restaurantName}
+                                    <div
+                                      style={{
+                                        overflow: "hidden",
+                                        whiteSpace: "nowrap",
+                                        textOverflow: "ellipsis",
+                                        width: "160px",
+                                      }}
+                                    >
+                                      {item.restaurantDetails.restaurantName}
+                                    </div>
                                     <div
                                       className="text-muted"
                                       style={{ fontSize: "12px" }}
@@ -336,39 +350,41 @@ export default function ProfileBody() {
                                     </div>
                                   </div>
                                 </div>
-                                <div class="ml-auto p-2 bd-highlight">
+                                <div className="ml-auto p-2 bd-highlight">
                                   Delivered
                                 </div>
                               </div>
                             </li>
-                            <li class="list-group-item">
-                              <div class="order-div">
-                                <p class="order-text">Order Number</p>
-                                <p class="order-id">{item.orderId}</p>
+                            <li className="list-group-item">
+                              <div className="order-div">
+                                <p className="order-text">Order Number</p>
+                                <p className="order-id">{item.orderId}</p>
                               </div>
-                              <div class="order-div">
-                                <p class="order-text">TOTAL AMOUNT</p>
-                                <p class="order-id">₹{getTotalAmount(item)}</p>
+                              <div className="order-div">
+                                <p className="order-text">TOTAL AMOUNT</p>
+                                <p className="order-id">
+                                  ₹{getTotalAmount(item)}
+                                </p>
                               </div>
-                              <div class="order-div">
-                                <p class="order-text">ITEMS</p>
-                                <p class="order-id">
+                              <div className="order-div">
+                                <p className="order-text">ITEMS</p>
+                                <p className="order-id">
                                   {item.totalOrder.reduce((a, c) => {
                                     return `${a}${c.quantity} x ${c.dish}, `;
                                   }, "")}
                                 </p>
                               </div>
-                              <div class="order-div">
-                                <p class="order-text">ORDERED ON</p>
-                                <p class="order-id">
+                              <div className="order-div">
+                                <p className="order-text">ORDERED ON</p>
+                                <p className="order-id">
                                   {getTransactionDate(item.timeStamp)}
                                 </p>
                               </div>
                               <div>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
-                                  onClick={handleOpen}
+                                  className="btn btn-outline-danger"
+                                  onClick={() => handleOpen(item.orderId)}
                                 >
                                   View Details
                                 </button>
@@ -382,17 +398,22 @@ export default function ProfileBody() {
                                     style={modalStyle}
                                     className={classes.paper}
                                   >
-                                    <div class="card" style={{ width: "100%" }}>
-                                      <ul class="list-group list-group-flush">
+                                    <div
+                                      className="card"
+                                      style={{ width: "100%" }}
+                                    >
+                                      <ul className="list-group list-group-flush">
                                         <li
-                                          class="list-group-item"
+                                          className="list-group-item"
                                           style={{ padding: "4px" }}
                                         >
-                                          <div class="d-flex bd-highlight">
-                                            <div class="p-2 bd-highlight ml-0">
+                                          <div className="d-flex bd-highlight">
+                                            <div className="p-2 bd-highlight ml-0">
                                               <img
                                                 src={
-                                                  item.restaurantDetails
+                                                  orderDetails.length > 0 &&
+                                                  orderDetails[0]
+                                                    .restaurantDetails
                                                     .restaurantImage
                                                 }
                                                 alt="card1"
@@ -403,90 +424,99 @@ export default function ProfileBody() {
                                                 }}
                                               />
                                             </div>
-                                            <div class="p-2 bd-highlight">
-                                              <p>
-                                                {
-                                                  item.restaurantDetails
-                                                    .restaurantName
-                                                }
+                                            <div className="p-2 bd-highlight">
+                                              <div>
+                                                {orderDetails.length > 0 &&
+                                                  orderDetails[0]
+                                                    .restaurantDetails
+                                                    .restaurantName}
                                                 <p
                                                   className="text-muted"
                                                   style={{ fontSize: "12px" }}
                                                 >
-                                                  {
-                                                    item.restaurantDetails
-                                                      .restaurantLocation
-                                                  }
+                                                  {orderDetails.length > 0 &&
+                                                    orderDetails[0]
+                                                      .restaurantDetails
+                                                      .restaurantLocation}
                                                 </p>
-                                              </p>
+                                              </div>
                                             </div>
-                                            <div class="ml-auto p-2 bd-highlight">
+                                            <div className="ml-auto p-2 bd-highlight">
                                               Delivery
                                             </div>
                                           </div>
                                         </li>
-                                        <li class="list-group-item">
-                                          <div class="order-div">
-                                            <p class="order-text">Your Order</p>
-                                            {item.totalOrder.map((dish) => {
-                                              return (
-                                                <div
-                                                  style={{
-                                                    display: "flex",
-                                                    width: "100%",
-                                                    padding: "4px 0px",
-                                                  }}
-                                                >
-                                                  <div
-                                                    style={{
-                                                      display: "flex",
-                                                      flex: "1",
-                                                    }}
-                                                  >
-                                                    <div>
-                                                      {dish.veg === false ? (
-                                                        <img
-                                                          src="/non-veg.png"
-                                                          alt="Non-Veg Item"
-                                                          style={{
-                                                            width: "15px",
-                                                            margin: "0px 8px",
-                                                          }}
-                                                        />
-                                                      ) : (
-                                                        <img
-                                                          src="/veg.png"
-                                                          alt="Veg Item"
-                                                          style={{
-                                                            width: "15px",
-                                                            margin: "0px 8px",
-                                                          }}
-                                                        />
-                                                      )}
-                                                    </div>
+                                        <li className="list-group-item">
+                                          <div className="order-div">
+                                            <p className="order-text">
+                                              Your Order
+                                            </p>
+                                            {orderDetails.length > 0 &&
+                                              orderDetails[0].totalOrder.map(
+                                                (dish) => {
+                                                  return (
                                                     <div
                                                       style={{
-                                                        fontSize: "16px",
-                                                        marginTop: "2px",
                                                         display: "flex",
-                                                        flexDirection: "column",
+                                                        width: "100%",
+                                                        padding: "4px 0px",
                                                       }}
                                                     >
-                                                      <div>{dish.dish}</div>
+                                                      <div
+                                                        style={{
+                                                          display: "flex",
+                                                          flex: "1",
+                                                        }}
+                                                      >
+                                                        <div>
+                                                          {dish.veg ===
+                                                          false ? (
+                                                            <img
+                                                              src="/non-veg.png"
+                                                              alt="Non-Veg Item"
+                                                              style={{
+                                                                width: "15px",
+                                                                margin:
+                                                                  "0px 8px",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <img
+                                                              src="/veg.png"
+                                                              alt="Veg Item"
+                                                              style={{
+                                                                width: "15px",
+                                                                margin:
+                                                                  "0px 8px",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </div>
+                                                        <div
+                                                          style={{
+                                                            fontSize: "16px",
+                                                            marginTop: "2px",
+                                                            display: "flex",
+                                                            flexDirection:
+                                                              "column",
+                                                          }}
+                                                        >
+                                                          <div>{dish.dish}</div>
+                                                          <div>
+                                                            {dish.quantity} x{" "}
+                                                            {dish.cost}
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                       <div>
-                                                        {dish.quantity} x{" "}
-                                                        {dish.cost}
+                                                        ₹
+                                                        {Number(dish.quantity) *
+                                                          Number(dish.cost)}
                                                       </div>
                                                     </div>
-                                                  </div>
-                                                  <div>
-                                                    ₹
-                                                    {Number(dish.quantity) *
-                                                      Number(dish.cost)}
-                                                  </div>
-                                                </div>
-                                              );
-                                            })}
+                                                  );
+                                                }
+                                              )}
                                           </div>
                                           <li
                                             className="bg-light pl-1"
@@ -499,7 +529,11 @@ export default function ProfileBody() {
 
                                               <div>
                                                 <p className="cost m-0">
-                                                  ₹{getTotalAmount(item)}
+                                                  ₹
+                                                  {getTotalAmount(
+                                                    orderDetails.length > 0 &&
+                                                      orderDetails[0]
+                                                  )}
                                                 </p>
                                               </div>
                                             </div>
@@ -512,7 +546,11 @@ export default function ProfileBody() {
 
                                               <div>
                                                 <p className="cost m-0">
-                                                  ₹{getTotalAmount(item)}
+                                                  ₹
+                                                  {getTotalAmount(
+                                                    orderDetails.length > 0 &&
+                                                      orderDetails[0]
+                                                  )}
                                                 </p>
                                               </div>
                                             </div>
@@ -522,9 +560,9 @@ export default function ProfileBody() {
                                           <div style={{ fontSize: "18px" }}>
                                             Order Details
                                           </div>
-                                          <div class="order-div">
+                                          <div className="order-div">
                                             <p
-                                              class="order-text"
+                                              className="order-text"
                                               style={{
                                                 margin: "0px",
                                                 fontWeight: "300",
@@ -533,11 +571,13 @@ export default function ProfileBody() {
                                             >
                                               ORDER ID
                                             </p>
-                                            <p class="order-id">2029441541</p>
+                                            <p className="order-id">
+                                              2029441541
+                                            </p>
                                           </div>
-                                          <div class="order-div">
+                                          <div className="order-div">
                                             <p
-                                              class="order-text"
+                                              className="order-text"
                                               style={{
                                                 margin: "0px",
                                                 fontWeight: "300",
@@ -546,13 +586,13 @@ export default function ProfileBody() {
                                             >
                                               PAYMENT
                                             </p>
-                                            <p class="order-id">
+                                            <p className="order-id">
                                               Cash on Delivery
                                             </p>
                                           </div>
-                                          <div class="order-div">
+                                          <div className="order-div">
                                             <p
-                                              class="order-text"
+                                              className="order-text"
                                               style={{
                                                 margin: "0px",
                                                 fontWeight: "300",
@@ -561,15 +601,16 @@ export default function ProfileBody() {
                                             >
                                               DATE
                                             </p>
-                                            <p class="order-id">
+                                            <p className="order-id">
                                               {getTransactionDate(
-                                                item.timeStamp
+                                                orderDetails.length > 0 &&
+                                                  orderDetails[0].timeStamp
                                               )}
                                             </p>
                                           </div>
-                                          <div class="order-div">
+                                          <div className="order-div">
                                             <p
-                                              class="order-text"
+                                              className="order-text"
                                               style={{
                                                 margin: "0px",
                                                 fontWeight: "300",
@@ -578,7 +619,7 @@ export default function ProfileBody() {
                                             >
                                               PHONE NUMBER
                                             </p>
-                                            <p class="order-id">
+                                            <p className="order-id">
                                               {userBackendDetails &&
                                                 userBackendDetails.phone}
                                             </p>
