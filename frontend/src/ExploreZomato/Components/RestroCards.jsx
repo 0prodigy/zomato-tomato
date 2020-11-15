@@ -603,12 +603,6 @@ function RestroCards() {
                                               style={{ color: "#E23744" }}
                                             />
                                           ))}
-                                      <AssistantIcon
-                                        style={{ color: "#E23744" }}
-                                      />
-                                      <AssistantIcon
-                                        style={{ color: "#E23744" }}
-                                      />
                                       <span className="ratings-count">
                                         {parseInt(
                                           restaurant.user_rating
