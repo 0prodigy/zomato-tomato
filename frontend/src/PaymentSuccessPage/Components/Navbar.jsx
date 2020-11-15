@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
-import { useRouteMatch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   queryCity,
   getUserLocation,

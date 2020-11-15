@@ -5,6 +5,11 @@ export const Wrapper = styled.div`
     font-family: Poppins;
     font-weight: 400;
   }
+  .sidebar {
+    h5.form-check-label {
+      cursor: "pointer";
+    }
+  }
   .search-div {
     background-color: #f3f3f3;
   }

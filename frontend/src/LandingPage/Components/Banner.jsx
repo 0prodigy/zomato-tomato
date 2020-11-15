@@ -16,7 +16,11 @@ function Banner(props) {
       </div>
       <div className="contentWrapper">
         <div className="zomatoImageContainer">
-          <img src="./Zomato.webp" alt="Zomato Logo" className="zomatoImage" />
+          <img
+            src="/tomato_landing_page.png"
+            alt="Zomato Logo"
+            className="zomatoImage"
+          />
         </div>
         <h2 className="description">
           Discover the best food & drinks in {searchCityRedux}

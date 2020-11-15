@@ -27,12 +27,21 @@ function CollectionsPage(props) {
   return (
     <div>
       <RestroNavbar />
-      <Container style={{ padding: "10px 85px 0px" }}>
+      <Container style={{ padding: "10px 85px 0px", fontWeight: "200" }}>
         <Breadcrumbs>
           {location.pathname.split("/").map((item, index) => {
             if (item === "") {
               return (
-                <Link color="inherit" href="/" key={index}>
+                <Link
+                  color="inherit"
+                  href="/"
+                  key={index}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    cursor: "pointer",
+                  }}
+                >
                   Home
                 </Link>
               );
@@ -41,7 +50,12 @@ function CollectionsPage(props) {
               <Link
                 key={index}
                 color={index === 3 ? "textPrimary" : "inherit"}
-                style={{ textTransform: "capitalize" }}
+                style={{
+                  textTransform: "capitalize",
+                  color: "inherit",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}
               >
                 {item}
               </Link>

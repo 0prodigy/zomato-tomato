@@ -193,7 +193,7 @@ function RestroNavbar(props) {
       <AppBar position="static" className={classes.navbar}>
         <Toolbar variant="dense" className={clsx(classes.toolbar, "container")}>
           <img
-            src="/logoz.png"
+            src="/tomato_black_final_logo.png"
             alt="logo"
             style={{ height: "30px", width: "150px" }}
           />
