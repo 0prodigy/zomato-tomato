@@ -65,8 +65,8 @@ function DishComponent(props) {
   return (
     <>
       <Wrapper>
-        <div class="d-flex bd-highlight mb-3">
-          <div class="p-2 bd-highlight" style={{ position: "relative" }}>
+        <div className="d-flex bd-highlight mb-3">
+          <div className="p-2 bd-highlight" style={{ position: "relative" }}>
             <img
               src={dish.image}
               alt={dish.dish}
@@ -88,7 +88,7 @@ function DishComponent(props) {
               )}
             </div>
           </div>
-          <div class="p-2 bd-highlight">
+          <div className="p-2 bd-highlight">
             <div>
               <h5>{dish.dish}</h5>
               <div className="d-flex">
@@ -111,13 +111,13 @@ function DishComponent(props) {
               <p>₹{dish && dish.cost}</p>
             </div>
           </div>
-          <div class="ml-auto p-2 bd-highlight">
+          <div className="ml-auto p-2 bd-highlight">
             {dishCount >= 1 ? (
               <div>
-                <div class="bd-highlight mb-3 customizeButton">
+                <div className="bd-highlight mb-3 customizeButton">
                   <div
                     style={{ color: "red" }}
-                    class="bd-highlight"
+                    className="bd-highlight"
                     onClick={() => {
                       setDishCount((prev) => prev - 1);
                       dispatch(
@@ -130,10 +130,10 @@ function DishComponent(props) {
                   >
                     -
                   </div>
-                  <div class="bd-highlight">{dishCount}</div>
+                  <div className="bd-highlight">{dishCount}</div>
                   <div
                     style={{ color: "red" }}
-                    class="bd-highlight"
+                    className="bd-highlight"
                     onClick={() => {
                       setDishCount((prev) => prev + 1);
                       dispatch(
@@ -151,7 +151,7 @@ function DishComponent(props) {
             ) : (
               <button
                 type="button"
-                class="btn btn-light addButton"
+                className="btn btn-light addButton"
                 onClick={() => {
                   setDishCount((prev) => prev + 1);
                   dispatch(changeItemQuantityInCart(dish.dish, 1));

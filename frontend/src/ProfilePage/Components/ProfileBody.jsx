@@ -83,7 +83,7 @@ export default function ProfileBody() {
   const getActiveUserDetails = () => {
     Axios({
       method: "get",
-      url: `http://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
+      url: `https://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
     })
       .then((response) => setUserBackendDetails(response.data.user))
       .catch((error) => console.log(error));
