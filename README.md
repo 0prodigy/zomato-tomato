@@ -8,7 +8,7 @@ User can `sign in` or `sign up` using `google sign in` or through `email verific
 
 <table>
   <tr>
-     <td>Landing Page <img src="./screenshots/homepage.png" width=900 style="margin-left:100px" ></td>
+     <td>Home Page <img src="./screenshots/homepage.png" width=900 style="margin-left:150px"></td>
   </tr>
   <tr>
     <td>Restaurant Page <img src="./screenshots/RestroPage.png" height=260 ></td>
