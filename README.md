@@ -9,8 +9,9 @@ User can `sign in` or `sign up` using `google sign in` or through `email verific
 <table>
   <tr>
      <td>Landing Page <img src="./screenshots/homepage.png" width=900 ></td>
+    <hr/>
   </tr>
-  <hr/>
+ 
   <tr>
     <td>Restaurant Page <img src="./screenshots/RestroPage.png" height=260 ></td>
     <td>Collection Page <img src="./screenshots/collectionPage.png" height=250 ></td>
