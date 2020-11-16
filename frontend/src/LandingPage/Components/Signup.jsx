@@ -241,7 +241,7 @@ function LoginPage(props) {
     };
     axios({
       method: "post",
-      url: "http://zomato-tomato.tk/api/api/auth/googleRegister",
+      url: "https://zomato-tomato.tk/api/api/auth/googleRegister",
       data: payload,
     })
       .then((response) => {

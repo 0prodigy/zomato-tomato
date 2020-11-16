@@ -20,7 +20,7 @@ function Navbar() {
               </button>
             </div>
             <div className="zomatoLogo">
-              <Link className="navbar-brand">
+              <Link to="/" className="navbar-brand">
                 <img
                   className="logo-img"
                   src="/tomato_black_final_logo.png"

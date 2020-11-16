@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   getLocationCard: {
-    maxHeight: "95vh",
+    minHeight: "90vh",
     width: "600px",
     position: "absolute",
     top: "20px",
@@ -144,7 +144,7 @@ function LoginCheckout() {
   const paymentHandler = async (e) => {
     e.preventDefault();
 
-    const API_URL = "http://zomato-tomato.tk/api/api/users/";
+    const API_URL = "https://zomato-tomato.tk/api/api/users/";
     const orderUrl = `${API_URL}orderId?amount=${cartValue}`;
     const response = await Axios.get(orderUrl);
     const { data } = response;
@@ -231,7 +231,7 @@ function LoginCheckout() {
   const getActiveUserDetails = () => {
     Axios({
       method: "get",
-      url: `http://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
+      url: `https://zomato-tomato.tk/api/api/users/findById/${activeUserDetails.id}`,
     })
       .then((response) => setUserBackendDetails(response.data.user))
       .catch((error) => console.log(error));
@@ -280,7 +280,7 @@ function LoginCheckout() {
     }`;
     Axios({
       method: "post",
-      url: "http://zomato-tomato.tk/api/api/users/addAddress",
+      url: "https://zomato-tomato.tk/api/api/users/addAddress",
       data: {
         id: activeUserDetails.id,
         address: address,
@@ -305,7 +305,7 @@ function LoginCheckout() {
     } else {
       Axios({
         method: "post",
-        url: "http://zomato-tomato.tk/api/api/users/addPhonenumber",
+        url: "https://zomato-tomato.tk/api/api/users/addPhonenumber",
         data: {
           id: activeUserDetails.id,
           phoneNumber: userPhonenumber,
@@ -367,7 +367,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
         <div>DELIVERY AREA</div>
         <div className={classes.currentUserLocationDiv}>
           <CheckCircleIcon style={{ color: " rgb(39, 129, 231)" }} />
-          {/* <div
+          <div
             style={{
               flex: "1",
               marginTop: "5px",
@@ -385,9 +385,9 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
               }}
             >
               {locationSearchResults.length > 0 &&
-                locationSearchResults[0]}
+                locationSearchResults[0].place_name}
             </div>
-          </div> */}
+          </div>
 
           <div
             style={{
@@ -436,7 +436,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
         <div>DELIVERY AREA</div>
         <div className={classes.currentUserLocationDiv}>
           <CheckCircleIcon style={{ color: " rgb(39, 129, 231)" }} />
-          {/* <div
+          <div
             style={{
               flex: "1",
               marginTop: "5px",
@@ -455,7 +455,7 @@ https://b.zmtcdn.com/web_assets/b69badeeb9ef00f59428b4c09ef4c1901575873261.png"
             >
               {locationSearchResults && locationSearchResults[0].place_name}
             </div>
-          </div> */}
+          </div>
 
           <div
             style={{
