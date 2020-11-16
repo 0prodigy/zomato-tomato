@@ -13,16 +13,15 @@ User can `sign in` or `sign up` using `google sign in` or through `email verific
   <tr>
     <td>Restaurant Page <img src="./screenshots/RestroPage.png" height=260 ></td>
     <td>Collection Page <img src="./screenshots/collectionPage.png" height=250 ></td>
+    <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
   </tr>
   <tr>
-   <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
    <td>Profile Update Page<img src="./screenshots/checkoutPage.png" height=250></td>
-  </tr>
-  <tr>
    <td>Profile Update Page<img src="./screenshots/paymentPage.png" height=250></td>
    <td>Profile Update Page<img src="./screenshots/profilePage.png" height=250></td>
   </tr>
-</table>
+ </table>
+
 
 <hr/>
 
