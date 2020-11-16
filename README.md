@@ -7,17 +7,18 @@ User can `sign in` or `sign up` using `google sign in` or through `email verific
 #### Project Screenshots
 
 <table>
-  <tr>
-     <td>Home Page <img src="./screenshots/homepage.png" width=900 style="margin-left:150px"></td>
+   <tr>
+     <td>Landing Page <img src="./screenshots/homepage.png" width=900 ></td>
   </tr>
   <tr>
     <td>Restaurant Page <img src="./screenshots/RestroPage.png" height=260 ></td>
     <td>Collection Page <img src="./screenshots/collectionPage.png" height=250 ></td>
-    <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
+  <tr>
+  <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
+   <td>Profile Update Page<img src="./screenshots/checkoutPage.png" height=250></td>
   </tr>
   <tr>
-   <td>Profile Update Page<img src="./screenshots/checkoutPage.png" height=250></td>
-   <td>Profile Update Page<img src="./screenshots/paymentPage.png" height=250></td>
+  <td>Profile Update Page<img src="./screenshots/paymentPage.png" height=250></td>
    <td>Profile Update Page<img src="./screenshots/profilePage.png" height=250></td>
   </tr>
  </table>
