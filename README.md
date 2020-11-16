@@ -7,38 +7,40 @@ User can `sign in` or `sign up` using `google sign in` or through `email verific
 #### Project Screenshots
 
 <table>
-   <tr>
-     <td>Landing Page <img src="./screenshots/homepage.png" width=900 ></td>
+   <tr align=center>
+     <td  colspan=3>Landing Page <img src="./screenshots/homepage.png" width=900 ></td>
   </tr>
   <tr>
     <td>Restaurant Page <img src="./screenshots/RestroPage.png" height=260 ></td>
     <td>Collection Page <img src="./screenshots/collectionPage.png" height=250 ></td>
+    <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
   <tr>
-  <td>Profile Update Page<img src="./screenshots/explore_new1.png" height=250></td>
    <td>Profile Update Page<img src="./screenshots/checkoutPage.png" height=250></td>
-  </tr>
-  <tr>
-  <td>Profile Update Page<img src="./screenshots/paymentPage.png" height=250></td>
+     <td>Profile Update Page<img src="./screenshots/paymentPage.png" height=250></td>
    <td>Profile Update Page<img src="./screenshots/profilePage.png" height=250></td>
   </tr>
- </table>
-
+</table>
 
 <hr/>
 
 ## Built With
 
-<table>
+<table  align=center>
   <tr>
-  <td>Mongo DB <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/1280px-MongoDB_Logo.svg.png"  height=100  width=150 ></td>
-     <td>React Js  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png" height=100   ></td>
-    <td>React Redux <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png"  height=100   width=150 ></td>
+ <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png"  height=100   width=150 ></td>
+  <td align=center> <img src="https://cdn.iconscout.com/icon/free/png-512/mongodb-4-1175139.png"  height=100  width=150 ></td>
+     <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png" height=100   ></td>
+    <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png"  height=100   width=150 ></td>
+     <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Logo_Google_2013_Official.svg"  height=100  ></td>
   </tr>
    <tr>
-    <td>Mapbox API  <img src="https://raw.githubusercontent.com/mapbox/mapbox-gl-js-docs/publisher-production/docs/pages/assets/logo.png"  height=100  width=150  ></td>
-   <td>Bootstrap <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/768px-Bootstrap_logo.svg.png"  height=100    ></td>
-    <td>RazorPay <img src="https://cdn.iconscout.com/icon/free/png-256/razorpay-1649771-1399875.png"  height=100  width=150  ></td>
+    <td align=center>  <img src="https://raw.githubusercontent.com/mapbox/mapbox-gl-js-docs/publisher-production/docs/pages/assets/logo.png"   width=100  ></td>
+   <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/768px-Bootstrap_logo.svg.png"  height=100    ></td>
+    <td align=center> <img src="https://cdn.iconscout.com/icon/free/png-256/razorpay-1649771-1399875.png"  height=100  width=150  ></td>
+     <td align=center> <img src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png"  height=100  ></td>
+     <td align=center> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/AmazonWebservices_Logo.svg/1024px-AmazonWebservices_Logo.svg.png"  height=100  ></td>
   </tr>
+
 </table>
 
 <hr/>
@@ -121,4 +123,3 @@ Give a ⭐️ if you like this project!
 ## Acknowledgments
 
 - We take all the responsiblity for every single line of code. The desgin inspire from Zomato.
-
